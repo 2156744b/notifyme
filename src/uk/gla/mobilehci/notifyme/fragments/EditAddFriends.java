@@ -7,8 +7,6 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.Random;
-
 import uk.gla.mobilehci.notifyme.R;
 import uk.gla.mobilehci.notifyme.datamodels.FriendModel;
 import uk.gla.mobilehci.notifyme.listview.FriendListArrayAdapter;
@@ -24,27 +22,21 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.Toast;
-import android.app.DialogFragment;
 
 public class EditAddFriends extends Fragment {
 
 	private Activity activity;
 	private ArrayList<FriendModel> data;
+	private FriendListArrayAdapter adapter;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 
 		if (savedInstanceState == null) {
-
-			// data = new ArrayList<FriendModel>();
-			// for (int i = 0; i < 20; i++) {
-			// data.add(new FriendModel("username" + i, "username" + i
-			// + "@a.aaaaaaaa"));
-			// }
 			readFriendList();
-			Toast.makeText(getActivity(), "Creating friends", Toast.LENGTH_LONG)
-					.show();
+			Toast.makeText(getActivity(), "Reading friend list",
+					Toast.LENGTH_LONG).show();
 		} else {
 			data = savedInstanceState.getParcelableArrayList("friendslist");
 			Toast.makeText(getActivity(), "Loading friends", Toast.LENGTH_LONG)
@@ -60,7 +52,7 @@ public class EditAddFriends extends Fragment {
 		ListView friendListView = (ListView) rootView
 				.findViewById(R.id.listViewFriends);
 
-		FriendListArrayAdapter adapter = new FriendListArrayAdapter(activity,
+		adapter = new FriendListArrayAdapter(activity,
 				R.layout.listview_item_row, data);
 		friendListView.setAdapter(adapter);
 
@@ -94,7 +86,6 @@ public class EditAddFriends extends Fragment {
 	public void onDestroy() {
 		// TODO Auto-generated method stub
 		super.onDestroy();
-		data.add(new FriendModel("kostis" + Math.random(), "giannis"));
 		writeFriendList();
 	}
 
@@ -127,13 +118,20 @@ public class EditAddFriends extends Fragment {
 		outState.putParcelableArrayList("friendslist", data);
 	}
 
+	public void addFriendToList(String username, String email) {
+		data.add(new FriendModel(username, email));
+		adapter.notifyDataSetChanged();
+	}
+
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 
 		switch (item.getItemId()) {
 		case R.id.action_add_friend:
-			InserFriendDialog dialogF = new InserFriendDialog();
+			InserFriendDialog dialogF = new InserFriendDialog(
+					EditAddFriends.this);
 			dialogF.show(getActivity().getFragmentManager(), "dialog");
+
 			return true;
 		default:
 			return super.onOptionsItemSelected(item);

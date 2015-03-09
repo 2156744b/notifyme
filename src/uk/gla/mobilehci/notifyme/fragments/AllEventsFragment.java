@@ -27,13 +27,46 @@ public class AllEventsFragment extends Fragment {
 
 		mapView = (MapView) rootView.findViewById(R.id.map);
 		mapView.onCreate(savedInstanceState);
-		
+
 		map = mapView.getMap();
 		map.getUiSettings().setMyLocationButtonEnabled(false);
-	    map.setMyLocationEnabled(true);
-		
+		map.setMyLocationEnabled(true);
+
 		MapsInitializer.initialize(getActivity());
 
 		return rootView;
+	}
+
+	@Override
+	public void onResume() {
+		super.onResume();
+		mapView.onResume();
+	}
+
+	@Override
+	public void onDestroy() {
+		super.onDestroy();
+		mapView.onDestroy();
+
+	}
+
+	@Override
+	public void onLowMemory() {
+		super.onLowMemory();
+		mapView.onLowMemory();
+
+	}
+
+	@Override
+	public void onPause() {
+		super.onPause();
+		mapView.onPause();
+
+	}
+
+	@Override
+	public void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
+		mapView.onSaveInstanceState(outState);
 	}
 }

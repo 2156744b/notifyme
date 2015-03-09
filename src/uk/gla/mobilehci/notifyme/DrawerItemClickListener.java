@@ -7,7 +7,6 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.content.Intent;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.widget.DrawerLayout;
 import android.view.View;
 import android.widget.AdapterView;
@@ -48,13 +47,13 @@ public class DrawerItemClickListener implements ListView.OnItemClickListener {
 		Fragment newFragment = null;
 		switch (position) {
 		case 0:
-			newFragment = new AllEventsFragment("test" + position,context);
+			newFragment = new AllEventsFragment();
 			break;
 		case 1:
-			newFragment = new FriendEvents("test" + position,context);
+			newFragment = new FriendEvents();
 			break;
 		case 2:
-			newFragment = new EditAddFriends("test" + position, context);
+			newFragment = new EditAddFriends();
 			break;
 		case 3:
 			Intent i = new Intent(context.getApplicationContext(),

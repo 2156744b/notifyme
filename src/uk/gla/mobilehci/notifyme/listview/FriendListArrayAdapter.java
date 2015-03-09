@@ -5,13 +5,14 @@ import java.util.ArrayList;
 import uk.gla.mobilehci.notifyme.R;
 import uk.gla.mobilehci.notifyme.datamodels.FriendModel;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.FragmentManager;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,13 +22,11 @@ public class FriendListArrayAdapter extends ArrayAdapter<FriendModel> {
 	private Context context;
 	private int layoutResourceId;
 	private ArrayList<FriendModel> data;
-	private FragmentManager manager;
-	private Activity activity;
 	private View.OnLongClickListener rowListenerOptions;
 
 	/**
 	 * class ToDoHolder This class is used to hold the ids of an item of the
-	 * listview!!!
+	 * listview
 	 * 
 	 * @author Rafael
 	 * 
@@ -53,7 +52,7 @@ public class FriendListArrayAdapter extends ArrayAdapter<FriendModel> {
 	}
 
 	@Override
-	public View getView(int position, View convertView, ViewGroup parent) {
+	public View getView(final int position, View convertView, ViewGroup parent) {
 		View row = convertView;
 		final ToDoHolder holder;
 		final FriendModel obj = data.get(position);
@@ -80,21 +79,31 @@ public class FriendListArrayAdapter extends ArrayAdapter<FriendModel> {
 
 			@Override
 			public boolean onLongClick(View v) {
-				// TODO Auto-generated method stub
-				Toast.makeText(getContext(),obj.getEmail() + "to be deleted",Toast.LENGTH_SHORT).show();
+				AlertDialog.Builder builder = new AlertDialog.Builder(
+						getContext());
+				builder.setTitle("Edit Friend").setItems(
+						R.array.friend_list_dialog_option,
+						new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface dialog,
+									int which) {
+								switch (which) {
+								case 0:
+									data.remove(position);
+									FriendListArrayAdapter.this.notifyDataSetChanged();
+									break;
+
+								default:
+									break;
+								}
+							}
+						});
+				AlertDialog dialog = builder.create();
+				dialog.show();
 				return false;
 			}
 		};
 
 		row.setOnLongClickListener(rowListenerOptions);
-//		row.setOnClickListener(new View.OnClickListener() {
-//			
-//			@Override
-//			public void onClick(View v) {
-//				// TODO Auto-generated method stub
-//				
-//			}
-//		})
 		return row;
 
 	}

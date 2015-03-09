@@ -41,6 +41,12 @@ public class FriendModel implements Parcelable {
 	}
 
 	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return username + ";" + email;
+	}
+
+	@Override
 	public void writeToParcel(Parcel dest, int flags) {
 		dest.writeString(username);
 		dest.writeString(email);

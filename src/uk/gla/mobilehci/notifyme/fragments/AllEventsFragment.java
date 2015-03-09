@@ -15,10 +15,6 @@ public class AllEventsFragment extends Fragment {
 
 	private MapView mapView;
 	private GoogleMap map;
-	
-	public AllEventsFragment() {
-		
-	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,

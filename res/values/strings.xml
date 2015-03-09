@@ -17,7 +17,9 @@
     <string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string>
     <string name="add_friend">Add friend</string>
-    
+    <string name="username">Username</string>
+    <string name="Email">Email</string>
+
     <string-array name="radiusEntries">
         <item>2 KM</item>
         <item>5 KM</item>
@@ -48,6 +50,10 @@
         <item>Discussion</item>
         <item>Dinner</item>
         <item>Fetch em All</item>
+    </string-array>
+    <string-array name="friend_list_dialog_option">
+        <item>Delete</item>
+        <item>Edit</item>
     </string-array>
 
 </resources>

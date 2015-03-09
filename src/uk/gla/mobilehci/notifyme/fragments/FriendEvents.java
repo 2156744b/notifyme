@@ -1,5 +1,9 @@
 package uk.gla.mobilehci.notifyme.fragments;
 
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapView;
+import com.google.android.gms.maps.MapsInitializer;
+
 import uk.gla.mobilehci.notifyme.R;
 import android.app.Fragment;
 import android.os.Bundle;
@@ -9,9 +13,8 @@ import android.view.ViewGroup;
 
 public class FriendEvents extends Fragment {
 
-	public FriendEvents() {
-
-	}
+	private MapView mapView;
+	private GoogleMap map;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -19,10 +22,52 @@ public class FriendEvents extends Fragment {
 
 		// Inflate the layout for this fragment
 
-		View rootView = inflater.inflate(R.layout.all_event_fragment,
+		View rootView = inflater.inflate(R.layout.friends_event_fragment,
 				container, false);
 
+		mapView = (MapView) rootView.findViewById(R.id.map);
+		mapView.onCreate(savedInstanceState);
+
+		map = mapView.getMap();
+		map.getUiSettings().setMyLocationButtonEnabled(true);
+		map.setMyLocationEnabled(true);
+
+		MapsInitializer.initialize(getActivity());
+
 		return rootView;
+	}
+
+	@Override
+	public void onResume() {
+		super.onResume();
+		mapView.onResume();
+	}
+
+	@Override
+	public void onDestroy() {
+		super.onDestroy();
+		mapView.onDestroy();
+
+	}
+
+	@Override
+	public void onLowMemory() {
+		super.onLowMemory();
+		mapView.onLowMemory();
+
+	}
+
+	@Override
+	public void onPause() {
+		super.onPause();
+		mapView.onPause();
+
+	}
+
+	@Override
+	public void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
+		mapView.onSaveInstanceState(outState);
 	}
 
 }

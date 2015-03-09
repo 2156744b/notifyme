@@ -17,7 +17,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <!--
      The following two permissions are not required to use
-     Google Maps Android API v2, but are recommended.
+     Google Maps Android API v2, but are recommended.
     -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
@@ -45,9 +45,15 @@
             android:label="@string/activity_App_Settings" >
         </activity>
 
-        <meta-data
+        <!-- LEONIDAS
+       <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
             android:value="AIzaSyC6H1UGVld57gBzKQAjwVKfONINk2At9sg" />
+        -->
+
+        <meta-data
+            android:name="com.google.android.maps.v2.API_KEY"
+            android:value="AIzaSyAL9Ci3Isk-XsnaBvW1Dt3FPQqPdxyOrp4" />
     </application>
 
 </manifest>

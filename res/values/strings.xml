@@ -16,7 +16,8 @@
     <string name="title_activity_events_for_all">EventsForAll</string>
     <string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string>
-
+    <string name="add_friend">Add friend</string>
+    
     <string-array name="radiusEntries">
         <item>2 KM</item>
         <item>5 KM</item>

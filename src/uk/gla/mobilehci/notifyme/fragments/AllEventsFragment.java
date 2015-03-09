@@ -15,6 +15,10 @@ public class AllEventsFragment extends Fragment {
 
 	private MapView mapView;
 	private GoogleMap map;
+	
+	public AllEventsFragment() {
+		
+	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -29,7 +33,7 @@ public class AllEventsFragment extends Fragment {
 		mapView.onCreate(savedInstanceState);
 
 		map = mapView.getMap();
-		map.getUiSettings().setMyLocationButtonEnabled(false);
+		map.getUiSettings().setMyLocationButtonEnabled(true);
 		map.setMyLocationEnabled(true);
 
 		MapsInitializer.initialize(getActivity());

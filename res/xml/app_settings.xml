@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory android:title="Notification Settings">
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="sendNotifications"
+            android:summary="Send live push notification to the connected watch"
+            android:title="Watch Notifications" />
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="Radius Settings">
+        <ListPreference
+            android:key="selectedRadius"
+            android:title="Events within this range"
+            android:summary="The selected radius will act as a filter and will fetch events within that range"
+            android:entries="@array/radiusEntries"
+            android:defaultValue="-1"
+            android:entryValues="@array/radiusValues" />
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="Set up Until Date">
+        <ListPreference
+            android:key="selectedRadius"
+            android:title="Events within this date range"
+            android:summary="The selected date will act as a filter on the date of an event"
+            android:entries="@array/dateEntries"
+            android:defaultValue="-1"
+            android:entryValues="@array/dateValues" />
+    </PreferenceCategory>
+
+
+    <PreferenceCategory android:title="Type of Event">
+        <ListPreference
+            android:key="selectedRadius"
+            android:title="Event of this type"
+            android:summary="The selected type of event will act as a filter on the type of event"
+            android:entries="@array/typeEvent"
+            android:defaultValue="Fetch em All"
+            android:entryValues="@array/typeEvent" />
+    </PreferenceCategory>
+
+</PreferenceScreen>
+

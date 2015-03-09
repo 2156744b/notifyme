@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">NotifyMe</string>
+    <string name="activity_App_Settings">App Settings</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+
+    <string-array name="drawer_options">
+        <item>All Available Events</item>
+        <item>Friends\' Events</item>
+        <item>Edit/Set up Friend List</item>
+        <item>Settings</item>
+    </string-array>
+
+    <string name="title_activity_events_for_all">EventsForAll</string>
+    <string name="drawer_open">Open navigation drawer</string>
+    <string name="drawer_close">Close navigation drawer</string>
+
+    <string-array name="radiusEntries">
+        <item>2 KM</item>
+        <item>5 KM</item>
+        <item>7 KM</item>
+        <item>Fetch em All</item>
+    </string-array>
+    <string-array name="radiusValues">
+        <item>2</item>
+        <item>5</item>
+        <item>7</item>
+        <item>-1</item>
+    </string-array>
+    <string-array name="dateEntries">
+        <item>24h</item>
+        <item>48h</item>
+        <item>72h</item>
+        <item>Fetch em All</item>
+    </string-array>
+    <string-array name="dateValues">
+        <item>24</item>
+        <item>48</item>
+        <item>72</item>
+        <item>-1</item>
+    </string-array>
+    <string-array name="typeEvent">
+        <item>NightClub</item>
+        <item>Fellas Meeting</item>
+        <item>Discussion</item>
+        <item>Dinner</item>
+        <item>Fetch em All</item>
+    </string-array>
+
+</resources>

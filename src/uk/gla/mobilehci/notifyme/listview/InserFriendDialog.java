@@ -126,7 +126,7 @@ public class InserFriendDialog extends DialogFragment {
 							new InputStreamReader(response.getEntity()
 									.getContent(), "UTF-8"));
 					String data = reader.readLine();
-					
+
 					JSONObject obj = new JSONObject(data);
 					int status = obj.getInt("rstatus");
 
@@ -143,8 +143,8 @@ public class InserFriendDialog extends DialogFragment {
 					else if (status == 200) {
 
 						((EditAddFriends) fragment).addFriendToList(
-								obj.getString("email"),
-								obj.getString("username"));
+								obj.getString("username"),
+								obj.getString("email"));
 
 						Toast.makeText(
 								((EditAddFriends) fragment).getActivity()
@@ -163,7 +163,6 @@ public class InserFriendDialog extends DialogFragment {
 							"Error adding friend", Toast.LENGTH_LONG).show();
 				}
 			}
-
 			progDialog.dismiss();
 		}
 

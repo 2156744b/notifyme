@@ -35,6 +35,12 @@
             android:summary="The selected type of event will act as a filter on the type of event"
             android:title="Event of this type" />
     </PreferenceCategory>
+    <PreferenceCategory android:title="Location Updates" >
+        <uk.gla.mobilehci.notifyme.helpers.NumberPickerPreference
+            android:defaultValue="30"
+            android:key="key_number"
+            android:title="Give me a number" />
+    </PreferenceCategory>
     <PreferenceCategory android:title="Account Info" >
         <EditTextPreference
             android:key="gcmID"

@@ -9,7 +9,7 @@
     <string-array name="drawer_options">
         <item>All Available Events</item>
         <item>Friends\' Events</item>
-        <item>Edit/Set up Friend List</item>
+        <item>Friend List</item>
         <item>Settings</item>
     </string-array>
 

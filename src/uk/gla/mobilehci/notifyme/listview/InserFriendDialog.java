@@ -2,14 +2,14 @@ package uk.gla.mobilehci.notifyme.listview;
 
 import uk.gla.mobilehci.notifyme.R;
 import uk.gla.mobilehci.notifyme.fragments.EditAddFriends;
+
 import android.app.Dialog;
 import android.app.DialogFragment;
+import android.app.Fragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.app.Fragment;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.Toast;
 
 public class InserFriendDialog extends DialogFragment {
 
@@ -29,7 +29,7 @@ public class InserFriendDialog extends DialogFragment {
 				R.layout.dialog_add_friend, null);
 
 		builder.setView(dialogLayout);
-
+System.out.println("asdf");
 		final EditText email = (EditText) dialogLayout.findViewById(R.id.email);
 
 		builder.setTitle(R.string.addFriendTitle)

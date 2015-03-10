@@ -1,4 +1,4 @@
-package helpers;
+package uk.gla.mobilehci.notifyme.helpers;
 
 public class ApplicationSettings {
 	

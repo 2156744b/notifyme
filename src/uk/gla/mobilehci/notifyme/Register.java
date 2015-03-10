@@ -13,7 +13,8 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONObject;
 
-import helpers.ApplicationSettings;
+import uk.gla.mobilehci.notifyme.helpers.ApplicationSettings;
+
 import android.accounts.AccountManager;
 import android.app.Activity;
 import android.content.Context;
@@ -269,11 +270,9 @@ public class Register extends Activity {
 	}
 
 	private void moveToNextActivity() {
-
 		Intent mainActivity = new Intent(this, MainActivity.class);
 		startActivity(mainActivity);
 		finish();
-
 	}
 
 	private class RegisterInBackground extends
@@ -370,4 +369,5 @@ public class Register extends Activity {
 		}
 
 	}
+
 }

@@ -1,44 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
 
-    <PreferenceCategory android:title="Notification Settings">
+    <PreferenceCategory android:title="Notification Settings" >
         <CheckBoxPreference
             android:defaultValue="true"
             android:key="sendNotifications"
             android:summary="Send live push notification to the connected watch"
             android:title="Watch Notifications" />
     </PreferenceCategory>
-
-    <PreferenceCategory android:title="Radius Settings">
+    <PreferenceCategory android:title="Radius Settings" >
         <ListPreference
-            android:key="selectedRadius"
-            android:title="Events within this range"
-            android:summary="The selected radius will act as a filter and will fetch events within that range"
+            android:defaultValue="-1"
             android:entries="@array/radiusEntries"
-            android:defaultValue="-1"
-            android:entryValues="@array/radiusValues" />
-    </PreferenceCategory>
-
-    <PreferenceCategory android:title="Set up Until Date">
-        <ListPreference
+            android:entryValues="@array/radiusValues"
             android:key="selectedRadius"
-            android:title="Events within this date range"
-            android:summary="The selected date will act as a filter on the date of an event"
+            android:summary="The selected radius will act as a filter and will fetch events within that range"
+            android:title="Events within this range" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="Set up Until Date" >
+        <ListPreference
+            android:defaultValue="-1"
             android:entries="@array/dateEntries"
-            android:defaultValue="-1"
-            android:entryValues="@array/dateValues" />
-    </PreferenceCategory>
-
-
-    <PreferenceCategory android:title="Type of Event">
-        <ListPreference
+            android:entryValues="@array/dateValues"
             android:key="selectedRadius"
-            android:title="Event of this type"
-            android:summary="The selected type of event will act as a filter on the type of event"
-            android:entries="@array/typeEvent"
+            android:summary="The selected date will act as a filter on the date of an event"
+            android:title="Events within this date range" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="Type of Event" >
+        <ListPreference
             android:defaultValue="Fetch em All"
-            android:entryValues="@array/typeEvent" />
+            android:entries="@array/typeEvent"
+            android:entryValues="@array/typeEvent"
+            android:key="selectedRadius"
+            android:summary="The selected type of event will act as a filter on the type of event"
+            android:title="Event of this type" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="Account Info" >
+        <EditTextPreference
+            android:key="gcmID"
+            android:selectable="false"
+            android:title="GCM ID" />
+        <EditTextPreference
+            android:key="userEmail"
+            android:selectable="false"
+            android:title="Email" />
+        <EditTextPreference
+            android:key="username"
+            android:selectable="false"
+            android:title="Username" />
+        <EditTextPreference
+            android:key="registeredVersion"
+            android:selectable="false"
+            android:title="Registered version" />
     </PreferenceCategory>
 
 </PreferenceScreen>
-

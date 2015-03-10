@@ -1,5 +1,18 @@
 package uk.gla.mobilehci.notifyme;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONObject;
+
 import helpers.ApplicationSettings;
 import android.accounts.AccountManager;
 import android.app.Activity;
@@ -263,60 +276,39 @@ public class Register extends Activity {
 
 	}
 
-	private class RegisterInBackground extends AsyncTask<Void, Void, String> {
+	private class RegisterInBackground extends
+			AsyncTask<Void, Void, HttpResponse> {
 
 		@Override
-		protected String doInBackground(Void... params) {
+		protected HttpResponse doInBackground(Void... params) {
 
 			try {
 				if (gcm == null) {
 					gcm = GoogleCloudMessaging
 							.getInstance(getApplicationContext());
 				}
+
 				regid = gcm.register(ApplicationSettings.gcmSenderID);
 
-				// String NAMESPACE = "http://WebServices/";
-				// String URL = ApplicationSettings.serverUrl
-				// + "RegisterServices?wsdl";
-				// String METHOD_NAME = "UpdateGCMId";
-				// String SOAP_ACTION = "http://WebServices/UpdateGCMId";
-				//
-				// SoapObject request = new SoapObject(NAMESPACE, METHOD_NAME);
-				//
-				// PropertyInfo p1 = new PropertyInfo();
-				// PropertyInfo p2 = new PropertyInfo();
-				// PropertyInfo p3 = new PropertyInfo();
-				//
-				// p1.setName("appId");
-				// p1.setType(String.class);
-				// p1.setValue(prefs.getString("appId", null));
-				// request.addProperty(p1);
-				//
-				// p2.setName("gcmId");
-				// p2.setType(String.class);
-				// p2.setValue(regid);
-				// request.addProperty(p2);
-				//
-				// p3.setName("token");
-				// p3.setType(String.class);
-				// p3.setValue(token);
-				// request.addProperty(p3);
-				//
-				// SoapSerializationEnvelope envelope = new
-				// SoapSerializationEnvelope(
-				// SoapEnvelope.VER11);
-				// envelope.implicitTypes = true;
-				// envelope.setOutputSoapObject(request);
-				// envelope.encodingStyle = SoapSerializationEnvelope.XSD;
-				// envelope.setOutputSoapObject(request);
-				//
-				// HttpTransportSE androidHttpTransport = new
-				// HttpTransportSE(URL);
-				// androidHttpTransport.call(SOAP_ACTION, envelope);
-				//
-				// return (SoapObject) envelope.getResponse();
+				SharedPreferences.Editor editor = prefs.edit();
+				editor.putString("gcmID", regid);
+				editor.commit();
 
-				return regid;
+				HttpClient client = new DefaultHttpClient();
+				HttpPost post = new HttpPost(ApplicationSettings.serverUrl
+						+ "register");
+
+				ArrayList<NameValuePair> data = new ArrayList<NameValuePair>();
+				data.add(new BasicNameValuePair("email", prefs.getString(
+						"userEmail", null)));
+				data.add(new BasicNameValuePair("username", prefs.getString(
+						"username", null)));
+				data.add(new BasicNameValuePair("gcmid", prefs.getString(
+						"gcmID", null)));
+
+				post.setEntity(new UrlEncodedFormEntity(data));
+
+				return client.execute(post);
 
 			} catch (Exception ex) {
 				Log.e(this.getClass().getName(), ex.toString());
@@ -326,49 +318,55 @@ public class Register extends Activity {
 		}
 
 		@Override
-		protected void onPostExecute(String response) {
+		protected void onPostExecute(HttpResponse response) {
 
-			SharedPreferences.Editor editor = prefs.edit();
-			editor.putString("gcmID", response);
-			editor.putString("registeredVersion", String.valueOf(getAppVersion(getApplicationContext())));
-			editor.commit();
+			if (response == null) {
 
-			loading(false);
-			Toast.makeText(getApplicationContext(), response, Toast.LENGTH_LONG)
-					.show();
-			moveToNextActivity();
-			// if (response == null) {
-			// Toast.makeText(getApplicationContext(), "Did not get response",
-			// Toast.LENGTH_LONG).show();
-			//
-			// loading(false);
-			// } else {
-			//
-			// int responseCode = Integer.parseInt(response.getProperty(
-			// "rCode").toString());
-			//
-			// if (responseCode == 401) {
-			// Toast.makeText(getApplicationContext(),
-			// "Authentication error", Toast.LENGTH_LONG).show();
-			//
-			// loading(false);
-			// } else if (responseCode == 200) {
-			// Toast.makeText(getApplicationContext(),
-			// "You have been successfully registered",
-			// Toast.LENGTH_LONG).show();
-			//
-			// SharedPreferences.Editor editor = prefs.edit();
-			// editor.putString("registrationId", regid);
-			// editor.putString("registeredVersion", String
-			// .valueOf(getAppVersion(getApplicationContext())));
-			// editor.commit();
-			//
-			// loading(false);
-			//
-			// moveToNextActivity();
-			// }
-			//
-			// }
+				Toast.makeText(getApplicationContext(),
+						"Error registering to server", Toast.LENGTH_LONG)
+						.show();
+				loading(false);
+			} else {
+				try {
+
+					BufferedReader reader = new BufferedReader(
+							new InputStreamReader(response.getEntity()
+									.getContent(), "UTF-8"));
+					String data = reader.readLine();
+
+					JSONObject obj = new JSONObject(data);
+					int status = obj.getInt("status");
+
+					if (status == -1) {
+
+						Toast.makeText(getApplicationContext(),
+								"Error registering to server",
+								Toast.LENGTH_LONG).show();
+						loading(false);
+					}
+
+					else {
+
+						SharedPreferences.Editor editor = prefs.edit();
+
+						editor.putString(
+								"registeredVersion",
+								String.valueOf(getAppVersion(getApplicationContext())));
+						editor.commit();
+
+						Toast.makeText(getApplicationContext(),
+								"Successfully registered to server",
+								Toast.LENGTH_LONG).show();
+						loading(false);
+						moveToNextActivity();
+					}
+				} catch (Exception e) {
+					Log.e(this.getClass().getName(), e.toString());
+					Toast.makeText(getApplicationContext(),
+							"Error registering to server", Toast.LENGTH_LONG)
+							.show();
+				}
+			}
 		}
 
 	}

@@ -1,10 +1,14 @@
 package uk.gla.mobilehci.notifyme.fragments;
 
+import com.google.android.gms.maps.CameraUpdate;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
+import com.google.android.gms.maps.model.LatLng;
 
 import uk.gla.mobilehci.notifyme.R;
+import uk.gla.mobilehci.notifyme.helpers.GetLonLat;
 import android.app.Fragment;
 import android.content.res.Resources;
 import android.os.Bundle;
@@ -16,6 +20,7 @@ public class FriendEvents extends Fragment {
 
 	private MapView mapView;
 	private GoogleMap map;
+	private GetLonLat getLonLat;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -33,14 +38,30 @@ public class FriendEvents extends Fragment {
 		map.getUiSettings().setMyLocationButtonEnabled(true);
 		map.setMyLocationEnabled(true);
 
-		MapsInitializer.initialize(getActivity());	
+		MapsInitializer.initialize(getActivity());
+		getLonLat = new GetLonLat(getActivity());
+		autoFocus();
 		return rootView;
+	}
+
+	public void autoFocus() {
+		getLonLat.prepareLonLat();
+		if (getLonLat.isCanGetLocation()) {
+			double lon = getLonLat.getLon();
+			double lat = getLonLat.getLat();
+			LatLng coordinate = new LatLng(lat, lon);
+			CameraUpdate center = CameraUpdateFactory.newLatLng(coordinate);
+			CameraUpdate zoom = CameraUpdateFactory.zoomTo(15);
+			map.moveCamera(center);
+			map.animateCamera(zoom);
+		}
 	}
 
 	@Override
 	public void onResume() {
 		super.onResume();
 		mapView.onResume();
+		autoFocus();
 	}
 
 	@Override

@@ -27,8 +27,8 @@
             android:title="Events within this date range" />
     </PreferenceCategory>
     <PreferenceCategory android:title="Type of Event" >
-        <ListPreference
-            android:defaultValue="Fetch em All"
+        <MultiSelectListPreference
+            android:defaultValue="@array/typeEvent"
             android:entries="@array/typeEvent"
             android:entryValues="@array/typeEvent"
             android:key="selectedRadius"

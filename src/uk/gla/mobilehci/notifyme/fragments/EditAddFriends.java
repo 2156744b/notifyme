@@ -59,8 +59,12 @@ public class EditAddFriends extends Fragment {
 
 		setHasOptionsMenu(true);
 
-		
 		return rootView;
+	}
+
+	@Override
+	public void onResume() {
+		super.onResume();
 	}
 
 	private void readFriendList() {
@@ -126,10 +130,6 @@ public class EditAddFriends extends Fragment {
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		Resources res = getResources();
-		String[] drawerOptions = res.getStringArray(R.array.drawer_options);
-		getActivity().getActionBar().setTitle(drawerOptions[2]);
-
 		switch (item.getItemId()) {
 		case R.id.action_add_friend:
 			InserFriendDialog dialogF = new InserFriendDialog(

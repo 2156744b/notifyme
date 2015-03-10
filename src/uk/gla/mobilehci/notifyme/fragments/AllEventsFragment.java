@@ -35,15 +35,11 @@ public class AllEventsFragment extends Fragment {
 
 		MapsInitializer.initialize(getActivity());
 
-		Resources res = getResources();
-		String[] drawerOptions = res.getStringArray(R.array.drawer_options);
-		getActivity().getActionBar().setTitle(drawerOptions[0]);
-
-		
-		
 		return rootView;
 	}
 
+
+	
 	@Override
 	public void onResume() {
 		super.onResume();

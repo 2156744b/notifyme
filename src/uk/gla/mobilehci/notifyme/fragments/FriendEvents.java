@@ -33,12 +33,7 @@ public class FriendEvents extends Fragment {
 		map.getUiSettings().setMyLocationButtonEnabled(true);
 		map.setMyLocationEnabled(true);
 
-		MapsInitializer.initialize(getActivity());
-
-		Resources res = getResources();
-		String[] drawerOptions = res.getStringArray(R.array.drawer_options);
-		getActivity().getActionBar().setTitle(drawerOptions[1]);
-		
+		MapsInitializer.initialize(getActivity());	
 		return rootView;
 	}
 

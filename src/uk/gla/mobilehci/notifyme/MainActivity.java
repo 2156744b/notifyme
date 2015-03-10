@@ -76,6 +76,9 @@ public class MainActivity extends FragmentActivity {
 			getFragmentManager().beginTransaction()
 					.replace(R.id.content_frame, new AllEventsFragment())
 					.commit();
+			Resources res = getResources();
+			String[] drawerOptions = res.getStringArray(R.array.drawer_options);
+			setTitle(drawerOptions[0]);
 
 		}
 	}
@@ -84,16 +87,20 @@ public class MainActivity extends FragmentActivity {
 	private void selectItem(int position) {
 
 		Fragment newFragment = null;
-
+		Resources res = getResources();
+		String[] drawerOptions = res.getStringArray(R.array.drawer_options);
 		switch (position) {
 		case 0:
 			newFragment = new AllEventsFragment();
+			setTitle(drawerOptions[0]);
 			break;
 		case 1:
 			newFragment = new FriendEvents();
+			setTitle(drawerOptions[1]);
 			break;
 		case 2:
 			newFragment = new EditAddFriends();
+			setTitle(drawerOptions[2]);
 			break;
 		case 3:
 			Intent i = new Intent(getApplicationContext(), AppSettings.class);

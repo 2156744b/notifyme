@@ -13,6 +13,7 @@ import uk.gla.mobilehci.notifyme.listview.FriendListArrayAdapter;
 import uk.gla.mobilehci.notifyme.listview.InserFriendDialog;
 import android.app.Activity;
 import android.app.Fragment;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -58,6 +59,7 @@ public class EditAddFriends extends Fragment {
 
 		setHasOptionsMenu(true);
 
+		
 		return rootView;
 	}
 
@@ -124,6 +126,9 @@ public class EditAddFriends extends Fragment {
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
+		Resources res = getResources();
+		String[] drawerOptions = res.getStringArray(R.array.drawer_options);
+		getActivity().getActionBar().setTitle(drawerOptions[2]);
 
 		switch (item.getItemId()) {
 		case R.id.action_add_friend:

@@ -2,6 +2,7 @@ package uk.gla.mobilehci.notifyme.fragments;
 
 import uk.gla.mobilehci.notifyme.R;
 import android.app.Fragment;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -34,6 +35,12 @@ public class AllEventsFragment extends Fragment {
 
 		MapsInitializer.initialize(getActivity());
 
+		Resources res = getResources();
+		String[] drawerOptions = res.getStringArray(R.array.drawer_options);
+		getActivity().getActionBar().setTitle(drawerOptions[0]);
+
+		
+		
 		return rootView;
 	}
 

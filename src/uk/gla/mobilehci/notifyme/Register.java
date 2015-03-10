@@ -334,7 +334,7 @@ public class Register extends Activity {
 					String data = reader.readLine();
 
 					JSONObject obj = new JSONObject(data);
-					int status = obj.getInt("status");
+					int status = obj.getInt("rstatus");
 
 					if (status == -1) {
 

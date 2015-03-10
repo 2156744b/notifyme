@@ -7,13 +7,13 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+
 import uk.gla.mobilehci.notifyme.R;
 import uk.gla.mobilehci.notifyme.datamodels.FriendModel;
 import uk.gla.mobilehci.notifyme.listview.FriendListArrayAdapter;
 import uk.gla.mobilehci.notifyme.listview.InserFriendDialog;
 import android.app.Activity;
 import android.app.Fragment;
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;

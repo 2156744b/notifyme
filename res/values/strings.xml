@@ -56,4 +56,8 @@
         <item>Edit</item>
     </string-array>
 
+    <string name="addFriendTitle">Add your friend\'s email</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
+
 </resources>

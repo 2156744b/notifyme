@@ -83,9 +83,8 @@ public class EditAddFriends extends Fragment {
 	}
 
 	@Override
-	public void onDestroy() {
-		// TODO Auto-generated method stub
-		super.onDestroy();
+	public void onPause() {
+		super.onPause();
 		writeFriendList();
 	}
 

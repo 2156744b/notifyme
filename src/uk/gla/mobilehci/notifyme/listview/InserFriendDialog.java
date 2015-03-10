@@ -30,19 +30,28 @@ public class InserFriendDialog extends DialogFragment {
 
 		builder.setView(dialogLayout);
 
-		final EditText username = (EditText) dialogLayout
-				.findViewById(R.id.username);
 		final EditText email = (EditText) dialogLayout.findViewById(R.id.email);
 
-		builder.setMessage("Add Friend").setPositiveButton("Submit",
-				new DialogInterface.OnClickListener() {
-					public void onClick(DialogInterface dialog, int id) {
-						// FIRE ZE MISSILES!
-						((EditAddFriends) fragment).addFriendToList(username
-								.getText().toString(), email.getText()
-								.toString());
-					}
-				});
+		builder.setTitle(R.string.addFriendTitle)
+				.setNegativeButton(R.string.cancel,
+						new DialogInterface.OnClickListener() {
+
+							@Override
+							public void onClick(DialogInterface dialog,
+									int which) {
+								// TODO Auto-generated method stub
+
+							}
+						})
+				.setPositiveButton(R.string.ok,
+						new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface dialog, int id) {
+								// FIRE ZE MISSILES!
+								((EditAddFriends) fragment).addFriendToList(
+										email.getText().toString(), email
+												.getText().toString());
+							}
+						});
 		// Create the AlertDialog object and return it
 		return builder.create();
 	}

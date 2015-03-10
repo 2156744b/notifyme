@@ -94,7 +94,7 @@ public class InserFriendDialog extends DialogFragment {
 			try {
 				HttpClient client = new DefaultHttpClient();
 				HttpPost post = new HttpPost(ApplicationSettings.serverUrl
-						+ "register");
+						+ "addFriend");
 
 				ArrayList<NameValuePair> data = new ArrayList<NameValuePair>();
 				data.add(new BasicNameValuePair("email", params[0]));
@@ -126,7 +126,7 @@ public class InserFriendDialog extends DialogFragment {
 							new InputStreamReader(response.getEntity()
 									.getContent(), "UTF-8"));
 					String data = reader.readLine();
-					System.out.println(data);
+					
 					JSONObject obj = new JSONObject(data);
 					int status = obj.getInt("rstatus");
 
@@ -142,15 +142,15 @@ public class InserFriendDialog extends DialogFragment {
 
 					else if (status == 200) {
 
+						((EditAddFriends) fragment).addFriendToList(
+								obj.getString("email"),
+								obj.getString("username"));
+
 						Toast.makeText(
 								((EditAddFriends) fragment).getActivity()
 										.getApplicationContext(),
 								"Friend successfully added", Toast.LENGTH_LONG)
 								.show();
-
-						((EditAddFriends) fragment).addFriendToList(
-								obj.getString("email"),
-								obj.getString("username"));
 
 					} else {
 						new Exception();

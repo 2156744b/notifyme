@@ -23,8 +23,6 @@
             android:key="selectedRadius"
             android:summary="The selected date will act as a filter on the date of an event"
             android:title="Events within this date range" />
-    </PreferenceCategory>
-    <PreferenceCategory>
         <ListPreference
             android:defaultValue="Fetch em All"
             android:entries="@array/typeEvent"

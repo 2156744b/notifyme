@@ -364,6 +364,7 @@ public class Register extends Activity {
 					Toast.makeText(getApplicationContext(),
 							"Error registering to server", Toast.LENGTH_LONG)
 							.show();
+					loading(false);
 				}
 			}
 		}

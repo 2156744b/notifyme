@@ -7,6 +7,8 @@ import android.preference.PreferenceActivity;
 import android.preference.PreferenceCategory;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceScreen;
+import android.support.v4.app.NavUtils;
+import android.view.MenuItem;
 
 /**
  * Created by Rafael on 3/8/2015.
@@ -21,6 +23,17 @@ public class AppSettings extends PreferenceActivity {
 				.commit();
 		
 		getActionBar().setDisplayHomeAsUpEnabled(true);
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+	    switch (item.getItemId()) {
+	    // Respond to the action bar's Up/Home button
+	    case android.R.id.home:
+	        NavUtils.navigateUpFromSameTask(this);
+	        return true;
+	    }
+	    return super.onOptionsItemSelected(item);
 	}
 
 	public static class MyPreferenceFragment extends PreferenceFragment {

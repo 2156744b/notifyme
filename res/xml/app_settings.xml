@@ -13,21 +13,21 @@
             android:defaultValue="-1"
             android:entries="@array/radiusEntries"
             android:entryValues="@array/radiusValues"
-            android:key="selectedRadius"
+            android:key="radiusSettings"
             android:summary="The selected radius will act as a filter and will fetch events within that range"
             android:title="Events within this range" />
         <ListPreference
             android:defaultValue="-1"
             android:entries="@array/dateEntries"
             android:entryValues="@array/dateValues"
-            android:key="selectedRadius"
+            android:key="dateSettings"
             android:summary="The selected date will act as a filter on the date of an event"
             android:title="Events within this date range" />
         <ListPreference
             android:defaultValue="Fetch em All"
             android:entries="@array/typeEvent"
             android:entryValues="@array/typeEvent"
-            android:key="selectedRadius"
+            android:key="settingsTypeEvent"
             android:summary="The selected type of event will act as a filter on the type of event"
             android:title="Event of this type" />
     </PreferenceCategory>

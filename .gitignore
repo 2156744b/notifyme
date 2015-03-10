@@ -19,3 +19,4 @@ project.properties
 proguard/
 # Log Files
 *.log
+.classpath

@@ -12,26 +12,30 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.NumberPicker;
 
-public class NumberPickerPreference extends DialogPreference {
+public class DistanceIntervalPickerPreference extends DialogPreference {
 
-	public static final int MAX_VALUE = 60;
-	public static final int MIN_VALUE = 10;
+	public static final int MAX_VALUE = 1000;
+	public static final int MIN_VALUE = 50;
 	public String[] values;
 
 	private NumberPicker picker;
 	private int value;
 
-	public NumberPickerPreference(Context context, AttributeSet attrs) {
+	public DistanceIntervalPickerPreference(Context context, AttributeSet attrs) {
 		super(context, attrs);
+		setSummary("Distance interval for location updates in meters");
 	}
 
-	public NumberPickerPreference(Context context, AttributeSet attrs,
-			int defStyleAttr) {
+	public DistanceIntervalPickerPreference(Context context,
+			AttributeSet attrs, int defStyleAttr) {
 		super(context, attrs, defStyleAttr);
+		setSummary("Distance interval for location updates in meters");
+		
 	}
 
 	@Override
 	protected View onCreateDialogView() {
+		
 		FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(
 				ViewGroup.LayoutParams.WRAP_CONTENT,
 				ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -42,24 +46,25 @@ public class NumberPickerPreference extends DialogPreference {
 
 		FrameLayout dialogView = new FrameLayout(getContext());
 		dialogView.addView(picker);
-
-		ArrayList<String> values = new ArrayList<String>();
-		for (int i = MIN_VALUE; i <= MAX_VALUE; i += 10) {
-			values.add(String.valueOf(i));
-		}
-		String[] toSend = values.toArray(new String[values.size()]);
 		
-		picker.setDisplayedValues(toSend);
-		
-
 		return dialogView;
 	}
 
 	@Override
 	protected void onBindDialogView(View view) {
 		super.onBindDialogView(view);
+
+		ArrayList<String> values = new ArrayList<String>();
+		for (int i = MIN_VALUE; i <= MAX_VALUE; i += 50) {
+			values.add(String.valueOf(i));
+		}
+		String[] displayed = new String[values.size()];
+		displayed = values.toArray(displayed);
+
+		picker.setDisplayedValues(displayed);
+
 		picker.setMinValue(1);
-		picker.setMaxValue(values.length);
+		picker.setMaxValue(displayed.length);
 		picker.setValue(getValue());
 	}
 
@@ -90,4 +95,5 @@ public class NumberPickerPreference extends DialogPreference {
 	public int getValue() {
 		return this.value;
 	}
+
 }

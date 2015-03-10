@@ -8,7 +8,7 @@
             android:summary="Send live push notification to the connected watch"
             android:title="Watch Notifications" />
     </PreferenceCategory>
-    <PreferenceCategory android:title="Radius Settings" >
+    <PreferenceCategory android:title="Event Settings" >
         <ListPreference
             android:defaultValue="-1"
             android:entries="@array/radiusEntries"
@@ -16,8 +16,6 @@
             android:key="selectedRadius"
             android:summary="The selected radius will act as a filter and will fetch events within that range"
             android:title="Events within this range" />
-    </PreferenceCategory>
-    <PreferenceCategory android:title="Set up Until Date" >
         <ListPreference
             android:defaultValue="-1"
             android:entries="@array/dateEntries"
@@ -25,8 +23,6 @@
             android:key="selectedRadius"
             android:summary="The selected date will act as a filter on the date of an event"
             android:title="Events within this date range" />
-    </PreferenceCategory>
-    <PreferenceCategory android:title="Type of Event" >
         <ListPreference
             android:defaultValue="Fetch em All"
             android:entries="@array/typeEvent"
@@ -36,10 +32,15 @@
             android:title="Event of this type" />
     </PreferenceCategory>
     <PreferenceCategory android:title="Location Updates" >
-        <uk.gla.mobilehci.notifyme.helpers.NumberPickerPreference
-            android:defaultValue="30"
-            android:key="key_number"
-            android:title="Give me a number" />
+        <uk.gla.mobilehci.notifyme.helpers.MinuteIntervalPickerPreference
+            android:defaultValue="20"
+            android:key="time_interval"
+            android:title="Time interval" />
+
+        <uk.gla.mobilehci.notifyme.helpers.DistanceIntervalPickerPreference
+            android:defaultValue="100"
+            android:key="distance_interval"
+            android:title="Distance interval" />
     </PreferenceCategory>
     <PreferenceCategory android:title="Account Info" >
         <EditTextPreference

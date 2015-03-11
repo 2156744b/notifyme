@@ -16,6 +16,7 @@ import org.json.JSONObject;
 
 import uk.gla.mobilehci.notifyme.R;
 import uk.gla.mobilehci.notifyme.helpers.ApplicationSettings;
+import uk.gla.mobilehci.notifyme.request.ShowMarkers;
 import android.app.Fragment;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -72,6 +73,7 @@ public class AllEventsFragment extends Fragment implements LocationListener,
 
 		MapsInitializer.initialize(getActivity());
 		createDummyData();
+		new ShowMarkers(map).execute("Insert url");
 		return rootView;
 	}
 

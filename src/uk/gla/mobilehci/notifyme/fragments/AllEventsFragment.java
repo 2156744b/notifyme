@@ -72,7 +72,7 @@ public class AllEventsFragment extends Fragment implements LocationListener,
 		map.setMyLocationEnabled(true);
 
 		MapsInitializer.initialize(getActivity());
-		createDummyData();
+		//createDummyData();
 		return rootView;
 	}
 

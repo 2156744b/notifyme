@@ -220,15 +220,6 @@ public class AllEventsFragment extends Fragment implements LocationListener,
 
 		private ProgressDialog progDialog = new ProgressDialog(getActivity());
 
-		@Override
-		protected void onPreExecute() {
-			super.onPreExecute();
-			// progDialog.setMessage("Loading...");
-			// progDialog.setIndeterminate(false);
-			// progDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-			// progDialog.setCancelable(true);
-			// progDialog.show();
-		}
 
 		@Override
 		protected HttpResponse doInBackground(String... params) {
@@ -281,7 +272,7 @@ public class AllEventsFragment extends Fragment implements LocationListener,
 						Toast.makeText(
 								(AllEventsFragment.this).getActivity()
 										.getApplicationContext(),
-								"Error adding friend, email may not be correct",
+								"Error retrieving events",
 								Toast.LENGTH_LONG).show();
 
 					} else if (status == 200) {
@@ -289,11 +280,6 @@ public class AllEventsFragment extends Fragment implements LocationListener,
 						Toast.makeText(getActivity(), obj.toString(),
 								Toast.LENGTH_SHORT).show();
 
-						Toast.makeText(
-								(AllEventsFragment.this).getActivity()
-										.getApplicationContext(),
-								"Friend successfully added", Toast.LENGTH_LONG)
-								.show();
 					} else {
 						new Exception();
 					}
@@ -302,10 +288,10 @@ public class AllEventsFragment extends Fragment implements LocationListener,
 					Toast.makeText(
 							(AllEventsFragment.this).getActivity()
 									.getApplicationContext(),
-							"Error adding friend", Toast.LENGTH_LONG).show();
+							"Error retrieving events", Toast.LENGTH_LONG).show();
 				}
 			}
-			// progDialog.dismiss();
+
 		}
 
 	}

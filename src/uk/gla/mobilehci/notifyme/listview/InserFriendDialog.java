@@ -80,7 +80,6 @@ public class InserFriendDialog extends DialogFragment {
 		@Override
 		protected void onPreExecute() {
 			super.onPreExecute();
-
 			progDialog.setMessage("Loading...");
 			progDialog.setIndeterminate(false);
 			progDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
@@ -121,7 +120,6 @@ public class InserFriendDialog extends DialogFragment {
 
 			} else {
 				try {
-
 					BufferedReader reader = new BufferedReader(
 							new InputStreamReader(response.getEntity()
 									.getContent(), "UTF-8"));
@@ -139,9 +137,7 @@ public class InserFriendDialog extends DialogFragment {
 								Toast.LENGTH_LONG).show();
 
 					}
-
 					else if (status == 200) {
-
 						((EditAddFriends) fragment).addFriendToList(
 								obj.getString("username"),
 								obj.getString("email"));
@@ -151,7 +147,6 @@ public class InserFriendDialog extends DialogFragment {
 										.getApplicationContext(),
 								"Friend successfully added", Toast.LENGTH_LONG)
 								.show();
-
 					} else {
 						new Exception();
 					}

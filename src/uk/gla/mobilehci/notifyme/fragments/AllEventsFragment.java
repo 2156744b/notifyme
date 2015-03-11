@@ -1,20 +1,38 @@
 package uk.gla.mobilehci.notifyme.fragments;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONObject;
+
 import uk.gla.mobilehci.notifyme.R;
+import uk.gla.mobilehci.notifyme.helpers.ApplicationSettings;
 import android.app.Fragment;
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -34,6 +52,7 @@ public class AllEventsFragment extends Fragment implements LocationListener,
 	private GoogleMap map;
 	private LocationManager locationManager;
 	private HashMap<Marker, ArrayList<String>> markerData = new HashMap<Marker, ArrayList<String>>();
+	private SharedPreferences pref;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -66,13 +85,11 @@ public class AllEventsFragment extends Fragment implements LocationListener,
 		m2.position(new LatLng(55.864811, -4.293573));
 		m2.icon(BitmapDescriptorFactory.fromResource(R.drawable.club));
 
-		//55.866027,-4.289914
+		// 55.866027,-4.289914
 		MarkerOptions m3 = new MarkerOptions();
 		m3.position(new LatLng(55.866027, -4.289914));
 		m3.icon(BitmapDescriptorFactory.fromResource(R.drawable.restaurant));
-		
-		
-		
+
 		ArrayList<String> m1Array = new ArrayList<String>();
 		m1Array.add("20/03/2015");
 		m1Array.add("ANTE GEIA!!!");
@@ -83,11 +100,10 @@ public class AllEventsFragment extends Fragment implements LocationListener,
 		ArrayList<String> m3Array = new ArrayList<String>();
 		m3Array.add("30/03/2015");
 		m3Array.add("Curt gios tis ");
-		
+
 		markerData.put(map.addMarker(m1), m1Array);
 		markerData.put(map.addMarker(m2), m2Array);
 		markerData.put(map.addMarker(m3), m3Array);
-
 
 	}
 
@@ -104,6 +120,8 @@ public class AllEventsFragment extends Fragment implements LocationListener,
 		locationManager.requestLocationUpdates(
 				LocationManager.NETWORK_PROVIDER, (long) 1000, (float) 10.0,
 				this);
+
+		pref = PreferenceManager.getDefaultSharedPreferences(getActivity());
 	}
 
 	@Override
@@ -140,6 +158,10 @@ public class AllEventsFragment extends Fragment implements LocationListener,
 		CameraUpdate zoom = CameraUpdateFactory.zoomTo(15);
 		map.moveCamera(center);
 		map.animateCamera(zoom);
+
+		new GetNearbyPublicEvent().execute(arg0.getLatitude() + "",
+				arg0.getLongitude() + "",
+				pref.getString("radiusSettings", "1000"));
 	}
 
 	@Override
@@ -191,4 +213,100 @@ public class AllEventsFragment extends Fragment implements LocationListener,
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	private class GetNearbyPublicEvent extends
+			AsyncTask<String, Void, HttpResponse> {
+
+		private ProgressDialog progDialog = new ProgressDialog(getActivity());
+
+		@Override
+		protected void onPreExecute() {
+			super.onPreExecute();
+			progDialog.setMessage("Loading...");
+			progDialog.setIndeterminate(false);
+			progDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+			progDialog.setCancelable(true);
+			progDialog.show();
+		}
+
+		@Override
+		protected HttpResponse doInBackground(String... params) {
+
+			try {
+				// df.get("lat"), df.get("lon"), df.get("radius"));
+				HttpClient client = new DefaultHttpClient();
+				HttpPost post = new HttpPost(ApplicationSettings.serverUrl
+						+ "nearbyPublicEvents");
+
+				ArrayList<NameValuePair> data = new ArrayList<NameValuePair>();
+				data.add(new BasicNameValuePair("lat", params[0]));
+				data.add(new BasicNameValuePair("lon", params[1]));
+				data.add(new BasicNameValuePair("radius", params[2]));
+				// type na to skeftoume
+				// data.add(new BasicNameValuePair("lon", params[1]));
+
+				post.setEntity(new UrlEncodedFormEntity(data));
+
+				return client.execute(post);
+
+			} catch (Exception e) {
+				Log.e(this.getClass().getName(), e.toString());
+				return null;
+			}
+		}
+
+		@Override
+		protected void onPostExecute(HttpResponse response) {
+
+			if (response == null) {
+
+				Toast.makeText(
+						(AllEventsFragment.this).getActivity()
+								.getApplicationContext(), "Server error",
+						Toast.LENGTH_LONG).show();
+
+			} else {
+				try {
+					BufferedReader reader = new BufferedReader(
+							new InputStreamReader(response.getEntity()
+									.getContent(), "UTF-8"));
+					String data = reader.readLine();
+
+					JSONObject obj = new JSONObject(data);
+					int status = obj.getInt("rstatus");
+
+					if (status == -1) {
+
+						Toast.makeText(
+								(AllEventsFragment.this).getActivity()
+										.getApplicationContext(),
+								"Error adding friend, email may not be correct",
+								Toast.LENGTH_LONG).show();
+
+					} else if (status == 200) {
+
+						Toast.makeText(getActivity(), obj.toString(),
+								Toast.LENGTH_SHORT).show();
+
+						Toast.makeText(
+								(AllEventsFragment.this).getActivity()
+										.getApplicationContext(),
+								"Friend successfully added", Toast.LENGTH_LONG)
+								.show();
+					} else {
+						new Exception();
+					}
+				} catch (Exception e) {
+					Log.e(this.getClass().getName(), e.toString());
+					Toast.makeText(
+							(AllEventsFragment.this).getActivity()
+									.getApplicationContext(),
+							"Error adding friend", Toast.LENGTH_LONG).show();
+				}
+			}
+			progDialog.dismiss();
+		}
+
+	}
+
 }

@@ -66,6 +66,13 @@ public class AllEventsFragment extends Fragment implements LocationListener,
 		m2.position(new LatLng(55.864811, -4.293573));
 		m2.icon(BitmapDescriptorFactory.fromResource(R.drawable.club));
 
+		//55.866027,-4.289914
+		MarkerOptions m3 = new MarkerOptions();
+		m3.position(new LatLng(55.866027, -4.289914));
+		m3.icon(BitmapDescriptorFactory.fromResource(R.drawable.restaurant));
+		
+		
+		
 		ArrayList<String> m1Array = new ArrayList<String>();
 		m1Array.add("20/03/2015");
 		m1Array.add("ANTE GEIA!!!");
@@ -73,8 +80,14 @@ public class AllEventsFragment extends Fragment implements LocationListener,
 		m2Array.add("23/03/2015");
 		m2Array.add("ANTE GEIA REEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE");
 
+		ArrayList<String> m3Array = new ArrayList<String>();
+		m3Array.add("30/03/2015");
+		m3Array.add("Curt gios tis ");
+		
 		markerData.put(map.addMarker(m1), m1Array);
 		markerData.put(map.addMarker(m2), m2Array);
+		markerData.put(map.addMarker(m3), m3Array);
+
 
 	}
 

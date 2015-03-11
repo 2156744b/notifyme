@@ -26,8 +26,8 @@
 
         <MultiSelectListPreference
             android:entries="@array/typeEvent"
-            android:entryValues="@array/typeEvent"
-            android:defaultValue="@array/typeEvent"
+            android:entryValues="@array/typeEventValues"
+            android:defaultValue="@array/typeEventValues"
             android:key="settingsTypeEvent"
             android:summary="The selected type of event will act as a filter on the type of event"
             android:title="Event of this type" />

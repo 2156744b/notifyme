@@ -224,11 +224,11 @@ public class AllEventsFragment extends Fragment implements LocationListener,
 		@Override
 		protected void onPreExecute() {
 			super.onPreExecute();
-			progDialog.setMessage("Loading...");
-			progDialog.setIndeterminate(false);
-			progDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-			progDialog.setCancelable(true);
-			progDialog.show();
+			// progDialog.setMessage("Loading...");
+			// progDialog.setIndeterminate(false);
+			// progDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+			// progDialog.setCancelable(true);
+			// progDialog.show();
 		}
 
 		@Override
@@ -306,7 +306,7 @@ public class AllEventsFragment extends Fragment implements LocationListener,
 							"Error adding friend", Toast.LENGTH_LONG).show();
 				}
 			}
-			progDialog.dismiss();
+			// progDialog.dismiss();
 		}
 
 	}

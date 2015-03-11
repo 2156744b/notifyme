@@ -10,14 +10,14 @@
     </PreferenceCategory>
     <PreferenceCategory android:title="Event Settings" >
         <ListPreference
-            android:defaultValue="2"
+            android:defaultValue="1"
             android:entries="@array/radiusEntries"
             android:entryValues="@array/radiusValues"
             android:key="radiusSettings"
             android:summary="The selected radius will act as a filter and will fetch events within that range"
             android:title="Events within this range" />
         <ListPreference
-            android:defaultValue="24"
+            android:defaultValue="1"
             android:entries="@array/dateEntries"
             android:entryValues="@array/dateValues"
             android:key="dateSettings"

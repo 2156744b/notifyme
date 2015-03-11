@@ -19,6 +19,8 @@
     <string name="add_friend">Add friend</string>
     <string name="username">Username</string>
     <string name="Email">Email</string>
+    <string name="see_more">Click to see more</string>
+    <string name="image_content_description">ImageView content description</string>
 
     <string-array name="radiusEntries">
         <item>1km</item>
@@ -27,10 +29,10 @@
         <item>7km</item>
     </string-array>
     <string-array name="radiusValues">
-        <item>1</item>
-        <item>2</item>
-        <item>5</item>
-        <item>7</item>
+        <item>1000</item>
+        <item>2000</item>
+        <item>5000</item>
+        <item>7000</item>
     </string-array>
     <string-array name="dateEntries">
         <item>1 day</item>

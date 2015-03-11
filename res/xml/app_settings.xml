@@ -10,7 +10,7 @@
     </PreferenceCategory>
     <PreferenceCategory android:title="Event Settings" >
         <ListPreference
-            android:defaultValue="1"
+            android:defaultValue="1000"
             android:entries="@array/radiusEntries"
             android:entryValues="@array/radiusValues"
             android:key="radiusSettings"

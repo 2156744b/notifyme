@@ -4,80 +4,122 @@ import uk.gla.mobilehci.notifyme.helpers.Receiver;
 import uk.gla.mobilehci.notifyme.R;
 
 import android.app.Fragment;
-import android.app.Notification;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
-import android.support.v4.app.NotificationManagerCompat;
 import android.support.v4.app.RemoteInput;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-
 public class SimpleNotification extends Fragment {
 	
-	public static final String ACTION_DEMAND = "uk.gla.mobilehci.notifyme.ACTION_DEMAND";
 	public static final String EXTRA_MESSAGE = "uk.gla.mobilehci.notifyme.EXTRA_MESSAGE";
 	public static final String EXTRA_VOICE_REPLY = "uk.gla.mobilehci.notifyme.EXTRA_VOICE_REPLY";
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		//setContentView(R.layout.wearable);
 		
 		// Inflate the layout for this fragment
+		View wearableView = inflater.inflate(R.layout.wearable, container,
+				false);
 
-		View wearableView = inflater.inflate(R.layout.wearable,
-				container, false);
-
-		Button button = (Button) wearableView.findViewById(R.id.sendNotification);
+		Button button = (Button) wearableView
+				.findViewById(R.id.sendNotification);
 		button.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
-				// Create an Intent for the demand
-				Intent demandIntent = new Intent(v.getContext(),
-						Receiver.class).putExtra(EXTRA_MESSAGE,
-						"Reply icon selected.").setAction(ACTION_DEMAND);
 
-				// Create a pending intent using the local broadcast receiver
-				PendingIntent demandPendingIntent = PendingIntent.getBroadcast(
-						v.getContext(), 0, demandIntent, 0);
+				// standard notification code
+				NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(
+						v.getContext()).setSmallIcon(R.drawable.ic_launcher)
+						.setContentTitle("Content TItle")
+						.setContentText("setContentText");
+
+				Intent firstIntent = new Intent(v.getContext(), Receiver.class);
+				firstIntent.putExtra(Receiver.NOTIFICATION_ID_STRING,
+						"firstIntent icon selected");
+				firstIntent.putExtra(Receiver.WEAR_ACTION,
+						Receiver.NOTIFICATION_1);
+
+				PendingIntent pendingIntentNotify = PendingIntent.getBroadcast(
+						v.getContext(), 1, firstIntent,
+						PendingIntent.FLAG_UPDATE_CURRENT);
+
+				// text shown in notification
+				String notifyAgainText = "Put string of the notification that will be presented";
+
+				// Wear action - this action will be shown only on Android Wear
+				// devices
+				// Set action icon, text and pending intent which will be
+				// executed on click
+				// When user clicks on this icon he will "snooze" notification
+				NotificationCompat.Action actionNotifyNextTime = new NotificationCompat.Action.Builder(
+						R.drawable.ic_launcher, notifyAgainText,
+						pendingIntentNotify).build();
+
+				//----------------Second Menu on Wathc------------------------------
+				
+				Intent secondIntent = new Intent(v.getContext(), Receiver.class);
+				secondIntent.putExtra(Receiver.NOTIFICATION_ID_STRING, "firstIntent icon selected");
+				secondIntent.putExtra(Receiver.WEAR_ACTION,
+						Receiver.NOTIFICATION_2);
+
+				PendingIntent pendingIntentCancel = PendingIntent.getBroadcast(
+						v.getContext(), 2, secondIntent,
+						PendingIntent.FLAG_UPDATE_CURRENT);
+				// When user clicks on this icon he will cancel his ticket and
+				// remove himself from the queue
+				NotificationCompat.Action actionCancel = new NotificationCompat.Action.Builder(
+						R.drawable.ic_launcher, "Cancel", pendingIntentCancel)
+						.build();
+
+				//----------------Third menu on watch------------------------------
+				Intent thirdIntent = new Intent(v.getContext(), Receiver.class);
+				thirdIntent.putExtra(Receiver.NOTIFICATION_ID_STRING,
+						"Reply icon selected.");
+				thirdIntent.putExtra(Receiver.WEAR_ACTION,
+						Receiver.NOTIFICATION_3);
+
+				PendingIntent replyPending = PendingIntent.getBroadcast(
+						v.getContext(), 3, secondIntent,
+						PendingIntent.FLAG_UPDATE_CURRENT);
 
 				// Create RemoteInput object for a voice reply (demand)
 				String replyLabel = getResources().getString(R.string.app_name);
 				RemoteInput remoteInput = new RemoteInput.Builder(
 						EXTRA_VOICE_REPLY).setLabel(replyLabel).build();
 
-				// Create a wearable action
 				NotificationCompat.Action replyAction = new NotificationCompat.Action.Builder(
-						R.drawable.ic_reply_icon,
-						getString(R.string.reply_label), demandPendingIntent)
+						R.drawable.ic_launcher,
+						getString(R.string.reply_label), replyPending)
 						.addRemoteInput(remoteInput).build();
 
-				// Create a wearable extender for a notification
-				NotificationCompat.WearableExtender wearableExtender = new NotificationCompat.WearableExtender()
-						.addAction(replyAction);
+				// Create new WearableExtender object and add actions
+				NotificationCompat.WearableExtender extender = new NotificationCompat.WearableExtender();
+				extender.addAction(actionNotifyNextTime);
+				extender.addAction(actionCancel);
+				extender.addAction(replyAction);
 
-				// Create a notification and extend it for the wearable
-				Notification notification = new NotificationCompat.Builder(v.getContext())
-						.setContentTitle("Hello Wearable!")
-						.setContentText("First wearable demand.")
-						.setSmallIcon(R.drawable.ic_launcher)
-						.extend(wearableExtender).build();
-				// Get the notification manager
-				NotificationManagerCompat notificationManager = NotificationManagerCompat
-						.from(v.getContext());
+				// Extend Notification builder
+				mBuilder.extend(extender);
 
-				// Dispatch the extended notification
-				int notificationId = 1;
-				notificationManager.notify(notificationId, notification);
+				v.getContext();
+				// Get notification manager
+				NotificationManager mNotificationManager = (NotificationManager) v
+						.getContext().getSystemService(
+								Context.NOTIFICATION_SERVICE);
+
+				// show notification
+				mNotificationManager.notify(222, mBuilder.build());
 			}
 		});
-		
+
 		return wearableView;
 	}
-
 
 }

@@ -12,8 +12,6 @@ import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
 import android.support.v4.app.RemoteInput;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -21,9 +19,9 @@ import android.widget.Button;
 
 public class SimpleNotification extends Fragment {
 	
-	public static final String ACTION_DEMAND = "com.androidweardocs.ACTION_DEMAND";
-	public static final String EXTRA_MESSAGE = "com.androidweardocs.EXTRA_MESSAGE";
-	public static final String EXTRA_VOICE_REPLY = "com.androidweardocs.EXTRA_VOICE_REPLY";
+	public static final String ACTION_DEMAND = "uk.gla.mobilehci.notifyme.ACTION_DEMAND";
+	public static final String EXTRA_MESSAGE = "uk.gla.mobilehci.notifyme.EXTRA_MESSAGE";
+	public static final String EXTRA_VOICE_REPLY = "uk.gla.mobilehci.notifyme.EXTRA_VOICE_REPLY";
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,

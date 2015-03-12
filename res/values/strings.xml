@@ -22,6 +22,14 @@
     <string name="Email">Email</string>
     <string name="see_more">Click to see more</string>
     <string name="image_content_description">ImageView content description</string>
+    <string name="location_description">Location Description</string>
+    <string name="event_description">Event Description</string>
+    <string name="date_time">Date/Time</string>
+    <string name="type_event">Type of Event</string>
+    <string name="event_poster">Event Poster</string>
+    <string name="public_event_activity">Public Event Description</string>
+    <string name="urlInfo">URL</string>
+    <string name="telInfo">Tel</string>
 
     <string-array name="radiusEntries">
         <item>1km</item>
@@ -76,7 +84,6 @@
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
     <string name="register">Register</string>
-    
-     <string name="reply_label">Reply</string>
+    <string name="reply_label">Reply</string>
 
 </resources>

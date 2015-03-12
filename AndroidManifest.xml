@@ -60,6 +60,12 @@
             android:label="@string/activity_App_Settings"
             android:parentActivityName="uk.gla.mobilehci.notifyme.MainActivity" >
         </activity>
+        
+        <activity
+            android:name="uk.gla.mobilehci.notifyme.PublicEventActivity"
+            android:label="@string/public_event_activity"
+            android:parentActivityName="uk.gla.mobilehci.notifyme.MainActivity" >
+        </activity>
         <!--
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"

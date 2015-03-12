@@ -16,11 +16,14 @@ import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import uk.gla.mobilehci.notifyme.AppSettings;
+import uk.gla.mobilehci.notifyme.PublicEventActivity;
 import uk.gla.mobilehci.notifyme.R;
 import uk.gla.mobilehci.notifyme.datamodels.PublicEvent;
 import uk.gla.mobilehci.notifyme.helpers.ApplicationSettings;
 import android.app.Fragment;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -59,7 +62,7 @@ public class AllEventsFragment extends Fragment implements LocationListener,
 	private LocationManager locationManager;
 	private HashMap<Marker, PublicEvent> markerData = new HashMap<Marker, PublicEvent>();
 	private SharedPreferences pref;
-	private HashMap<String, Bitmap> images = new HashMap<String, Bitmap>();
+	public static HashMap<String, Bitmap> images = new HashMap<String, Bitmap>();
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -93,9 +96,20 @@ public class AllEventsFragment extends Fragment implements LocationListener,
 
 			@Override
 			public void onInfoWindowClick(Marker mark) {
-				Toast.makeText(getActivity(),
-						"Poutanas gios Kurt. You pressed a marker info window",
-						Toast.LENGTH_LONG).show();
+				// Toast.makeText(getActivity(),
+				// "Poutanas gios Kurt. You pressed a marker info window",
+				// Toast.LENGTH_LONG).show();
+
+				Intent i = new Intent(getActivity().getApplicationContext(),
+						PublicEventActivity.class);
+				
+				PublicEvent get = markerData.get(mark);
+				
+				
+				i.putExtra(PublicEventActivity.PUBLIC_EVENT,
+						markerData.get(mark));
+				startActivity(i);
+
 			}
 		});
 

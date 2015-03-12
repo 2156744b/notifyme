@@ -1,6 +1,12 @@
 package uk.gla.mobilehci.notifyme.datamodels;
 
-public class PublicEvent {
+import java.io.Serializable;
+
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class PublicEvent implements Parcelable {
+
 	private int id;
 	private double lon;
 	private double lat;
@@ -12,7 +18,7 @@ public class PublicEvent {
 	private int type;
 	private String url;
 	private String creator;
-	
+
 	public int getId() {
 		return id;
 	}
@@ -100,4 +106,49 @@ public class PublicEvent {
 	public void setCreator(String creator) {
 		this.creator = creator;
 	}
+
+	@Override
+	public int describeContents() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void writeToParcel(Parcel dest, int flags) {
+		// TODO Auto-generated method stub
+		dest.writeInt(id);
+		dest.writeDouble(lon);
+		dest.writeDouble(lat);
+		dest.writeString(phone);
+		dest.writeString(locationDescription);
+		dest.writeString(description);
+		dest.writeString(posterUrl);
+		dest.writeString(date);
+		dest.writeInt(type);
+		dest.writeString(url);
+		dest.writeString(url);
+
+	}
+
+	public static final Parcelable.Creator<PublicEvent> CREATOR = new Parcelable.Creator<PublicEvent>() {
+		public PublicEvent createFromParcel(Parcel in) {
+			PublicEvent publicEvent = new PublicEvent();
+			publicEvent.setId(in.readInt());
+			publicEvent.setLon(in.readDouble());
+			publicEvent.setLat(in.readDouble());
+			publicEvent.setPhone(in.readString());
+			publicEvent.setLocationDescription(in.readString());
+			publicEvent.setDescription(in.readString());
+			publicEvent.setPosterUrl(in.readString());
+			publicEvent.setDate(in.readString());
+			publicEvent.setType(in.readInt());
+			publicEvent.setUrl(in.readString());
+			publicEvent.setCreator(in.readString());
+			return publicEvent;
+		}
+
+		public PublicEvent[] newArray(int size) {
+			return new PublicEvent[size];
+		}
+	};
 }

@@ -1,9 +1,7 @@
 package uk.gla.mobilehci.notifyme;
 
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
-
 import uk.gla.mobilehci.notifyme.datamodels.PublicEvent;
-import uk.gla.mobilehci.notifyme.fragments.AllEventsFragment;
+import uk.gla.mobilehci.notifyme.fragments.FindPublicEventsFragment;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -40,24 +38,24 @@ public class PublicEventActivity extends Activity {
 
 		switch (publicEvent.getType()) {
 		case 1:
-			typeOfEvent.setImageDrawable(getResources().getDrawable(R.drawable.club));
+			typeOfEvent.setImageResource(R.drawable.club);
 			break;
 		case 2:
-			typeOfEvent.setImageDrawable(getResources().getDrawable(R.drawable.theatre));
+			typeOfEvent.setImageResource(R.drawable.theatre);
 			break;
 		case 3:
-			typeOfEvent.setImageDrawable(getResources().getDrawable(R.drawable.music));
+			typeOfEvent.setImageResource(R.drawable.music);
 			break;
 		case 4:
-			typeOfEvent.setImageDrawable(getResources().getDrawable(R.drawable.restaurant));
+			typeOfEvent.setImageResource(R.drawable.restaurant);
 			break;
 		case 5:
-			typeOfEvent.setBackgroundResource(R.drawable.art);
+			typeOfEvent.setImageResource(R.drawable.art);
 			break;
 		default:
 			break;
 		}
-		eventPoster.setImageBitmap(AllEventsFragment.images.get(publicEvent
+		eventPoster.setImageBitmap(FindPublicEventsFragment.images.get(publicEvent
 				.getPosterUrl()));
 	}
 }

@@ -54,7 +54,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-public class AllEventsFragment extends Fragment implements LocationListener,
+public class FindPublicEventsFragment extends Fragment implements LocationListener,
 		InfoWindowAdapter {
 
 	private MapView mapView;
@@ -241,7 +241,7 @@ public class AllEventsFragment extends Fragment implements LocationListener,
 			if (response == null) {
 
 				Toast.makeText(
-						(AllEventsFragment.this).getActivity()
+						(FindPublicEventsFragment.this).getActivity()
 								.getApplicationContext(), "Server error",
 						Toast.LENGTH_LONG).show();
 
@@ -258,7 +258,7 @@ public class AllEventsFragment extends Fragment implements LocationListener,
 					if (status == -1) {
 
 						Toast.makeText(
-								(AllEventsFragment.this).getActivity()
+								(FindPublicEventsFragment.this).getActivity()
 										.getApplicationContext(),
 								"Error retrieving events", Toast.LENGTH_LONG)
 								.show();
@@ -311,7 +311,7 @@ public class AllEventsFragment extends Fragment implements LocationListener,
 				} catch (Exception e) {
 					Log.e(this.getClass().getName(), e.toString());
 					Toast.makeText(
-							(AllEventsFragment.this).getActivity()
+							(FindPublicEventsFragment.this).getActivity()
 									.getApplicationContext(),
 							"Error retrieving events", Toast.LENGTH_LONG)
 							.show();

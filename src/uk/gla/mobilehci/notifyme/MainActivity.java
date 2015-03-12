@@ -1,8 +1,9 @@
 package uk.gla.mobilehci.notifyme;
 
-import uk.gla.mobilehci.notifyme.fragments.AllEventsFragment;
+import uk.gla.mobilehci.notifyme.fragments.FindPublicEventsFragment;
 import uk.gla.mobilehci.notifyme.fragments.EditAddFriends;
 import uk.gla.mobilehci.notifyme.fragments.FriendEvents;
+import uk.gla.mobilehci.notifyme.fragments.SavedEvents;
 import uk.gla.mobilehci.notifyme.fragments.SimpleNotification;
 import android.app.Fragment;
 import android.content.Intent;
@@ -74,12 +75,13 @@ public class MainActivity extends FragmentActivity {
 		if (savedInstanceState != null) {
 
 		} else {
-			getFragmentManager().beginTransaction()
-					.replace(R.id.content_frame, new AllEventsFragment())
+			getFragmentManager()
+					.beginTransaction()
+					.replace(R.id.content_frame, new FindPublicEventsFragment())
 					.commit();
 			Resources res = getResources();
 			String[] drawerOptions = res.getStringArray(R.array.drawer_options);
-			setTitle(drawerOptions[0]);
+			setTitle(drawerOptions[1]);
 
 		}
 	}
@@ -92,29 +94,33 @@ public class MainActivity extends FragmentActivity {
 		String[] drawerOptions = res.getStringArray(R.array.drawer_options);
 		switch (position) {
 		case 0:
-			newFragment = new AllEventsFragment();
+			newFragment = new SavedEvents();
 			setTitle(drawerOptions[0]);
 			break;
 		case 1:
-			newFragment = new FriendEvents();
+			newFragment = new FindPublicEventsFragment();
 			setTitle(drawerOptions[1]);
 			break;
 		case 2:
-			newFragment = new EditAddFriends();
-			setTitle(drawerOptions[2]);
-			break;
-		case 4:
-			newFragment = new SimpleNotification();
+			newFragment = new FriendEvents();
 			setTitle(drawerOptions[2]);
 			break;
 		case 3:
+			newFragment = new EditAddFriends();
+			setTitle(drawerOptions[3]);
+			break;
+		case 4:
 			Intent i = new Intent(getApplicationContext(), AppSettings.class);
 			startActivityForResult(i, SETTINGS_RESULT);
+			break;
+		case 5:
+			newFragment = new SimpleNotification();
+			setTitle(drawerOptions[4]);
 			break;
 		default:
 			break;
 		}
-		if (position != 3) {
+		if (position != 4) {
 			// Create new fragment and transaction
 			getFragmentManager().beginTransaction()
 					.replace(R.id.content_frame, newFragment).commit();

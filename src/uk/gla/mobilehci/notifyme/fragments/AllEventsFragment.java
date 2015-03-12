@@ -323,10 +323,6 @@ public class AllEventsFragment extends Fragment implements LocationListener,
 							markerData.put(map.addMarker(m1), publicEvent);
 							System.out.println("Added Marker");
 						}
-						System.out.println(obj.toString());
-
-						Toast.makeText(getActivity(), obj.toString(),
-								Toast.LENGTH_SHORT).show();
 					} else {
 						new Exception();
 					}

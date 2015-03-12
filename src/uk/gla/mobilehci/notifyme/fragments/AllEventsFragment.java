@@ -1,7 +1,10 @@
 package uk.gla.mobilehci.notifyme.fragments;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -22,6 +25,8 @@ import android.app.Fragment;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -58,6 +63,7 @@ public class AllEventsFragment extends Fragment implements LocationListener,
 	private LocationManager locationManager;
 	private HashMap<Marker, PublicEvent> markerData = new HashMap<Marker, PublicEvent>();
 	private SharedPreferences pref;
+	private HashMap<String, Bitmap> images = new HashMap<String, Bitmap>();
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -182,8 +188,11 @@ public class AllEventsFragment extends Fragment implements LocationListener,
 			TextView description = (TextView) v
 					.findViewById(R.id.txtDescription);
 
+			Bitmap imageToSet = images.get(toShow.getUrl());
+
 			date.setText(toShow.getDate());
-			image.setBackgroundResource(R.drawable.ic_launcher);
+			image.setImageBitmap(imageToSet);
+			// image.setBackgroundResource(R.drawable.ic_launcher);
 			description.setText(toShow.getDescription());
 
 			return v;
@@ -321,6 +330,13 @@ public class AllEventsFragment extends Fragment implements LocationListener,
 								break;
 							default:
 								break;
+							}
+
+							if (!images.containsKey(publicEvent.getUrl())) {
+								URL url = new URL(publicEvent.getUrl());
+								Bitmap image = BitmapFactory.decodeStream(url
+										.openConnection().getInputStream());
+								images.put(publicEvent.getUrl(), image);
 							}
 							markerData.put(map.addMarker(m1), publicEvent);
 							System.out.println("Added Marker");

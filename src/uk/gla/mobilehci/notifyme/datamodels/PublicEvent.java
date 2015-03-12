@@ -12,7 +12,7 @@ public class PublicEvent {
 	private int type;
 	private String url;
 	private String creator;
-
+	
 	public int getId() {
 		return id;
 	}

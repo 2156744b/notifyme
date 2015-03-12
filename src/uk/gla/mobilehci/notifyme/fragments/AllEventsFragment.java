@@ -1,9 +1,7 @@
 package uk.gla.mobilehci.notifyme.fragments;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -22,7 +20,6 @@ import uk.gla.mobilehci.notifyme.R;
 import uk.gla.mobilehci.notifyme.datamodels.PublicEvent;
 import uk.gla.mobilehci.notifyme.helpers.ApplicationSettings;
 import android.app.Fragment;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -41,8 +38,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.internal.ne;
-import com.google.android.gms.internal.pu;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -156,25 +151,19 @@ public class AllEventsFragment extends Fragment implements LocationListener,
 
 	@Override
 	public void onProviderDisabled(String provider) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void onProviderEnabled(String provider) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void onStatusChanged(String provider, int status, Bundle extras) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public View getInfoContents(Marker mark) {
-		// TODO Auto-generated method stub
 
 		// date, eikona,
 		if (markerData.containsKey(mark)) {
@@ -203,17 +192,14 @@ public class AllEventsFragment extends Fragment implements LocationListener,
 
 	@Override
 	public View getInfoWindow(Marker arg0) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	private class GetNearbyPublicEvent extends
-			AsyncTask<String, Void, HttpResponse> {
-
-		private ProgressDialog progDialog = new ProgressDialog(getActivity());
+			AsyncTask<String, Void, ArrayList<PublicEvent>> {
 
 		@Override
-		protected HttpResponse doInBackground(String... params) {
+		protected ArrayList<PublicEvent> doInBackground(String... params) {
 
 			try {
 				// df.get("lat"), df.get("lon"), df.get("radius"));
@@ -230,7 +216,9 @@ public class AllEventsFragment extends Fragment implements LocationListener,
 
 				post.setEntity(new UrlEncodedFormEntity(data));
 
-				return client.execute(post);
+				HttpResponse response = client.execute(post);
+
+				return processJSONArray(response);
 
 			} catch (Exception e) {
 				Log.e(this.getClass().getName(), e.toString());
@@ -238,9 +226,8 @@ public class AllEventsFragment extends Fragment implements LocationListener,
 			}
 		}
 
-		@Override
-		protected void onPostExecute(HttpResponse response) {
-
+		public ArrayList<PublicEvent> processJSONArray(HttpResponse response) {
+			ArrayList<PublicEvent> dataToSend = null;
 			if (response == null) {
 
 				Toast.makeText(
@@ -269,11 +256,12 @@ public class AllEventsFragment extends Fragment implements LocationListener,
 					} else if (status == 200) {
 						map.clear();
 						markerData.clear();
-						MarkerOptions m1;
 						PublicEvent publicEvent;
+						dataToSend = new ArrayList<PublicEvent>();
 						JSONArray arrayToProcess = obj.getJSONArray("events");
 						for (int i = 0; i < arrayToProcess.length(); i++) {
 							publicEvent = new PublicEvent();
+							dataToSend.add(publicEvent);
 							publicEvent.setId(arrayToProcess.getJSONObject(i)
 									.getInt("id"));
 							publicEvent
@@ -303,43 +291,12 @@ public class AllEventsFragment extends Fragment implements LocationListener,
 							publicEvent.setCreator(arrayToProcess
 									.getJSONObject(i).getString("creator"));
 
-							m1 = new MarkerOptions();
-							m1.position(new LatLng(publicEvent.getLat(),
-									publicEvent.getLon()));
-
-							switch (publicEvent.getType()) {
-							case 1:
-								m1.icon(BitmapDescriptorFactory
-										.fromResource(R.drawable.club));
-								break;
-							case 2:
-								m1.icon(BitmapDescriptorFactory
-										.fromResource(R.drawable.theatre));
-								break;
-							case 3:
-								m1.icon(BitmapDescriptorFactory
-										.fromResource(R.drawable.music));
-								break;
-							case 4:
-								m1.icon(BitmapDescriptorFactory
-										.fromResource(R.drawable.restaurant));
-								break;
-							case 5:
-								m1.icon(BitmapDescriptorFactory
-										.fromResource(R.drawable.art));
-								break;
-							default:
-								break;
-							}
-
 							if (!images.containsKey(publicEvent.getUrl())) {
 								URL url = new URL(publicEvent.getUrl());
 								Bitmap image = BitmapFactory.decodeStream(url
 										.openConnection().getInputStream());
 								images.put(publicEvent.getUrl(), image);
 							}
-							markerData.put(map.addMarker(m1), publicEvent);
-							System.out.println("Added Marker");
 						}
 					} else {
 						new Exception();
@@ -353,8 +310,46 @@ public class AllEventsFragment extends Fragment implements LocationListener,
 							.show();
 				}
 			}
+			return dataToSend;
+		}
 
+		@Override
+		protected void onPostExecute(ArrayList<PublicEvent> result) {
+			if (result != null) {
+				MarkerOptions m1;
+				for (PublicEvent publicEvent : result) {
+					m1 = new MarkerOptions();
+					m1.position(new LatLng(publicEvent.getLat(), publicEvent
+							.getLon()));
+
+					switch (publicEvent.getType()) {
+					case 1:
+						m1.icon(BitmapDescriptorFactory
+								.fromResource(R.drawable.club));
+						break;
+					case 2:
+						m1.icon(BitmapDescriptorFactory
+								.fromResource(R.drawable.theatre));
+						break;
+					case 3:
+						m1.icon(BitmapDescriptorFactory
+								.fromResource(R.drawable.music));
+						break;
+					case 4:
+						m1.icon(BitmapDescriptorFactory
+								.fromResource(R.drawable.restaurant));
+						break;
+					case 5:
+						m1.icon(BitmapDescriptorFactory
+								.fromResource(R.drawable.art));
+						break;
+					default:
+						break;
+					}
+					markerData.put(map.addMarker(m1), publicEvent);
+					System.out.println("Added Marker");
+				}
+			}
 		}
 	}
-
 }

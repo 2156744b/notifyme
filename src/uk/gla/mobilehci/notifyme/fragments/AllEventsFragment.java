@@ -12,11 +12,12 @@ import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import uk.gla.mobilehci.notifyme.R;
+import uk.gla.mobilehci.notifyme.datamodels.PublicEvent;
 import uk.gla.mobilehci.notifyme.helpers.ApplicationSettings;
-import uk.gla.mobilehci.notifyme.request.ShowMarkers;
 import android.app.Fragment;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -35,6 +36,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.internal.ne;
+import com.google.android.gms.internal.pu;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -53,7 +56,7 @@ public class AllEventsFragment extends Fragment implements LocationListener,
 	private MapView mapView;
 	private GoogleMap map;
 	private LocationManager locationManager;
-	private HashMap<Marker, ArrayList<String>> markerData = new HashMap<Marker, ArrayList<String>>();
+	private HashMap<Marker, PublicEvent> markerData = new HashMap<Marker, PublicEvent>();
 	private SharedPreferences pref;
 
 	@Override
@@ -170,7 +173,7 @@ public class AllEventsFragment extends Fragment implements LocationListener,
 		// date, eikona,
 		if (markerData.containsKey(mark)) {
 
-			ArrayList<String> toShow = markerData.get(mark);
+			PublicEvent toShow = markerData.get(mark);
 
 			View v = getActivity().getLayoutInflater().inflate(R.layout.marker,
 					null);
@@ -179,9 +182,9 @@ public class AllEventsFragment extends Fragment implements LocationListener,
 			TextView description = (TextView) v
 					.findViewById(R.id.txtDescription);
 
-			date.setText(toShow.get(0));
+			date.setText(toShow.getDate());
 			image.setBackgroundResource(R.drawable.ic_launcher);
-			description.setText(toShow.get(1));
+			description.setText(toShow.getDescription());
 
 			return v;
 		}
@@ -255,10 +258,75 @@ public class AllEventsFragment extends Fragment implements LocationListener,
 								.show();
 
 					} else if (status == 200) {
+						MarkerOptions m1;
+						PublicEvent publicEvent;
+						JSONArray arrayToProcess = obj.getJSONArray("events");
+						for (int i = 0; i < arrayToProcess.length(); i++) {
+							publicEvent = new PublicEvent();
+							publicEvent.setId(arrayToProcess.getJSONObject(i)
+									.getInt("id"));
+							publicEvent
+									.setLon(Double.parseDouble(arrayToProcess
+											.getJSONObject(i).getString("lon")));
+							publicEvent
+									.setLat(Double.parseDouble(arrayToProcess
+											.getJSONObject(i).getString("lat")));
+							publicEvent.setPhone(arrayToProcess
+									.getJSONObject(i).getString("phone"));
 
-						Toast.makeText(getActivity(), obj.toString(),
-								Toast.LENGTH_SHORT).show();
+							publicEvent.setLocationDescription(arrayToProcess
+									.getJSONObject(i).getString(
+											"locationDescription"));
 
+							publicEvent.setDescription(arrayToProcess
+									.getJSONObject(i).getString("description"));
+
+							publicEvent.setPosterUrl(arrayToProcess
+									.getJSONObject(i).getString("posterUrl"));
+							publicEvent.setDate(arrayToProcess.getJSONObject(i)
+									.getString("date"));
+							publicEvent.setType(arrayToProcess.getJSONObject(i)
+									.getInt("type"));
+							publicEvent.setUrl(arrayToProcess.getJSONObject(i)
+									.getString("url"));
+							publicEvent.setCreator(arrayToProcess
+									.getJSONObject(i).getString("creator"));
+
+							m1 = new MarkerOptions();
+							m1.position(new LatLng(publicEvent.getLon(),
+									publicEvent.getLat()));
+
+							switch (publicEvent.getType()) {
+							case 1:
+								m1.icon(BitmapDescriptorFactory
+										.fromResource(R.drawable.club));
+								break;
+							case 2:
+								m1.icon(BitmapDescriptorFactory
+										.fromResource(R.drawable.theatre));
+								break;
+							case 3:
+								m1.icon(BitmapDescriptorFactory
+										.fromResource(R.drawable.music));
+								break;
+							case 4:
+								m1.icon(BitmapDescriptorFactory
+										.fromResource(R.drawable.restaurant));
+								break;
+							case 5:
+								m1.icon(BitmapDescriptorFactory
+										.fromResource(R.drawable.art));
+								break;
+							default:
+								break;
+							}
+							markerData.put(map.addMarker(m1), publicEvent);
+							System.out.println ("Added Marker");
+						}
+						 System.out.println(obj.toString());
+						
+						 Toast.makeText(getActivity(), obj.toString(),
+						 Toast.LENGTH_SHORT).show();
 					} else {
 						new Exception();
 					}
@@ -273,7 +341,6 @@ public class AllEventsFragment extends Fragment implements LocationListener,
 			}
 
 		}
-
 	}
 
 }

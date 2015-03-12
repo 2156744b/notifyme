@@ -81,6 +81,14 @@
         </receiver>
 
         <service android:name=".GcmIntentService" />
+        
+       <receiver
+            android:name="uk.gla.mobilehci.notifyme.helpers.Receiver"
+            android:exported="false" >
+            <intent-filter>
+                <action android:name="uk.gla.mobilehci.notifyme.SimpleNotification.ACTION_DEMAND" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

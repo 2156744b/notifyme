@@ -11,6 +11,7 @@
         <item>Friends\' Events</item>
         <item>Friend List</item>
         <item>Settings</item>
+        <item>Wearable</item>
     </string-array>
 
     <string name="title_activity_events_for_all">EventsForAll</string>
@@ -75,5 +76,7 @@
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
     <string name="register">Register</string>
+    
+     <string name="reply_label">Reply</string>
 
 </resources>

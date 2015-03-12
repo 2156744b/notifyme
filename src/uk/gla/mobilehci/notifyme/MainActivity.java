@@ -3,6 +3,7 @@ package uk.gla.mobilehci.notifyme;
 import uk.gla.mobilehci.notifyme.fragments.AllEventsFragment;
 import uk.gla.mobilehci.notifyme.fragments.EditAddFriends;
 import uk.gla.mobilehci.notifyme.fragments.FriendEvents;
+import uk.gla.mobilehci.notifyme.fragments.SimpleNotification;
 import android.app.Fragment;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -100,6 +101,10 @@ public class MainActivity extends FragmentActivity {
 			break;
 		case 2:
 			newFragment = new EditAddFriends();
+			setTitle(drawerOptions[2]);
+			break;
+		case 4:
+			newFragment = new SimpleNotification();
 			setTitle(drawerOptions[2]);
 			break;
 		case 3:

@@ -36,19 +36,20 @@ public class PublicEventActivity extends Activity {
 		eventDescription.setText(publicEvent.getDescription());
 		url.setText(publicEvent.getUrl());
 		tel.setText(publicEvent.getPhone());
+		typeOfEvent.setBackgroundResource(R.drawable.music);
 
 		switch (publicEvent.getType()) {
 		case 1:
-			typeOfEvent.setBackgroundResource(R.drawable.club);
+			typeOfEvent.setImageDrawable(getResources().getDrawable(R.drawable.club));
 			break;
 		case 2:
-			typeOfEvent.setBackgroundResource(R.drawable.theatre);
+			typeOfEvent.setImageDrawable(getResources().getDrawable(R.drawable.theatre));
 			break;
 		case 3:
-			typeOfEvent.setBackgroundResource(R.drawable.music);
+			typeOfEvent.setImageDrawable(getResources().getDrawable(R.drawable.music));
 			break;
 		case 4:
-			typeOfEvent.setBackgroundResource(R.drawable.restaurant);
+			typeOfEvent.setImageDrawable(getResources().getDrawable(R.drawable.restaurant));
 			break;
 		case 5:
 			typeOfEvent.setBackgroundResource(R.drawable.art);

@@ -38,6 +38,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.drive.internal.v;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -164,14 +165,13 @@ public class AllEventsFragment extends Fragment implements LocationListener,
 
 	@Override
 	public View getInfoContents(Marker mark) {
-
-		// date, eikona,
 		if (markerData.containsKey(mark)) {
 
 			PublicEvent toShow = markerData.get(mark);
 
 			View v = getActivity().getLayoutInflater().inflate(R.layout.marker,
 					null);
+
 			TextView date = (TextView) v.findViewById(R.id.txtDate);
 			ImageView image = (ImageView) v.findViewById(R.id.imageToShow);
 			TextView description = (TextView) v
@@ -181,7 +181,6 @@ public class AllEventsFragment extends Fragment implements LocationListener,
 
 			date.setText(toShow.getDate());
 			image.setImageBitmap(imageToSet);
-			// image.setBackgroundResource(R.drawable.ic_launcher);
 			description.setText(toShow.getDescription());
 
 			return v;
@@ -252,16 +251,7 @@ public class AllEventsFragment extends Fragment implements LocationListener,
 										.getApplicationContext(),
 								"Error retrieving events", Toast.LENGTH_LONG)
 								.show();
-
 					} else if (status == 200) {
-
-						if (!markerData.isEmpty()) {
-							map.clear();
-							markerData.clear();
-						}
-
-						// map.clear();
-						// markerData.clear();
 						PublicEvent publicEvent;
 						dataToSend = new ArrayList<PublicEvent>();
 						JSONArray arrayToProcess = obj.getJSONArray("events");
@@ -322,6 +312,10 @@ public class AllEventsFragment extends Fragment implements LocationListener,
 		@Override
 		protected void onPostExecute(ArrayList<PublicEvent> result) {
 			if (result != null) {
+				if (!markerData.isEmpty()) {
+					map.clear();
+					markerData.clear();
+				}
 				MarkerOptions m1;
 				for (PublicEvent publicEvent : result) {
 					m1 = new MarkerOptions();

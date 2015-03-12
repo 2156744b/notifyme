@@ -14,7 +14,6 @@ import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONObject;
 
 import uk.gla.mobilehci.notifyme.helpers.ApplicationSettings;
-
 import android.accounts.AccountManager;
 import android.app.Activity;
 import android.content.Context;
@@ -41,6 +40,7 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 
+@SuppressWarnings("deprecation")
 public class Register extends Activity {
 
 	final int ACCOUNT_PICK = 2;

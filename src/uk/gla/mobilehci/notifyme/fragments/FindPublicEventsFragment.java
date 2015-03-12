@@ -16,12 +16,12 @@ import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import uk.gla.mobilehci.notifyme.AppSettings;
 import uk.gla.mobilehci.notifyme.MainActivity;
 import uk.gla.mobilehci.notifyme.PublicEventActivity;
 import uk.gla.mobilehci.notifyme.R;
 import uk.gla.mobilehci.notifyme.datamodels.PublicEvent;
 import uk.gla.mobilehci.notifyme.helpers.ApplicationSettings;
+import android.annotation.SuppressLint;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
@@ -42,7 +42,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.drive.internal.v;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -55,7 +54,8 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-public class FindPublicEventsFragment extends Fragment implements
+@SuppressWarnings("deprecation")
+@SuppressLint("InflateParams") public class FindPublicEventsFragment extends Fragment implements
 		LocationListener, InfoWindowAdapter {
 
 	private MapView mapView;
@@ -82,7 +82,15 @@ public class FindPublicEventsFragment extends Fragment implements
 		map.setMyLocationEnabled(true);
 
 		MapsInitializer.initialize(getActivity());
-
+		locationManager = (LocationManager) getActivity().getSystemService(
+				Context.LOCATION_SERVICE);
+		Location lastKnown = locationManager
+				.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+		CameraUpdate center = CameraUpdateFactory.newLatLng(new LatLng(
+				lastKnown.getLatitude(), lastKnown.getLongitude()));
+		CameraUpdate zoom = CameraUpdateFactory.zoomTo(15);
+		map.moveCamera(center);
+		map.animateCamera(zoom);
 		return rootView;
 	}
 

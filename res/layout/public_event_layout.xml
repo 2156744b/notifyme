@@ -30,8 +30,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
-                android:padding="10dp"
-                android:text="cscscccccccc" />
+                android:padding="10dp" />
         </LinearLayout>
 
         <ImageView
@@ -66,8 +65,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
-                android:padding="10dp"
-                android:text="cscsccccc" />
+                android:padding="10dp" />
         </LinearLayout>
 
         <LinearLayout
@@ -92,8 +90,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
-                android:padding="10dp"
-                android:text="cscscccccccc" />
+                android:padding="10dp" />
         </LinearLayout>
 
         <LinearLayout
@@ -119,8 +116,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
                 android:autoLink="web"
-                android:padding="10dp"
-                android:text="http://stackoverflow.com/questions/5186786/textview-bold-via-xml-file" />
+                android:padding="10dp" />
         </LinearLayout>
 
         <LinearLayout
@@ -146,8 +142,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
                 android:autoLink="phone"
-                android:padding="10dp"
-                android:text="+35799374740" />
+                android:padding="10dp" />
         </LinearLayout>
 
         <ImageView

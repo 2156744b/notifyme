@@ -15,7 +15,6 @@ import android.widget.TextView;
 
 public class SavedEventsArrayAdapter extends ArrayAdapter<PublicEvent> {
 
-	private String tagString = "FriendListArrayAdapter";
 	private Context context;
 	private int layoutResourceId;
 	private ArrayList<PublicEvent> data;

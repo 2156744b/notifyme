@@ -7,8 +7,8 @@
     <string name="action_settings">Settings</string>
 
     <string-array name="drawer_options">
-        <item>Saved Public Events</item>
         <item>Find Public Events</item>
+        <item>Saved Public Events</item>
         <item>Friends\' Events</item>
         <item>Friend List</item>
         <item>Settings</item>
@@ -33,7 +33,7 @@
     <string name="telInfo">Tel</string>
     <string name="accept_public_event">Save</string>
     <string name="discard_public_event">Cancel</string>
-    
+
     <string-array name="radiusEntries">
         <item>1km</item>
         <item>2km</item>

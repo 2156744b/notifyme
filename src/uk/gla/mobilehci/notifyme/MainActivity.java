@@ -35,6 +35,7 @@ public class MainActivity extends FragmentActivity {
 		setContentView(R.layout.main_activity_layout);
 
 		mTitle = mDrawerTitle = getTitle();
+
 		drawerOptions = getResources().getStringArray(R.array.drawer_options);
 		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 
@@ -72,7 +73,10 @@ public class MainActivity extends FragmentActivity {
 		getActionBar().setHomeButtonEnabled(true);
 
 		if (savedInstanceState != null) {
-
+			if (savedInstanceState.getString("title") != null) {
+				mTitle = mDrawerTitle = savedInstanceState.getString("title");
+				getActionBar().setTitle(mTitle);
+			}
 		} else {
 			getFragmentManager()
 					.beginTransaction()
@@ -80,7 +84,7 @@ public class MainActivity extends FragmentActivity {
 					.commit();
 			Resources res = getResources();
 			String[] drawerOptions = res.getStringArray(R.array.drawer_options);
-			setTitle(drawerOptions[1]);
+			setTitle(drawerOptions[0]);
 
 		}
 	}
@@ -93,11 +97,11 @@ public class MainActivity extends FragmentActivity {
 		String[] drawerOptions = res.getStringArray(R.array.drawer_options);
 		switch (position) {
 		case 0:
-			newFragment = new SavedEvents();
+			newFragment = new FindPublicEventsFragment();
 			setTitle(drawerOptions[0]);
 			break;
 		case 1:
-			newFragment = new FindPublicEventsFragment();
+			newFragment = new SavedEvents();
 			setTitle(drawerOptions[1]);
 			break;
 		case 2:
@@ -136,7 +140,6 @@ public class MainActivity extends FragmentActivity {
 		getActionBar().setTitle(mTitle);
 	}
 
-
 	@Override
 	protected void onPostCreate(Bundle savedInstanceState) {
 		super.onPostCreate(savedInstanceState);
@@ -148,6 +151,7 @@ public class MainActivity extends FragmentActivity {
 	public void onConfigurationChanged(Configuration newConfig) {
 		super.onConfigurationChanged(newConfig);
 		mDrawerToggle.onConfigurationChanged(newConfig);
+		getActionBar().setTitle(mTitle);
 	}
 
 	@Override
@@ -160,6 +164,18 @@ public class MainActivity extends FragmentActivity {
 		// Handle your other action bar items...
 
 		return super.onOptionsItemSelected(item);
+	}
+
+	@Override
+	protected void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
+	}
+
+	@Override
+	protected void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
+		outState.putString("title", getActionBar().getTitle().toString());
 	}
 
 	private class DrawerItemClickListener implements

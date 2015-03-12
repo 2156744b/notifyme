@@ -16,7 +16,6 @@ import android.widget.TextView;
 
 public class FriendListArrayAdapter extends ArrayAdapter<FriendModel> {
 
-	private String tagString = "FriendListArrayAdapter";
 	private Context context;
 	private int layoutResourceId;
 	private ArrayList<FriendModel> data;

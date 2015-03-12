@@ -177,7 +177,7 @@ public class AllEventsFragment extends Fragment implements LocationListener,
 			TextView description = (TextView) v
 					.findViewById(R.id.txtDescription);
 
-			Bitmap imageToSet = images.get(toShow.getUrl());
+			Bitmap imageToSet = images.get(toShow.getPosterUrl());
 
 			date.setText(toShow.getDate());
 			image.setImageBitmap(imageToSet);
@@ -298,10 +298,10 @@ public class AllEventsFragment extends Fragment implements LocationListener,
 									.getJSONObject(i).getString("creator"));
 
 							if (!images.containsKey(publicEvent.getUrl())) {
-								URL url = new URL(publicEvent.getUrl());
+								URL url = new URL(publicEvent.getPosterUrl());
 								Bitmap image = BitmapFactory.decodeStream(url
 										.openConnection().getInputStream());
-								images.put(publicEvent.getUrl(), image);
+								images.put(publicEvent.getPosterUrl(), image);
 							}
 						}
 					} else {

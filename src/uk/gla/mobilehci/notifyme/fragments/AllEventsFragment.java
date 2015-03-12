@@ -39,6 +39,7 @@ import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.GoogleMap.InfoWindowAdapter;
+import com.google.android.gms.maps.GoogleMap.OnInfoWindowClickListener;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
@@ -72,40 +73,8 @@ public class AllEventsFragment extends Fragment implements LocationListener,
 		map.setMyLocationEnabled(true);
 
 		MapsInitializer.initialize(getActivity());
-		//createDummyData();
+
 		return rootView;
-	}
-
-	public void createDummyData() {
-		MarkerOptions m1 = new MarkerOptions();
-		m1.position(new LatLng(55.864594, -4.295654));
-		m1.icon(BitmapDescriptorFactory.fromResource(R.drawable.art));
-
-		// 55.864811,-4.293573
-		MarkerOptions m2 = new MarkerOptions();
-		m2.position(new LatLng(55.864811, -4.293573));
-		m2.icon(BitmapDescriptorFactory.fromResource(R.drawable.club));
-
-		// 55.866027,-4.289914
-		MarkerOptions m3 = new MarkerOptions();
-		m3.position(new LatLng(55.866027, -4.289914));
-		m3.icon(BitmapDescriptorFactory.fromResource(R.drawable.restaurant));
-
-		ArrayList<String> m1Array = new ArrayList<String>();
-		m1Array.add("20/03/2015");
-		m1Array.add("ANTE GEIA!!!");
-		ArrayList<String> m2Array = new ArrayList<String>();
-		m2Array.add("23/03/2015");
-		m2Array.add("ANTE GEIA REEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE");
-
-		ArrayList<String> m3Array = new ArrayList<String>();
-		m3Array.add("30/03/2015");
-		m3Array.add("Curt gios tis ");
-
-		markerData.put(map.addMarker(m1), m1Array);
-		markerData.put(map.addMarker(m2), m2Array);
-		markerData.put(map.addMarker(m3), m3Array);
-
 	}
 
 	@Override
@@ -114,6 +83,17 @@ public class AllEventsFragment extends Fragment implements LocationListener,
 		mapView.onResume();
 		map = mapView.getMap();
 		map.setInfoWindowAdapter(this);
+
+		map.setOnInfoWindowClickListener(new OnInfoWindowClickListener() {
+
+			@Override
+			public void onInfoWindowClick(Marker mark) {
+				Toast.makeText(getActivity(),
+						"Poutanas gios Kurt. You pressed a marker info window",
+						Toast.LENGTH_LONG).show();
+			}
+		});
+
 		locationManager = (LocationManager) getActivity().getSystemService(
 				Context.LOCATION_SERVICE);
 		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,
@@ -220,7 +200,6 @@ public class AllEventsFragment extends Fragment implements LocationListener,
 
 		private ProgressDialog progDialog = new ProgressDialog(getActivity());
 
-
 		@Override
 		protected HttpResponse doInBackground(String... params) {
 
@@ -272,8 +251,8 @@ public class AllEventsFragment extends Fragment implements LocationListener,
 						Toast.makeText(
 								(AllEventsFragment.this).getActivity()
 										.getApplicationContext(),
-								"Error retrieving events",
-								Toast.LENGTH_LONG).show();
+								"Error retrieving events", Toast.LENGTH_LONG)
+								.show();
 
 					} else if (status == 200) {
 
@@ -288,7 +267,8 @@ public class AllEventsFragment extends Fragment implements LocationListener,
 					Toast.makeText(
 							(AllEventsFragment.this).getActivity()
 									.getApplicationContext(),
-							"Error retrieving events", Toast.LENGTH_LONG).show();
+							"Error retrieving events", Toast.LENGTH_LONG)
+							.show();
 				}
 			}
 

@@ -293,8 +293,8 @@ public class AllEventsFragment extends Fragment implements LocationListener,
 									.getJSONObject(i).getString("creator"));
 
 							m1 = new MarkerOptions();
-							m1.position(new LatLng(publicEvent.getLon(),
-									publicEvent.getLat()));
+							m1.position(new LatLng(publicEvent.getLat(),
+									publicEvent.getLon()));
 
 							switch (publicEvent.getType()) {
 							case 1:
@@ -321,12 +321,12 @@ public class AllEventsFragment extends Fragment implements LocationListener,
 								break;
 							}
 							markerData.put(map.addMarker(m1), publicEvent);
-							System.out.println ("Added Marker");
+							System.out.println("Added Marker");
 						}
-						 System.out.println(obj.toString());
-						
-						 Toast.makeText(getActivity(), obj.toString(),
-						 Toast.LENGTH_SHORT).show();
+						System.out.println(obj.toString());
+
+						Toast.makeText(getActivity(), obj.toString(),
+								Toast.LENGTH_SHORT).show();
 					} else {
 						new Exception();
 					}

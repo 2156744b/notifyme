@@ -102,10 +102,7 @@ public class AllEventsFragment extends Fragment implements LocationListener,
 
 				Intent i = new Intent(getActivity().getApplicationContext(),
 						PublicEventActivity.class);
-				
-				PublicEvent get = markerData.get(mark);
-				
-				
+								
 				i.putExtra(PublicEventActivity.PUBLIC_EVENT,
 						markerData.get(mark));
 				startActivity(i);

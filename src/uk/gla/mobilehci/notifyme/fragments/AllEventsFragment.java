@@ -254,8 +254,14 @@ public class AllEventsFragment extends Fragment implements LocationListener,
 								.show();
 
 					} else if (status == 200) {
-						map.clear();
-						markerData.clear();
+
+						if (!markerData.isEmpty()) {
+							map.clear();
+							markerData.clear();
+						}
+
+						// map.clear();
+						// markerData.clear();
 						PublicEvent publicEvent;
 						dataToSend = new ArrayList<PublicEvent>();
 						JSONArray arrayToProcess = obj.getJSONArray("events");

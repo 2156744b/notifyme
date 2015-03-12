@@ -31,6 +31,8 @@
     <string name="public_event_activity">Public Event Description</string>
     <string name="urlInfo">URL</string>
     <string name="telInfo">Tel</string>
+    <string name="accept_public_event">Save</string>
+    <string name="discard_public_event">Cancel</string>
 
     <string-array name="radiusEntries">
         <item>1km</item>

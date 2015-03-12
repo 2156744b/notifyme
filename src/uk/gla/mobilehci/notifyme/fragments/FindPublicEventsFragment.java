@@ -54,8 +54,8 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-public class FindPublicEventsFragment extends Fragment implements LocationListener,
-		InfoWindowAdapter {
+public class FindPublicEventsFragment extends Fragment implements
+		LocationListener, InfoWindowAdapter {
 
 	private MapView mapView;
 	private GoogleMap map;
@@ -102,7 +102,7 @@ public class FindPublicEventsFragment extends Fragment implements LocationListen
 
 				Intent i = new Intent(getActivity().getApplicationContext(),
 						PublicEventActivity.class);
-								
+
 				i.putExtra(PublicEventActivity.PUBLIC_EVENT,
 						markerData.get(mark));
 				startActivity(i);
@@ -189,7 +189,6 @@ public class FindPublicEventsFragment extends Fragment implements LocationListen
 					.findViewById(R.id.txtDescription);
 
 			Bitmap imageToSet = images.get(toShow.getPosterUrl());
-
 			date.setText(toShow.getDate());
 			image.setImageBitmap(imageToSet);
 			description.setText(toShow.getDescription());

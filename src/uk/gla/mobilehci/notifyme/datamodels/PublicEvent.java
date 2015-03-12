@@ -19,6 +19,13 @@ public class PublicEvent implements Parcelable {
 	private String url;
 	private String creator;
 
+	@Override
+	public String toString() {
+		return id + ";" + lon + ";" + lat + ";" + phone + ";"
+				+ locationDescription + ";" + description + ";" + posterUrl
+				+ ";" + date + ";" + type + ";" + url + ";" + creator;
+	}
+
 	public int getId() {
 		return id;
 	}

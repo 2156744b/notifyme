@@ -1,7 +1,7 @@
 package uk.gla.mobilehci.notifyme;
 
-import uk.gla.mobilehci.notifyme.fragments.FindPublicEventsFragment;
 import uk.gla.mobilehci.notifyme.fragments.EditAddFriends;
+import uk.gla.mobilehci.notifyme.fragments.FindPublicEventsFragment;
 import uk.gla.mobilehci.notifyme.fragments.FriendEvents;
 import uk.gla.mobilehci.notifyme.fragments.SavedEvents;
 import uk.gla.mobilehci.notifyme.fragments.SimpleNotification;
@@ -22,7 +22,6 @@ import android.widget.ListView;
 public class MainActivity extends FragmentActivity {
 
 	public static final int SETTINGS_RESULT = 1;
-
 	private DrawerLayout mDrawerLayout;
 	private ListView mDrawerList;
 	private ActionBarDrawerToggle mDrawerToggle;

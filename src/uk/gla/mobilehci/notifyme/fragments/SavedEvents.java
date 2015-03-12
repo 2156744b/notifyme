@@ -1,93 +1,129 @@
 package uk.gla.mobilehci.notifyme.fragments;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.ArrayList;
+
 import uk.gla.mobilehci.notifyme.R;
-import uk.gla.mobilehci.notifyme.helpers.GetLonLat;
+import uk.gla.mobilehci.notifyme.datamodels.PublicEvent;
+import uk.gla.mobilehci.notifyme.listview.SavedEventsArrayAdapter;
+import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-
-import com.google.android.gms.maps.CameraUpdate;
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapView;
-import com.google.android.gms.maps.MapsInitializer;
-import com.google.android.gms.maps.model.LatLng;
+import android.widget.ListView;
+import android.widget.Toast;
 
 public class SavedEvents extends Fragment {
-
-	private MapView mapView;
-	private GoogleMap map;
-	private GetLonLat getLonLat;
+	private Activity activity;
+	private ArrayList<PublicEvent> data;
+	private SavedEventsArrayAdapter adapter;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 
-		// Inflate the layout for this fragment
+		if (savedInstanceState == null) {
+			readSavedEvents();
+			Toast.makeText(getActivity(), "Reading saved Events",
+					Toast.LENGTH_LONG).show();
+		} else {
+			data = savedInstanceState.getParcelableArrayList("savedEvents");
+			Toast.makeText(getActivity(), "Loading friends", Toast.LENGTH_LONG)
+					.show();
+		}
 
-		View rootView = inflater.inflate(R.layout.friends_event_fragment,
+		activity = getActivity();
+		View rootView = inflater.inflate(R.layout.saved_events_list_fragment,
 				container, false);
 
-		mapView = (MapView) rootView.findViewById(R.id.map);
-		mapView.onCreate(savedInstanceState);
+		ListView savedEventsListView = (ListView) rootView
+				.findViewById(R.id.listA);
 
-		map = mapView.getMap();
-		map.getUiSettings().setMyLocationButtonEnabled(true);
-		map.setMyLocationEnabled(true);
+		adapter = new SavedEventsArrayAdapter(activity,
+				R.layout.listview_item_row_saved_public, data);
+		savedEventsListView.setAdapter(adapter);
+		setHasOptionsMenu(true);
 
-		MapsInitializer.initialize(getActivity());
-		getLonLat = new GetLonLat(getActivity());
-		autoFocus();
 		return rootView;
-	}
-
-	public void autoFocus() {
-		getLonLat.prepareLonLat();
-		if (getLonLat.isCanGetLocation()) {
-			double lon = getLonLat.getLon();
-			double lat = getLonLat.getLat();
-			LatLng coordinate = new LatLng(lat, lon);
-			CameraUpdate center = CameraUpdateFactory.newLatLng(coordinate);
-			CameraUpdate zoom = CameraUpdateFactory.zoomTo(15);
-			map.moveCamera(center);
-			map.animateCamera(zoom);
-		}
 	}
 
 	@Override
 	public void onResume() {
 		super.onResume();
-		mapView.onResume();
-		autoFocus();
 	}
 
-	@Override
-	public void onDestroy() {
-		super.onDestroy();
-		mapView.onDestroy();
-
-	}
-
-	@Override
-	public void onLowMemory() {
-		super.onLowMemory();
-		mapView.onLowMemory();
-
+	private void readSavedEvents() {
+		BufferedReader reader = null;
+		File file = new File(getActivity().getFilesDir(), "savedEvents.txt");
+		data = new ArrayList<PublicEvent>();
+		try {
+			reader = new BufferedReader(new FileReader(file));
+			String line;
+			String[] split;
+			PublicEvent publicEvent;
+			while ((line = reader.readLine()) != null) {
+				split = line.split(";");
+				publicEvent = new PublicEvent();
+				publicEvent.setId(Integer.parseInt(split[0]));
+				publicEvent.setLon(Double.parseDouble(split[1]));
+				publicEvent.setLat(Double.parseDouble(split[2]));
+				publicEvent.setPhone(split[3]);
+				publicEvent.setLocationDescription(split[4]);
+				publicEvent.setDescription(split[5]);
+				publicEvent.setPosterUrl(split[6]);
+				publicEvent.setDate(split[7]);
+				publicEvent.setType(Integer.parseInt(split[8]));
+				publicEvent.setUrl(split[8]);
+				publicEvent.setCreator(split[9]);
+				data.add(publicEvent);
+			}
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	@Override
 	public void onPause() {
 		super.onPause();
-		mapView.onPause();
+	}
 
+	@Override
+	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+		super.onCreateOptionsMenu(menu, inflater);
+		//inflater.inflate(R.menu.friend_list_menu, menu);
 	}
 
 	@Override
 	public void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
-		mapView.onSaveInstanceState(outState);
+		outState.putParcelableArrayList("savedEvents", data);
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case R.id.action_add_friend:
+			// InserFriendDialog dialogF = new InserFriendDialog(
+			// SavedEvents.this);
+			// dialogF.show(getActivity().getFragmentManager(), "dialog");
+			return true;
+		default:
+			return super.onOptionsItemSelected(item);
+		}
 	}
 
 }

@@ -5,7 +5,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical" >
+        android:orientation="vertical"
+        android:padding="10dp" >
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -20,7 +21,7 @@
                 android:layout_gravity="end"
                 android:layout_weight="1"
                 android:gravity="end|center"
-                android:padding="5dp"
+                android:padding="10dp"
                 android:text="@string/date_time"
                 android:textStyle="bold" />
 
@@ -29,18 +30,9 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
-                android:padding="5dp"
+                android:padding="10dp"
                 android:text="cscscccccccc" />
         </LinearLayout>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:padding="5dp"
-            android:text="@string/event_poster"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <ImageView
             android:id="@+id/imagePublicEvent"
@@ -65,7 +57,7 @@
                 android:layout_gravity="end"
                 android:layout_weight="1"
                 android:gravity="end|center"
-                android:padding="5dp"
+                android:padding="10dp"
                 android:text="@string/location_description"
                 android:textStyle="bold" />
 
@@ -74,7 +66,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
-                android:padding="5dp"
+                android:padding="10dp"
                 android:text="cscsccccc" />
         </LinearLayout>
 
@@ -91,7 +83,7 @@
                 android:layout_gravity="end"
                 android:layout_weight="1"
                 android:gravity="end|center"
-                android:padding="5dp"
+                android:padding="10dp"
                 android:text="@string/event_description"
                 android:textStyle="bold" />
 
@@ -100,7 +92,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
-                android:padding="5dp"
+                android:padding="10dp"
                 android:text="cscscccccccc" />
         </LinearLayout>
 
@@ -117,7 +109,7 @@
                 android:layout_gravity="end"
                 android:layout_weight="1"
                 android:gravity="end|center"
-                android:padding="5dp"
+                android:padding="10dp"
                 android:text="@string/urlInfo"
                 android:textStyle="bold" />
 
@@ -127,7 +119,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
                 android:autoLink="web"
-                android:padding="5dp"
+                android:padding="10dp"
                 android:text="http://stackoverflow.com/questions/5186786/textview-bold-via-xml-file" />
         </LinearLayout>
 
@@ -144,7 +136,7 @@
                 android:layout_gravity="end"
                 android:layout_weight="1"
                 android:gravity="end|center"
-                android:padding="5dp"
+                android:padding="10dp"
                 android:text="@string/telInfo"
                 android:textStyle="bold" />
 
@@ -154,18 +146,9 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
                 android:autoLink="phone"
-                android:padding="5dp"
+                android:padding="10dp"
                 android:text="+35799374740" />
         </LinearLayout>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:padding="5dp"
-            android:text="@string/type_event"
-            android:textStyle="bold" />
 
         <ImageView
             android:id="@+id/imageTypeOfEvent"
@@ -177,6 +160,37 @@
             android:gravity="center"
             android:scaleType="fitXY"
             android:src="@drawable/club" />
+
+        <LinearLayout
+            android:id="@+id/layoutSave"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="?android:attr/listChoiceBackgroundIndicator"
+            android:clickable="true"
+            android:longClickable="true"
+            android:orientation="vertical"
+            android:padding="10dp"
+            android:weightSum="2" >
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:adjustViewBounds="true"
+                android:contentDescription="@string/image_content_description"
+                android:gravity="center"
+                android:src="@drawable/ic_action_accept" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:text="@string/accept_public_event"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+        </LinearLayout>
     </LinearLayout>
 
 </ScrollView>

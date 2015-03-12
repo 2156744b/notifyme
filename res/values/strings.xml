@@ -25,13 +25,13 @@
     <string name="image_content_description">ImageView content description</string>
     <string name="location_description">Location Description</string>
     <string name="event_description">Event Description</string>
-    <string name="date_time">Date/Time</string>
+    <string name="date_time">Date</string>
     <string name="type_event">Type of Event</string>
     <string name="event_poster">Event Poster</string>
     <string name="public_event_activity">Public Event Description</string>
     <string name="urlInfo">URL</string>
     <string name="telInfo">Tel</string>
-    <string name="accept_public_event">Save</string>
+    <string name="accept_public_event">Save Event</string>
     <string name="discard_public_event">Cancel</string>
 
     <string-array name="radiusEntries">

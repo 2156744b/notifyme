@@ -2,10 +2,12 @@ package uk.gla.mobilehci.notifyme.listview;
 
 import java.util.ArrayList;
 
+import uk.gla.mobilehci.notifyme.PublicEventActivity;
 import uk.gla.mobilehci.notifyme.R;
 import uk.gla.mobilehci.notifyme.datamodels.PublicEvent;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -95,6 +97,18 @@ public class SavedEventsArrayAdapter extends ArrayAdapter<PublicEvent> {
 		default:
 			break;
 		}
+
+		row.setOnClickListener(new View.OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				Intent i = new Intent(context, PublicEventActivity.class);
+				i.putExtra(PublicEventActivity.PUBLIC_EVENT, data.get(position));
+				context.startActivity(i);
+			}
+		});
+
 		return row;
 
 	}

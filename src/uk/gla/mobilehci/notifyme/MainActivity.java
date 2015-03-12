@@ -26,7 +26,7 @@ public class MainActivity extends FragmentActivity {
 	private ListView mDrawerList;
 	private ActionBarDrawerToggle mDrawerToggle;
 	private CharSequence mDrawerTitle;
-	private CharSequence mTitle;
+	public static CharSequence mTitle;
 	private String[] drawerOptions;
 
 	@Override
@@ -135,6 +135,7 @@ public class MainActivity extends FragmentActivity {
 		mTitle = title;
 		getActionBar().setTitle(mTitle);
 	}
+
 
 	@Override
 	protected void onPostCreate(Bundle savedInstanceState) {

@@ -17,6 +17,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import uk.gla.mobilehci.notifyme.AppSettings;
+import uk.gla.mobilehci.notifyme.MainActivity;
 import uk.gla.mobilehci.notifyme.PublicEventActivity;
 import uk.gla.mobilehci.notifyme.R;
 import uk.gla.mobilehci.notifyme.datamodels.PublicEvent;
@@ -91,6 +92,7 @@ public class FindPublicEventsFragment extends Fragment implements
 		mapView.onResume();
 		map = mapView.getMap();
 		map.setInfoWindowAdapter(this);
+		getActivity().getActionBar().setTitle(MainActivity.mTitle);
 
 		map.setOnInfoWindowClickListener(new OnInfoWindowClickListener() {
 

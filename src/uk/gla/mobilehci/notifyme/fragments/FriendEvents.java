@@ -1,5 +1,6 @@
 package uk.gla.mobilehci.notifyme.fragments;
 
+import uk.gla.mobilehci.notifyme.MainActivity;
 import uk.gla.mobilehci.notifyme.R;
 import uk.gla.mobilehci.notifyme.helpers.GetLonLat;
 import android.app.Fragment;
@@ -61,6 +62,7 @@ public class FriendEvents extends Fragment {
 		super.onResume();
 		mapView.onResume();
 		autoFocus();
+		getActivity().getActionBar().setTitle(MainActivity.mTitle);
 	}
 
 	@Override

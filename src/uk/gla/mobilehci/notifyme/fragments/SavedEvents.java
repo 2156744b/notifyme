@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 
+import uk.gla.mobilehci.notifyme.MainActivity;
 import uk.gla.mobilehci.notifyme.R;
 import uk.gla.mobilehci.notifyme.datamodels.PublicEvent;
 import uk.gla.mobilehci.notifyme.listview.SavedEventsArrayAdapter;
@@ -60,6 +61,7 @@ public class SavedEvents extends Fragment {
 	@Override
 	public void onResume() {
 		super.onResume();
+		getActivity().getActionBar().setTitle(MainActivity.mTitle);
 	}
 
 	private void readSavedEvents() {

@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 
+import uk.gla.mobilehci.notifyme.MainActivity;
 import uk.gla.mobilehci.notifyme.R;
 import uk.gla.mobilehci.notifyme.datamodels.FriendModel;
 import uk.gla.mobilehci.notifyme.listview.FriendListArrayAdapter;
@@ -65,6 +66,7 @@ public class EditAddFriends extends Fragment {
 	@Override
 	public void onResume() {
 		super.onResume();
+		getActivity().getActionBar().setTitle(MainActivity.mTitle);
 	}
 
 	private void readFriendList() {

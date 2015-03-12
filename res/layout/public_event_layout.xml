@@ -1,178 +1,182 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical" >
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="10dp"
-        android:weightSum="2" >
+        android:orientation="vertical" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="10dp"
+            android:weightSum="3" >
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="end"
+                android:layout_weight="1"
+                android:gravity="end|center"
+                android:padding="5dp"
+                android:text="@string/date_time"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/txtDateTime"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:padding="5dp"
+                android:text="cscscccccccc" />
+        </LinearLayout>
 
         <TextView
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_gravity="end"
-            android:layout_weight="1"
-            android:gravity="end|center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
             android:padding="5dp"
-            android:text="@string/date_time"
+            android:text="@string/event_poster"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <ImageView
+            android:id="@+id/imagePublicEvent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:adjustViewBounds="true"
+            android:contentDescription="@string/image_content_description"
+            android:scaleType="fitXY"
+            android:src="@drawable/club" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="10dp"
+            android:weightSum="3" >
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="end"
+                android:layout_weight="1"
+                android:gravity="end|center"
+                android:padding="5dp"
+                android:text="@string/location_description"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/txtLocationDescription"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:padding="5dp"
+                android:text="cscsccccc" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="10dp"
+            android:weightSum="3" >
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="end"
+                android:layout_weight="1"
+                android:gravity="end|center"
+                android:padding="5dp"
+                android:text="@string/event_description"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/txtEventDescription"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:padding="5dp"
+                android:text="cscscccccccc" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="10dp"
+            android:weightSum="3" >
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="end"
+                android:layout_weight="1"
+                android:gravity="end|center"
+                android:padding="5dp"
+                android:text="@string/urlInfo"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/txtURL"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:autoLink="web"
+                android:padding="5dp"
+                android:text="http://stackoverflow.com/questions/5186786/textview-bold-via-xml-file" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="10dp"
+            android:weightSum="3" >
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="end"
+                android:layout_weight="1"
+                android:gravity="end|center"
+                android:padding="5dp"
+                android:text="@string/telInfo"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/txtTel"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:autoLink="phone"
+                android:padding="5dp"
+                android:text="+35799374740" />
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:padding="5dp"
+            android:text="@string/type_event"
             android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/txtDateTime"
-            android:layout_width="0dp"
+        <ImageView
+            android:id="@+id/imageTypeOfEvent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:padding="5dp"
-            android:text="cscscccccccc" />
+            android:layout_gravity="center"
+            android:adjustViewBounds="true"
+            android:contentDescription="@string/image_content_description"
+            android:gravity="center"
+            android:scaleType="fitXY"
+            android:src="@drawable/club" />
     </LinearLayout>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:padding="5dp"
-        android:text="@string/event_poster"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
-
-    <ImageView
-        android:id="@+id/imagePublicEvent"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:adjustViewBounds="true"
-        android:contentDescription="@string/image_content_description"
-        android:scaleType="fitXY"
-        android:src="@drawable/club" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="10dp"
-        android:weightSum="2" >
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_gravity="end"
-            android:layout_weight="1"
-            android:gravity="end|center"
-            android:padding="5dp"
-            android:text="@string/location_description"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/txtLocationDescription"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:padding="5dp"
-            android:text="cscsccccc" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="10dp"
-        android:weightSum="2" >
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_gravity="end"
-            android:layout_weight="1"
-            android:gravity="end|center"
-            android:padding="5dp"
-            android:text="@string/event_description"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/txtEventDescription"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:padding="5dp"
-            android:text="cscscccccccc" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="10dp"
-        android:weightSum="2" >
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_gravity="end"
-            android:layout_weight="1"
-            android:gravity="end|center"
-            android:padding="5dp"
-            android:text="@string/urlInfo"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/txtURL"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:autoLink="web"
-            android:padding="5dp"
-            android:text="http://stackoverflow.com/questions/5186786/textview-bold-via-xml-file" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="10dp"
-        android:weightSum="2" >
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_gravity="end"
-            android:layout_weight="1"
-            android:gravity="end|center"
-            android:padding="5dp"
-            android:text="@string/telInfo"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/txtTel"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:padding="5dp"
-            android:autoLink="phone"
-            android:text="+35799374740" />
-    </LinearLayout>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:padding="5dp"
-        android:text="@string/type_event"
-        android:textStyle="bold" />
-
-    <ImageView
-        android:id="@+id/imageTypeOfEvent"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:adjustViewBounds="true"
-        android:contentDescription="@string/image_content_description"
-        android:gravity="center"
-        android:scaleType="fitXY"
-        android:src="@drawable/club" />
-
-</LinearLayout>
+</ScrollView>

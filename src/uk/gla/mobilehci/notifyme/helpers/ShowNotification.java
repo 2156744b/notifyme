@@ -7,10 +7,17 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+
+import uk.gla.mobilehci.notifyme.R;
 import uk.gla.mobilehci.notifyme.datamodels.PublicEvent;
+import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.BitmapFactory;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.NotificationManagerCompat;
 import android.widget.Toast;
 
 public class ShowNotification extends BroadcastReceiver {
@@ -31,9 +38,46 @@ public class ShowNotification extends BroadcastReceiver {
 					break;
 			}
 			if (i != data.size()) {
-				Toast.makeText(context, get.getId(), Toast.LENGTH_SHORT).show();
+				// standard notification code
+				// / code here!!!
 			}
 		}
+		int resID = 0;
+
+		switch (get.getType()) {
+		case 1:
+			resID = R.drawable.club;
+			break;
+		case 2:
+			resID = R.drawable.theatre;
+			break;
+		case 3:
+			resID = R.drawable.music;
+			break;
+		case 4:
+			resID = R.drawable.restaurant;
+			break;
+		case 5:
+			resID = R.drawable.art;
+			break;
+		default:
+			break;
+		}
+		NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(
+				context)
+			.setSmallIcon(resID)
+				.setLargeIcon(
+						BitmapFactory.decodeResource(context.getResources(),
+								R.drawable.friend_inv))
+				.setContentTitle("NotifyMe App")
+				.setContentText("Click To View More");
+		// Extend Notification builder
+		// mBuilder.extend(extender);
+		// Get an instance of the NotificationManager service
+		NotificationManagerCompat notificationManager =
+		        NotificationManagerCompat.from(context);
+
+		notificationManager.notify(get.getId(), mBuilder.build());
 		Toast.makeText(context, "EMPIKA OMWS", Toast.LENGTH_SHORT).show();
 	}
 

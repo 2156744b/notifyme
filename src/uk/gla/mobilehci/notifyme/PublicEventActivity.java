@@ -89,28 +89,31 @@ public class PublicEventActivity extends Activity {
 				@Override
 				public void onClick(View v) {
 					readSavedEvents();
-					writeSavedEvents();
+					boolean proceed = writeSavedEvents();
 
-					Intent myIntent = new Intent(PublicEventActivity.this,
-							ShowNotification.class);
-					myIntent.putExtra("publicEvent", publicEvent);
-					PendingIntent pendingIntent = PendingIntent.getBroadcast(
-							PublicEventActivity.this, 0, myIntent, 0);
-					long milis = -1;
-					try {
-						Date date = new SimpleDateFormat("yyyy-MM-dd HH:mm")
-								.parse(publicEvent.getDate());
-						milis = date.getTime();
+					if (proceed) {
+						Intent myIntent = new Intent(PublicEventActivity.this,
+								ShowNotification.class);
+						myIntent.putExtra("publicEvent", publicEvent);
+						PendingIntent pendingIntent = PendingIntent
+								.getBroadcast(PublicEventActivity.this, 0,
+										myIntent, 0);
+						long milis = -1;
+						try {
+							Date date = new SimpleDateFormat("yyyy-MM-dd HH:mm")
+									.parse(publicEvent.getDate());
+							milis = date.getTime();
 
-					} catch (ParseException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
+						} catch (ParseException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+
+						AlarmManager alarmManager = (AlarmManager) PublicEventActivity.this
+								.getSystemService(Context.ALARM_SERVICE);
+						alarmManager
+								.set(AlarmManager.RTC, milis, pendingIntent);
 					}
-
-					AlarmManager alarmManager = (AlarmManager) PublicEventActivity.this
-							.getSystemService(Context.ALARM_SERVICE);
-					alarmManager.set(AlarmManager.RTC, milis, pendingIntent);
-
 					finish();
 				}
 			});
@@ -153,11 +156,11 @@ public class PublicEventActivity extends Activity {
 		}
 	}
 
-	private void writeSavedEvents() {
+	private boolean writeSavedEvents() {
 		int i;
 		for (i = 0; i < data.size(); i++) {
 			if (data.get(i).getId() == publicEvent.getId())
-				break;
+				return false;
 		}
 		if (i == data.size() || data.size() == 0) {
 			data.add(publicEvent);
@@ -175,5 +178,6 @@ public class PublicEventActivity extends Activity {
 				e.printStackTrace();
 			}
 		}
+		return true;
 	}
 }

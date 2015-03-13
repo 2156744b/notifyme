@@ -88,7 +88,6 @@ public class FriendListArrayAdapter extends ArrayAdapter<FriendModel> {
 									data.remove(position);
 									FriendListArrayAdapter.this.notifyDataSetChanged();
 									break;
-
 								default:
 									break;
 								}

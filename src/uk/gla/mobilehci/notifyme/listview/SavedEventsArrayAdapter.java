@@ -105,6 +105,7 @@ public class SavedEventsArrayAdapter extends ArrayAdapter<PublicEvent> {
 				// TODO Auto-generated method stub
 				Intent i = new Intent(context, PublicEventActivity.class);
 				i.putExtra(PublicEventActivity.PUBLIC_EVENT, data.get(position));
+				i.putExtra(PublicEventActivity.TO_SHOW, false);
 				context.startActivity(i);
 			}
 		});

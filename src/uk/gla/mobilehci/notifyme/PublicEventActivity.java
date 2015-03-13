@@ -22,7 +22,10 @@ public class PublicEventActivity extends Activity {
 
 	private ArrayList<PublicEvent> data = new ArrayList<PublicEvent>();
 	public static final String PUBLIC_EVENT = "getPublicEvent";
+	public static final String TO_SHOW = "toShow";
+
 	private PublicEvent publicEvent;
+	private boolean toShowSave = true;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -30,6 +33,7 @@ public class PublicEventActivity extends Activity {
 		setContentView(R.layout.public_event_layout);
 		Intent intent = getIntent();
 		publicEvent = (PublicEvent) intent.getParcelableExtra(PUBLIC_EVENT);
+		toShowSave = intent.getBooleanExtra(TO_SHOW, true);
 
 		TextView dateTime = (TextView) findViewById(R.id.txtDateTime);
 		ImageView eventPoster = (ImageView) findViewById(R.id.imagePublicEvent);
@@ -39,6 +43,7 @@ public class PublicEventActivity extends Activity {
 		TextView tel = (TextView) findViewById(R.id.txtTel);
 		ImageView typeOfEvent = (ImageView) findViewById(R.id.imageTypeOfEvent);
 		LinearLayout layoutSave = (LinearLayout) findViewById(R.id.layoutSave);
+		LinearLayout layoutHelper = (LinearLayout) findViewById(R.id.layoutHelper);
 
 		dateTime.setText(publicEvent.getDate());
 		locationDescription.setText(publicEvent.getLocationDescription());
@@ -69,15 +74,20 @@ public class PublicEventActivity extends Activity {
 		eventPoster.setImageBitmap(FindPublicEventsFragment.images
 				.get(publicEvent.getPosterUrl()));
 
-		layoutSave.setOnClickListener(new View.OnClickListener() {
+		if (toShowSave) {
 
-			@Override
-			public void onClick(View v) {
-				readSavedEvents();
-				writeSavedEvents();
-				finish();
-			}
-		});
+			layoutSave.setOnClickListener(new View.OnClickListener() {
+
+				@Override
+				public void onClick(View v) {
+					readSavedEvents();
+					writeSavedEvents();
+					finish();
+				}
+			});
+		} else {
+			layoutHelper.removeView(layoutSave);
+		}
 	}
 
 	private void readSavedEvents() {

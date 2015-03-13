@@ -86,12 +86,13 @@ public class FindPublicEventsFragment extends Fragment implements
 				Context.LOCATION_SERVICE);
 		Location lastKnown = locationManager
 				.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-		CameraUpdate center = CameraUpdateFactory.newLatLng(new LatLng(
-				lastKnown.getLatitude(), lastKnown.getLongitude()));
-		CameraUpdate zoom = CameraUpdateFactory.zoomTo(15);
-		map.moveCamera(center);
-		map.animateCamera(zoom);
-
+		if (lastKnown != null) {
+			CameraUpdate center = CameraUpdateFactory.newLatLng(new LatLng(
+					lastKnown.getLatitude(), lastKnown.getLongitude()));
+			CameraUpdate zoom = CameraUpdateFactory.zoomTo(15);
+			map.moveCamera(center);
+			map.animateCamera(zoom);
+		}
 		map.setOnInfoWindowClickListener(new OnInfoWindowClickListener() {
 
 			@Override
@@ -102,6 +103,8 @@ public class FindPublicEventsFragment extends Fragment implements
 
 				i.putExtra(PublicEventActivity.PUBLIC_EVENT,
 						markerData.get(mark));
+				i.putExtra(PublicEventActivity.TO_SHOW, true);
+
 				startActivity(i);
 
 			}

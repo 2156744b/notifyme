@@ -57,12 +57,13 @@ public class FriendEvents extends Fragment implements LocationListener {
 				Context.LOCATION_SERVICE);
 		Location lastKnown = locationManager
 				.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-		CameraUpdate center = CameraUpdateFactory.newLatLng(new LatLng(
-				lastKnown.getLatitude(), lastKnown.getLongitude()));
-		CameraUpdate zoom = CameraUpdateFactory.zoomTo(15);
-		map.moveCamera(center);
-		map.animateCamera(zoom);
-
+		if (lastKnown != null) {
+			CameraUpdate center = CameraUpdateFactory.newLatLng(new LatLng(
+					lastKnown.getLatitude(), lastKnown.getLongitude()));
+			CameraUpdate zoom = CameraUpdateFactory.zoomTo(15);
+			map.moveCamera(center);
+			map.animateCamera(zoom);
+		}
 		map.setOnMapClickListener(new OnMapClickListener() {
 
 			@Override

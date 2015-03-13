@@ -54,7 +54,8 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-@SuppressLint("InflateParams") public class FindPublicEventsFragment extends Fragment implements
+@SuppressLint("InflateParams")
+public class FindPublicEventsFragment extends Fragment implements
 		LocationListener, InfoWindowAdapter {
 
 	private MapView mapView;
@@ -68,7 +69,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 
-		// Inflate the layout for this fragment
+		pref = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
 		View rootView = inflater.inflate(R.layout.all_event_fragment,
 				container, false);
@@ -90,14 +91,11 @@ import com.google.android.gms.maps.model.MarkerOptions;
 		CameraUpdate zoom = CameraUpdateFactory.zoomTo(15);
 		map.moveCamera(center);
 		map.animateCamera(zoom);
-		
+
 		map.setOnInfoWindowClickListener(new OnInfoWindowClickListener() {
 
 			@Override
 			public void onInfoWindowClick(Marker mark) {
-				// Toast.makeText(getActivity(),
-				// "Poutanas gios Kurt. You pressed a marker info window",
-				// Toast.LENGTH_LONG).show();
 
 				Intent i = new Intent(getActivity().getApplicationContext(),
 						PublicEventActivity.class);
@@ -108,7 +106,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 			}
 		});
-		
+
 		return rootView;
 	}
 
@@ -118,15 +116,17 @@ import com.google.android.gms.maps.model.MarkerOptions;
 		mapView.onResume();
 		map = mapView.getMap();
 		map.setInfoWindowAdapter(this);
+
 		getActivity().getActionBar().setTitle(MainActivity.mTitle);
 
 		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,
-				(long) 1000, (float) 10.0, this);
+				(long) (pref.getInt("time_interval", 20) * 1000),
+				(float) (pref.getInt("distance_interval", 200)), this);
 		locationManager.requestLocationUpdates(
-				LocationManager.NETWORK_PROVIDER, (long) 1000, (float) 10.0,
-				this);
+				LocationManager.NETWORK_PROVIDER,
+				(long) (pref.getInt("time_interval", 20) * 1000),
+				(float) (pref.getInt("distance_interval", 200)), this);
 
-		pref = PreferenceManager.getDefaultSharedPreferences(getActivity());
 	}
 
 	@Override

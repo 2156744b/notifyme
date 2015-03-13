@@ -4,10 +4,12 @@ import uk.gla.mobilehci.notifyme.MainActivity;
 import uk.gla.mobilehci.notifyme.R;
 import android.app.Fragment;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,12 +26,13 @@ public class FriendEvents extends Fragment implements LocationListener {
 	private MapView mapView;
 	private GoogleMap map;
 	private LocationManager locationManager;
+	private SharedPreferences pref;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 
-		// Inflate the layout for this fragment
+		pref = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
 		View rootView = inflater.inflate(R.layout.friends_event_fragment,
 				container, false);
@@ -62,10 +65,12 @@ public class FriendEvents extends Fragment implements LocationListener {
 		getActivity().getActionBar().setTitle(MainActivity.mTitle);
 
 		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,
-				(long) 1000, (float) 10.0, this);
+				(long) (pref.getInt("time_interval", 20) * 1000),
+				(float) (pref.getInt("distance_interval", 200)), this);
 		locationManager.requestLocationUpdates(
-				LocationManager.NETWORK_PROVIDER, (long) 1000, (float) 10.0,
-				this);
+				LocationManager.NETWORK_PROVIDER,
+				(long) (pref.getInt("time_interval", 20) * 1000),
+				(float) (pref.getInt("distance_interval", 200)), this);
 	}
 
 	@Override

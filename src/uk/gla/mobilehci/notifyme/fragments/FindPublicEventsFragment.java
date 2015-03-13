@@ -161,11 +161,6 @@ public class FindPublicEventsFragment extends Fragment implements
 
 	@Override
 	public void onLocationChanged(Location arg0) {
-		LatLng coordinate = new LatLng(arg0.getLatitude(), arg0.getLongitude());
-		CameraUpdate center = CameraUpdateFactory.newLatLng(coordinate);
-		CameraUpdate zoom = CameraUpdateFactory.zoomTo(15);
-		map.moveCamera(center);
-		map.animateCamera(zoom);
 
 		new GetNearbyPublicEvent().execute(arg0.getLatitude() + "",
 				arg0.getLongitude() + "",

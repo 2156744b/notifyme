@@ -33,7 +33,6 @@ public class FriendEvents extends Fragment implements LocationListener {
 	private LocationManager locationManager;
 	private SharedPreferences pref;
 	private Marker personalMarker;
-	private MarkerOptions personalMarkerOptions;
 	private View rootView;
 
 	@Override
@@ -76,7 +75,7 @@ public class FriendEvents extends Fragment implements LocationListener {
 						.position(location)
 						.flat(true)
 						.icon(BitmapDescriptorFactory
-								.fromResource(R.drawable.friend)));
+								.fromResource(R.drawable.friend_inv)));
 
 				rootView.findViewById(R.id.create_friendEv_menu).setVisibility(
 						View.VISIBLE);

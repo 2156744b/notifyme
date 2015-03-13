@@ -1,7 +1,6 @@
 package uk.gla.mobilehci.notifyme.fragments;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -104,7 +103,7 @@ public class FindPublicEventsFragment extends Fragment implements
 
 				Intent i = new Intent(getActivity().getApplicationContext(),
 						PublicEventActivity.class);
-
+				System.out.println("Put"+markerData.get(mark).getLocationDescription());
 				i.putExtra(PublicEventActivity.PUBLIC_EVENT,
 						markerData.get(mark));
 				i.putExtra(PublicEventActivity.TO_SHOW, true);
@@ -311,7 +310,7 @@ public class FindPublicEventsFragment extends Fragment implements
 								URL url = new URL(publicEvent.getPosterUrl());
 								Bitmap image = BitmapFactory.decodeStream(url
 										.openConnection().getInputStream());
-								saveFile(image, publicEvent.getId()+".PNG");
+								saveFile(image, publicEvent.getId() + ".PNG");
 								images.put(publicEvent.getPosterUrl(), image);
 							}
 						}
@@ -383,7 +382,7 @@ public class FindPublicEventsFragment extends Fragment implements
 						break;
 					}
 					markerData.put(map.addMarker(m1), publicEvent);
-					System.out.println("Added Marker");
+	
 				}
 			}
 		}

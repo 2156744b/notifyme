@@ -7,8 +7,6 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Random;
-
 import uk.gla.mobilehci.notifyme.PublicEventActivity;
 import uk.gla.mobilehci.notifyme.R;
 import uk.gla.mobilehci.notifyme.datamodels.PublicEvent;
@@ -20,7 +18,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
-import android.widget.Toast;
 
 public class ShowNotification extends BroadcastReceiver {
 
@@ -31,20 +28,20 @@ public class ShowNotification extends BroadcastReceiver {
 		readSavedEvents(context);
 		// TODO Auto-generated method stub
 		PublicEvent publicEvent = intent.getParcelableExtra("publicEvent");
-		System.out.println(publicEvent.toString());
-		if (publicEvent != null
-				&& ISO8601.returnTime(publicEvent.getDate()) < System
-						.currentTimeMillis() + 2000) {
-			int i;
-			for (i = 0; i < data.size(); i++) {
-				if (data.get(i).getId() == publicEvent.getId())
-					break;
-			}
-			if (i != data.size()) {
-				// standard notification code
-				// / code here!!!
-			}
-		}
+		System.out.println("Receiver" + publicEvent.getLocationDescription());
+		// if (publicEvent != null
+		// && ISO8601.returnTime(publicEvent.getDate()) < System
+		// .currentTimeMillis() + 2000) {
+		// int i;
+		// for (i = 0; i < data.size(); i++) {
+		// if (data.get(i).getId() == publicEvent.getId())
+		// break;
+		// }
+		// if (i != data.size()) {
+		// // standard notification code
+		// // / code here!!!
+		// }
+		// }
 		int resID = 0;
 
 		switch (publicEvent.getType()) {
@@ -67,64 +64,19 @@ public class ShowNotification extends BroadcastReceiver {
 			break;
 		}
 
-		// diavazw to bitmap KAI SET STO LARGE ICON
-		// https://developer.android.com/training/wearables/notifications/creating.html
-
-		// Intent clickToViewMore = new Intent(context,
-		// PublicEventActivity.class);
-		//
-
-		//
-		// clickToViewMore.putExtra(PublicEventActivity.PUBLIC_EVENT, get);
-		// clickToViewMore.putExtra(PublicEventActivity.TO_SHOW, false);
-		//
-		// PendingIntent mapPendingIntent = PendingIntent.getBroadcast(
-		// context, 1, clickToViewMore,
-		// PendingIntent.FLAG_UPDATE_CURRENT);
-		//
-		// Bitmap b = loadBitmap(context, get.getId() + ".PNG");
-		//
-		// NotificationCompat.Action actionNotify = new
-		// NotificationCompat.Action.Builder(
-		// R.drawable.ic_action_important, "Click for more details",
-		// mapPendingIntent).build();
-		//
-		// NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(
-		// context)
-		// .setSmallIcon(resID)
-		// .setLargeIcon(b)
-		// .setContentTitle(get.getLocationDescription())
-		// .setContentText("Swipe To View More");
-		//
-		//
-		// NotificationCompat.WearableExtender extender = new
-		// NotificationCompat.WearableExtender();
-		// extender.addAction(actionNotify);
-		// mBuilder.extend(extender);
-		//
-		// NotificationManager mNotificationManager = (NotificationManager)
-		// context.getSystemService(
-		// Context.NOTIFICATION_SERVICE);
-		//
-		// // show notification
-		// mNotificationManager.notify(m, mBuilder.build());
-		Random random = new Random();
-		int m = random.nextInt(9999 - 1000) + 1000;
-
-		int notificationId = 001;
 		// Build intent for notification content
 		Intent viewIntent = new Intent(context, PublicEventActivity.class);
-		
-		viewIntent.putExtra(PublicEventActivity.PUBLIC_EVENT,
-				publicEvent);
+
+		viewIntent.putExtra(PublicEventActivity.PUBLIC_EVENT, publicEvent);
 		viewIntent.putExtra(PublicEventActivity.TO_SHOW, false);
-		
+
 		PendingIntent viewPendingIntent = PendingIntent.getActivity(context, 0,
 				viewIntent, 0);
 		Bitmap b = loadBitmap(context, publicEvent.getId() + ".PNG");
 		NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(
 				context).setSmallIcon(resID).setLargeIcon(b)
-				.setContentTitle("SKATA").setContentText("NA FAS")
+				.setContentTitle(publicEvent.getLocationDescription())
+				.setContentText(publicEvent.getDate())
 				.setContentIntent(viewPendingIntent);
 
 		// Get an instance of the NotificationManager service
@@ -132,8 +84,9 @@ public class ShowNotification extends BroadcastReceiver {
 				.from(context);
 
 		// Build the notification and issues it with notification manager.
-		notificationManager.notify(m, notificationBuilder.build());
-		Toast.makeText(context, "EMPIKA OMWS " + m, Toast.LENGTH_SHORT).show();
+		notificationManager.notify(publicEvent.getId(),
+				notificationBuilder.build());
+
 	}
 
 	private void readSavedEvents(Context context) {
@@ -144,22 +97,22 @@ public class ShowNotification extends BroadcastReceiver {
 			reader = new BufferedReader(new FileReader(file));
 			String line;
 			String[] split;
-			PublicEvent publicEvent;
+			PublicEvent readpublicEvent;
 			while ((line = reader.readLine()) != null) {
 				split = line.split(";");
-				publicEvent = new PublicEvent();
-				publicEvent.setId(Integer.parseInt(split[0]));
-				publicEvent.setLon(Double.parseDouble(split[1]));
-				publicEvent.setLat(Double.parseDouble(split[2]));
-				publicEvent.setPhone(split[3]);
-				publicEvent.setLocationDescription(split[4]);
-				publicEvent.setDescription(split[5]);
-				publicEvent.setPosterUrl(split[6]);
-				publicEvent.setDate(split[7]);
-				publicEvent.setType(Integer.parseInt(split[8]));
-				publicEvent.setUrl(split[8]);
-				publicEvent.setCreator(split[9]);
-				data.add(publicEvent);
+				readpublicEvent = new PublicEvent();
+				readpublicEvent.setId(Integer.parseInt(split[0]));
+				readpublicEvent.setLon(Double.parseDouble(split[1]));
+				readpublicEvent.setLat(Double.parseDouble(split[2]));
+				readpublicEvent.setPhone(split[3]);
+				readpublicEvent.setLocationDescription(split[4]);
+				readpublicEvent.setDescription(split[5]);
+				readpublicEvent.setPosterUrl(split[6]);
+				readpublicEvent.setDate(split[7]);
+				readpublicEvent.setType(Integer.parseInt(split[8]));
+				readpublicEvent.setUrl(split[8]);
+				readpublicEvent.setCreator(split[9]);
+				data.add(readpublicEvent);
 			}
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block

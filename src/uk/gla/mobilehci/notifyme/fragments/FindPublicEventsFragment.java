@@ -91,17 +91,6 @@ import com.google.android.gms.maps.model.MarkerOptions;
 		map.moveCamera(center);
 		map.animateCamera(zoom);
 		
-		return rootView;
-	}
-
-	@Override
-	public void onResume() {
-		super.onResume();
-		mapView.onResume();
-		map = mapView.getMap();
-		map.setInfoWindowAdapter(this);
-		getActivity().getActionBar().setTitle(MainActivity.mTitle);
-
 		map.setOnInfoWindowClickListener(new OnInfoWindowClickListener() {
 
 			@Override
@@ -119,6 +108,17 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 			}
 		});
+		
+		return rootView;
+	}
+
+	@Override
+	public void onResume() {
+		super.onResume();
+		mapView.onResume();
+		map = mapView.getMap();
+		map.setInfoWindowAdapter(this);
+		getActivity().getActionBar().setTitle(MainActivity.mTitle);
 
 		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,
 				(long) 1000, (float) 10.0, this);

@@ -17,9 +17,13 @@ import android.view.ViewGroup;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.GoogleMap.OnMapClickListener;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 public class FriendEvents extends Fragment implements LocationListener {
 
@@ -27,6 +31,9 @@ public class FriendEvents extends Fragment implements LocationListener {
 	private GoogleMap map;
 	private LocationManager locationManager;
 	private SharedPreferences pref;
+	private Marker personalMarker;
+	private MarkerOptions personalMarkerOptions;
+	private View rootView;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -34,7 +41,7 @@ public class FriendEvents extends Fragment implements LocationListener {
 
 		pref = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
-		View rootView = inflater.inflate(R.layout.friends_event_fragment,
+		rootView = inflater.inflate(R.layout.friends_event_fragment,
 				container, false);
 
 		mapView = (MapView) rootView.findViewById(R.id.map);
@@ -54,6 +61,25 @@ public class FriendEvents extends Fragment implements LocationListener {
 		CameraUpdate zoom = CameraUpdateFactory.zoomTo(15);
 		map.moveCamera(center);
 		map.animateCamera(zoom);
+
+		map.setOnMapClickListener(new OnMapClickListener() {
+
+			@Override
+			public void onMapClick(LatLng location) {
+
+				if (personalMarker != null)
+					personalMarker.remove();
+
+				personalMarker = map.addMarker(new MarkerOptions()
+						.position(location)
+						.flat(true)
+						.icon(BitmapDescriptorFactory
+								.fromResource(R.drawable.friend)));
+				
+				rootView.findViewById(R.id.create_friendEv_menu).setVisibility(View.VISIBLE);
+
+			}
+		});
 
 		return rootView;
 	}

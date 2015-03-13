@@ -88,6 +88,6 @@
     <string name="cancel">Cancel</string>
     <string name="register">Register</string>
     <string name="reply_label">Reply</string>
-    <string name="create_friendEv">Create Event</string>
+    <string name="create_friendEv">Create Friends Event</string>
 
 </resources>

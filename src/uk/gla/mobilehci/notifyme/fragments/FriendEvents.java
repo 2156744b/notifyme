@@ -2,6 +2,7 @@ package uk.gla.mobilehci.notifyme.fragments;
 
 import uk.gla.mobilehci.notifyme.MainActivity;
 import uk.gla.mobilehci.notifyme.R;
+import android.app.AlertDialog;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -93,6 +94,26 @@ public class FriendEvents extends Fragment implements LocationListener {
 						personalMarker.remove();
 
 					}
+				});
+
+		rootView.findViewById(R.id.create_friendEv).setOnClickListener(
+				new OnClickListener() {
+
+					@Override
+					public void onClick(View v) {
+
+						View create = getActivity().getLayoutInflater()
+								.inflate(R.layout.public_event_layout, null);
+
+						AlertDialog.Builder builder = new AlertDialog.Builder(
+								getActivity());
+						builder.setTitle(R.id.create_friendEv);
+						builder.setView(create);
+						builder.setPositiveButton("Create", null);
+						builder.show();
+
+					}
+
 				});
 
 		return rootView;

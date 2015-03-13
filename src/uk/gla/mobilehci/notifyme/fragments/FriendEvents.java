@@ -41,8 +41,8 @@ public class FriendEvents extends Fragment implements LocationListener {
 
 		pref = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
-		rootView = inflater.inflate(R.layout.friends_event_fragment,
-				container, false);
+		rootView = inflater.inflate(R.layout.friends_event_fragment, container,
+				false);
 
 		mapView = (MapView) rootView.findViewById(R.id.map);
 		mapView.onCreate(savedInstanceState);
@@ -56,12 +56,13 @@ public class FriendEvents extends Fragment implements LocationListener {
 				Context.LOCATION_SERVICE);
 		Location lastKnown = locationManager
 				.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-		CameraUpdate center = CameraUpdateFactory.newLatLng(new LatLng(
-				lastKnown.getLatitude(), lastKnown.getLongitude()));
-		CameraUpdate zoom = CameraUpdateFactory.zoomTo(15);
-		map.moveCamera(center);
-		map.animateCamera(zoom);
-
+		if (lastKnown != null) {
+			CameraUpdate center = CameraUpdateFactory.newLatLng(new LatLng(
+					lastKnown.getLatitude(), lastKnown.getLongitude()));
+			CameraUpdate zoom = CameraUpdateFactory.zoomTo(15);
+			map.moveCamera(center);
+			map.animateCamera(zoom);
+		}
 		map.setOnMapClickListener(new OnMapClickListener() {
 
 			@Override
@@ -75,8 +76,9 @@ public class FriendEvents extends Fragment implements LocationListener {
 						.flat(true)
 						.icon(BitmapDescriptorFactory
 								.fromResource(R.drawable.friend)));
-				
-				rootView.findViewById(R.id.create_friendEv_menu).setVisibility(View.VISIBLE);
+
+				rootView.findViewById(R.id.create_friendEv_menu).setVisibility(
+						View.VISIBLE);
 
 			}
 		});

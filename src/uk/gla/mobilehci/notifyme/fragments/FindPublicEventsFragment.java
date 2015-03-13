@@ -54,7 +54,6 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-@SuppressWarnings("deprecation")
 @SuppressLint("InflateParams") public class FindPublicEventsFragment extends Fragment implements
 		LocationListener, InfoWindowAdapter {
 
@@ -91,6 +90,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 		CameraUpdate zoom = CameraUpdateFactory.zoomTo(15);
 		map.moveCamera(center);
 		map.animateCamera(zoom);
+		
 		return rootView;
 	}
 
@@ -120,8 +120,6 @@ import com.google.android.gms.maps.model.MarkerOptions;
 			}
 		});
 
-		locationManager = (LocationManager) getActivity().getSystemService(
-				Context.LOCATION_SERVICE);
 		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,
 				(long) 1000, (float) 10.0, this);
 		locationManager.requestLocationUpdates(

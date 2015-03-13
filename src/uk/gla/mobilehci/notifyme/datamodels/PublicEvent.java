@@ -1,7 +1,5 @@
 package uk.gla.mobilehci.notifyme.datamodels;
 
-import java.io.Serializable;
-
 import android.os.Parcel;
 import android.os.Parcelable;
 

@@ -3,8 +3,10 @@
     android:layout_height="fill_parent" >
 
     <LinearLayout
+        android:id="@+id/wrapper"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="8dp"
         android:orientation="vertical" >
 
         <LinearLayout
@@ -18,14 +20,14 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:calendarViewShown="false"
-                android:padding="10dp" />
+                android:padding="4dp" />
 
             <TimePicker
                 android:id="@+id/time"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:padding="10dp" />
+                android:padding="4dp" />
         </LinearLayout>
 
         <EditText
@@ -40,9 +42,24 @@
             android:id="@+id/txtEventDescription"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:layout_marginBottom="20dp"
             android:layout_weight="1"
-            android:hint="@string/event_description"
-            android:padding="10dp" />
+            android:hint="@string/event_description" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:text="@string/friends"
+            android:textColor="#31b6e7"
+            android:textSize="20sp" />
+
+        <LinearLayout
+            android:id="@+id/checkboxWrapper"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+        </LinearLayout>
     </LinearLayout>
 
 </ScrollView>

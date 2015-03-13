@@ -89,5 +89,6 @@
     <string name="register">Register</string>
     <string name="reply_label">Reply</string>
     <string name="create_friendEv">Create Friends Event</string>
+    <string name="friends">Friends</string>
 
 </resources>

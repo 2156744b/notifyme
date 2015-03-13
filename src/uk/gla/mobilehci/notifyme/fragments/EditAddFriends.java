@@ -81,6 +81,7 @@ public class EditAddFriends extends Fragment {
 				split = line.split(";");
 				data.add(new FriendModel(split[0], split[1]));
 			}
+			reader.close();
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

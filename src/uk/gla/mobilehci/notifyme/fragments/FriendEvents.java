@@ -1,7 +1,17 @@
 package uk.gla.mobilehci.notifyme.fragments;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Calendar;
+
 import uk.gla.mobilehci.notifyme.MainActivity;
 import uk.gla.mobilehci.notifyme.R;
+import uk.gla.mobilehci.notifyme.datamodels.FriendModel;
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Fragment;
 import android.content.Context;
@@ -16,6 +26,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
+import android.widget.DatePicker;
+import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TimePicker;
 
 import com.google.android.gms.maps.CameraUpdate;
@@ -29,6 +44,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+@SuppressLint("InflateParams")
 public class FriendEvents extends Fragment implements LocationListener {
 
 	private MapView mapView;
@@ -37,6 +53,7 @@ public class FriendEvents extends Fragment implements LocationListener {
 	private SharedPreferences pref;
 	private Marker personalMarker;
 	private View rootView;
+	private ArrayList<FriendModel> data;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -104,15 +121,29 @@ public class FriendEvents extends Fragment implements LocationListener {
 					@Override
 					public void onClick(View v) {
 
-						View create = getActivity().getLayoutInflater()
-								.inflate(R.layout.friend_event_layout, null);
-						
-						TimePicker picker = (TimePicker) create.findViewById(R.id.time);
+						final ScrollView create = (ScrollView) getActivity()
+								.getLayoutInflater().inflate(
+										R.layout.friend_event_layout, null);
+						final LinearLayout checkboxWrapper = ((LinearLayout) create
+								.findViewById(R.id.checkboxWrapper));
+
+						readFriendList();
+
+						for (int f = 0; f < data.size(); f++) {
+							CheckBox cb = new CheckBox(getActivity());
+							cb.setText(data.get(f).getUsername());
+
+							checkboxWrapper.addView(cb);
+
+						}
+
+						TimePicker picker = (TimePicker) create
+								.findViewById(R.id.time);
 						picker.setIs24HourView(true);
 
 						AlertDialog.Builder builder = new AlertDialog.Builder(
 								getActivity());
-						builder.setTitle(R.id.create_friendEv);
+						builder.setTitle("Create friend event");
 						builder.setView(create);
 						builder.setPositiveButton("Create",
 								new DialogInterface.OnClickListener() {
@@ -120,7 +151,48 @@ public class FriendEvents extends Fragment implements LocationListener {
 									@Override
 									public void onClick(DialogInterface dialog,
 											int which) {
-										// TODO Auto-generated method stub
+
+										DatePicker datePicker = ((DatePicker) create
+												.findViewById(R.id.date));
+
+										TimePicker timePicker = ((TimePicker) create
+												.findViewById(R.id.time));
+
+										Calendar cal = Calendar.getInstance();
+										cal.set(Calendar.DAY_OF_MONTH,
+												datePicker.getDayOfMonth());
+										cal.set(Calendar.MONTH,
+												datePicker.getMonth());
+										cal.set(Calendar.YEAR,
+												datePicker.getYear());
+										cal.set(Calendar.HOUR_OF_DAY,
+												timePicker.getCurrentHour());
+										cal.set(Calendar.MINUTE,
+												timePicker.getCurrentMinute());
+
+										long timestamp = cal.getTimeInMillis();
+
+										String evdesc = ((EditText) create
+												.findViewById(R.id.txtEventDescription))
+												.getText().toString();
+										String locdesc = ((EditText) create
+												.findViewById(R.id.txtLocationDescription))
+												.getText().toString();
+
+										String friends = "";
+
+										for (int i = 0; i < checkboxWrapper
+												.getChildCount(); i++) {
+											CheckBox c = (CheckBox) checkboxWrapper
+													.getChildAt(i);
+											if (c.isChecked())
+												friends += c.getText() + ";";
+
+										}
+
+										System.out.println(timestamp + ";"
+												+ evdesc + ";" + locdesc + ";"
+												+ friends);
 
 									}
 								});
@@ -184,6 +256,28 @@ public class FriendEvents extends Fragment implements LocationListener {
 		map.moveCamera(center);
 		map.animateCamera(zoom);
 
+	}
+
+	private void readFriendList() {
+		BufferedReader reader = null;
+		File file = new File(getActivity().getFilesDir(), "friendList.txt");
+		data = new ArrayList<FriendModel>();
+		try {
+			reader = new BufferedReader(new FileReader(file));
+			String line;
+			String[] split;
+			while ((line = reader.readLine()) != null) {
+				split = line.split(";");
+				data.add(new FriendModel(split[0], split[1]));
+			}
+			reader.close();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	@Override

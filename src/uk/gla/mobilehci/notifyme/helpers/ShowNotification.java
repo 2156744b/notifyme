@@ -9,12 +9,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
 
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
-
 import uk.gla.mobilehci.notifyme.PublicEventActivity;
 import uk.gla.mobilehci.notifyme.R;
 import uk.gla.mobilehci.notifyme.datamodels.PublicEvent;
-import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;

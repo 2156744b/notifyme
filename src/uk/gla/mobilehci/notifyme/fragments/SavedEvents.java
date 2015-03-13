@@ -5,9 +5,9 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 
-import uk.gla.mobilehci.notifyme.MainActivity;
 import uk.gla.mobilehci.notifyme.R;
 import uk.gla.mobilehci.notifyme.datamodels.PublicEvent;
 import uk.gla.mobilehci.notifyme.listview.SavedEventsArrayAdapter;
@@ -60,7 +60,8 @@ public class SavedEvents extends Fragment {
 	@Override
 	public void onResume() {
 		super.onResume();
-		getActivity().getActionBar().setTitle(MainActivity.mTitle);
+		writeSavedEvents();
+		readSavedEvents();
 	}
 
 	private void readSavedEvents() {
@@ -102,10 +103,27 @@ public class SavedEvents extends Fragment {
 		super.onPause();
 	}
 
+	public void writeSavedEvents() {
+
+		File file = new File(getActivity().getFilesDir(), "savedEvents.txt");
+		if (file.exists())
+			file.delete();
+		try {
+			PrintWriter printWriter = new PrintWriter(file);
+			for (PublicEvent f : data) {
+				printWriter.write(f.toString() + "\n");
+			}
+			printWriter.close();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
 	@Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 		super.onCreateOptionsMenu(menu, inflater);
-		//inflater.inflate(R.menu.friend_list_menu, menu);
+		// inflater.inflate(R.menu.friend_list_menu, menu);
 	}
 
 	@Override

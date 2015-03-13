@@ -93,6 +93,9 @@
                 <action android:name="uk.gla.mobilehci.notifyme.SimpleNotification.ACTION_DEMAND" />
             </intent-filter>
         </receiver>
+        
+         <receiver android:name="uk.gla.mobilehci.notifyme.helpers.ShowNotification"/>
+        
     </application>
 
 </manifest>

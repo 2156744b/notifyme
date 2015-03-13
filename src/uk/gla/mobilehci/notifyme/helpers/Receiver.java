@@ -30,6 +30,8 @@ public class Receiver extends BroadcastReceiver {
 		//			.getSystemService(Context.NOTIFICATION_SERVICE);
 		//	manager.cancel(notificationId);
 
+			Toast.makeText(context, "MAALAAA", Toast.LENGTH_SHORT).show();
+			
 			int action = intent.getIntExtra(WEAR_ACTION, 0);
 			Log.v("MyTag", "action value:  " + String.valueOf(action));
 			switch (action) {

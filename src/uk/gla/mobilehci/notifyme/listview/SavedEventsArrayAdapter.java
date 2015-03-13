@@ -1,12 +1,18 @@
 package uk.gla.mobilehci.notifyme.listview;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 
 import uk.gla.mobilehci.notifyme.PublicEventActivity;
 import uk.gla.mobilehci.notifyme.R;
 import uk.gla.mobilehci.notifyme.datamodels.PublicEvent;
+import uk.gla.mobilehci.notifyme.fragments.SavedEvents;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -110,7 +116,54 @@ public class SavedEventsArrayAdapter extends ArrayAdapter<PublicEvent> {
 			}
 		});
 
+		View.OnLongClickListener rowListenerOptions = new View.OnLongClickListener() {
+
+			@Override
+			public boolean onLongClick(View v) {
+				AlertDialog.Builder builder = new AlertDialog.Builder(
+						getContext());
+				builder.setTitle("Edit Saved Events").setItems(
+						R.array.friend_list_dialog_option,
+						new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface dialog,
+									int which) {
+								switch (which) {
+								case 0:
+									data.remove(position);
+									writeSavedEvents();
+									SavedEventsArrayAdapter.this
+											.notifyDataSetChanged();
+									break;
+								default:
+									break;
+								}
+							}
+						});
+				AlertDialog dialog = builder.create();
+				dialog.show();
+				return false;
+			}
+		};
+		row.setOnLongClickListener(rowListenerOptions);
 		return row;
 
 	}
+
+	public void writeSavedEvents() {
+
+		File file = new File(context.getFilesDir(), "savedEvents.txt");
+		if (file.exists())
+			file.delete();
+		try {
+			PrintWriter printWriter = new PrintWriter(file);
+			for (PublicEvent f : data) {
+				printWriter.write(f.toString() + "\n");
+			}
+			printWriter.close();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
 }

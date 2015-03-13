@@ -6,11 +6,19 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import uk.gla.mobilehci.notifyme.datamodels.PublicEvent;
 import uk.gla.mobilehci.notifyme.fragments.FindPublicEventsFragment;
+import uk.gla.mobilehci.notifyme.helpers.ISO8601;
+import uk.gla.mobilehci.notifyme.helpers.ShowNotification;
 import android.app.Activity;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -82,6 +90,27 @@ public class PublicEventActivity extends Activity {
 				public void onClick(View v) {
 					readSavedEvents();
 					writeSavedEvents();
+
+					Intent myIntent = new Intent(PublicEventActivity.this,
+							ShowNotification.class);
+					myIntent.putExtra("publicEvent", publicEvent);
+					PendingIntent pendingIntent = PendingIntent.getBroadcast(
+							PublicEventActivity.this, 0, myIntent, 0);
+					long milis = -1;
+					try {
+						Date date = new SimpleDateFormat("yyyy-MM-dd HH:mm")
+								.parse(publicEvent.getDate());
+						milis = date.getTime();
+
+					} catch (ParseException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+
+					AlarmManager alarmManager = (AlarmManager) PublicEventActivity.this
+							.getSystemService(Context.ALARM_SERVICE);
+					alarmManager.set(AlarmManager.RTC, milis, pendingIntent);
+
 					finish();
 				}
 			});
@@ -130,7 +159,6 @@ public class PublicEventActivity extends Activity {
 			if (data.get(i).getId() == publicEvent.getId())
 				break;
 		}
-
 		if (i == data.size() || data.size() == 0) {
 			data.add(publicEvent);
 			File file = new File(this.getFilesDir(), "savedEvents.txt");
@@ -147,6 +175,5 @@ public class PublicEventActivity extends Activity {
 				e.printStackTrace();
 			}
 		}
-
 	}
 }

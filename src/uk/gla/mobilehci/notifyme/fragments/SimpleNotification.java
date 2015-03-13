@@ -1,8 +1,10 @@
 package uk.gla.mobilehci.notifyme.fragments;
 
 import uk.gla.mobilehci.notifyme.helpers.Receiver;
+import uk.gla.mobilehci.notifyme.helpers.ShowNotification;
 import uk.gla.mobilehci.notifyme.R;
 
+import android.app.AlarmManager;
 import android.app.Fragment;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -17,20 +19,40 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 public class SimpleNotification extends Fragment {
-	
+
 	public static final String EXTRA_MESSAGE = "uk.gla.mobilehci.notifyme.EXTRA_MESSAGE";
 	public static final String EXTRA_VOICE_REPLY = "uk.gla.mobilehci.notifyme.EXTRA_VOICE_REPLY";
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		
+
 		// Inflate the layout for this fragment
 		View wearableView = inflater.inflate(R.layout.wearable, container,
 				false);
 
 		Button button = (Button) wearableView
 				.findViewById(R.id.sendNotification);
+
+		Button button1 = (Button) wearableView.findViewById(R.id.test);
+
+		button1.setOnClickListener(new View.OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				Intent myIntent = new Intent(getActivity(), ShowNotification.class);
+				myIntent.putExtra("value", "dikse toooo");
+				PendingIntent pendingIntent = PendingIntent.getBroadcast(
+						getActivity(), 0, myIntent, 0);
+
+				AlarmManager alarmManager = (AlarmManager) getActivity()
+						.getSystemService(Context.ALARM_SERVICE);
+				alarmManager.set(AlarmManager.RTC,
+						System.currentTimeMillis() + 2000, pendingIntent);
+			}
+		});
+
 		button.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 
@@ -62,10 +84,12 @@ public class SimpleNotification extends Fragment {
 						R.drawable.ic_launcher, notifyAgainText,
 						pendingIntentNotify).build();
 
-				//----------------Second Menu on Wathc------------------------------
-				
+				// ----------------Second Menu on
+				// Wathc------------------------------
+
 				Intent secondIntent = new Intent(v.getContext(), Receiver.class);
-				secondIntent.putExtra(Receiver.NOTIFICATION_ID_STRING, "firstIntent icon selected");
+				secondIntent.putExtra(Receiver.NOTIFICATION_ID_STRING,
+						"firstIntent icon selected");
 				secondIntent.putExtra(Receiver.WEAR_ACTION,
 						Receiver.NOTIFICATION_2);
 
@@ -78,7 +102,8 @@ public class SimpleNotification extends Fragment {
 						R.drawable.ic_launcher, "Cancel", pendingIntentCancel)
 						.build();
 
-				//----------------Third menu on watch------------------------------
+				// ----------------Third menu on
+				// watch------------------------------
 				Intent thirdIntent = new Intent(v.getContext(), Receiver.class);
 				thirdIntent.putExtra(Receiver.NOTIFICATION_ID_STRING,
 						"Reply icon selected.");

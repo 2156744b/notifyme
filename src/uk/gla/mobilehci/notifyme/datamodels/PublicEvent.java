@@ -16,6 +16,7 @@ public class PublicEvent implements Parcelable {
 	private int type;
 	private String url;
 	private String creator;
+
 	@Override
 	public String toString() {
 		return id + ";" + lon + ";" + lat + ";" + phone + ";"

@@ -20,6 +20,7 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -92,6 +93,11 @@ public class PublicEventActivity extends Activity {
 					boolean proceed = writeSavedEvents();
 
 					if (proceed) {
+						Bitmap image = FindPublicEventsFragment.images
+								.get(publicEvent.getPosterUrl());
+						
+						// na graftei se arxeio.
+						
 						Intent myIntent = new Intent(PublicEventActivity.this,
 								ShowNotification.class);
 						myIntent.putExtra("publicEvent", publicEvent);

@@ -63,6 +63,9 @@ public class ShowNotification extends BroadcastReceiver {
 		default:
 			break;
 		}
+		
+		// diavazw to bitmap KAI SET STO LARGE ICON
+		//https://developer.android.com/training/wearables/notifications/creating.html
 		NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(
 				context)
 			.setSmallIcon(resID)
@@ -71,9 +74,8 @@ public class ShowNotification extends BroadcastReceiver {
 								R.drawable.friend_inv))
 				.setContentTitle("NotifyMe App")
 				.setContentText("Click To View More");
-		// Extend Notification builder
-		// mBuilder.extend(extender);
-		// Get an instance of the NotificationManager service
+	
+		
 		NotificationManagerCompat notificationManager =
 		        NotificationManagerCompat.from(context);
 

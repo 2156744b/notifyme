@@ -119,6 +119,7 @@ public class SimpleNotification extends Fragment {
 				RemoteInput remoteInput = new RemoteInput.Builder(
 						EXTRA_VOICE_REPLY).setLabel(replyLabel).build();
 
+				
 				NotificationCompat.Action replyAction = new NotificationCompat.Action.Builder(
 						R.drawable.ic_launcher,
 						getString(R.string.reply_label), replyPending)

@@ -72,7 +72,7 @@ public class ShowNotification extends BroadcastReceiver {
 		viewIntent.putExtra(PublicEventActivity.TO_SHOW, false);
 
 		PendingIntent viewPendingIntent = PendingIntent.getActivity(context, 0,
-				viewIntent, 0);
+				viewIntent, PendingIntent.FLAG_CANCEL_CURRENT);
 		Bitmap b = loadBitmap(context, publicEvent.getId() + ".PNG");
 		NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(
 				context).setSmallIcon(resID).setLargeIcon(b)

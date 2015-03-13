@@ -5,6 +5,7 @@ import uk.gla.mobilehci.notifyme.R;
 import android.app.AlertDialog;
 import android.app.Fragment;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.location.Location;
 import android.location.LocationListener;
@@ -15,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.TimePicker;
 
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -103,13 +105,25 @@ public class FriendEvents extends Fragment implements LocationListener {
 					public void onClick(View v) {
 
 						View create = getActivity().getLayoutInflater()
-								.inflate(R.layout.public_event_layout, null);
+								.inflate(R.layout.friend_event_layout, null);
+						
+						TimePicker picker = (TimePicker) create.findViewById(R.id.time);
+						picker.setIs24HourView(true);
 
 						AlertDialog.Builder builder = new AlertDialog.Builder(
 								getActivity());
 						builder.setTitle(R.id.create_friendEv);
 						builder.setView(create);
-						builder.setPositiveButton("Create", null);
+						builder.setPositiveButton("Create",
+								new DialogInterface.OnClickListener() {
+
+									@Override
+									public void onClick(DialogInterface dialog,
+											int which) {
+										// TODO Auto-generated method stub
+
+									}
+								});
 						builder.show();
 
 					}

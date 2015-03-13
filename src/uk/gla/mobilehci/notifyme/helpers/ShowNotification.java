@@ -2,19 +2,24 @@ package uk.gla.mobilehci.notifyme.helpers;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Random;
 
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 
+import uk.gla.mobilehci.notifyme.PublicEventActivity;
 import uk.gla.mobilehci.notifyme.R;
 import uk.gla.mobilehci.notifyme.datamodels.PublicEvent;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
@@ -28,13 +33,14 @@ public class ShowNotification extends BroadcastReceiver {
 	public void onReceive(Context context, Intent intent) {
 		readSavedEvents(context);
 		// TODO Auto-generated method stub
-		PublicEvent get = intent.getParcelableExtra("publicEvent");
-		if (get != null
-				&& ISO8601.returnTime(get.getDate()) < System
+		PublicEvent publicEvent = intent.getParcelableExtra("publicEvent");
+		System.out.println(publicEvent.toString());
+		if (publicEvent != null
+				&& ISO8601.returnTime(publicEvent.getDate()) < System
 						.currentTimeMillis() + 2000) {
 			int i;
 			for (i = 0; i < data.size(); i++) {
-				if (data.get(i).getId() == get.getId())
+				if (data.get(i).getId() == publicEvent.getId())
 					break;
 			}
 			if (i != data.size()) {
@@ -44,7 +50,7 @@ public class ShowNotification extends BroadcastReceiver {
 		}
 		int resID = 0;
 
-		switch (get.getType()) {
+		switch (publicEvent.getType()) {
 		case 1:
 			resID = R.drawable.club;
 			break;
@@ -63,24 +69,74 @@ public class ShowNotification extends BroadcastReceiver {
 		default:
 			break;
 		}
-		
-		// diavazw to bitmap KAI SET STO LARGE ICON
-		//https://developer.android.com/training/wearables/notifications/creating.html
-		NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(
-				context)
-			.setSmallIcon(resID)
-				.setLargeIcon(
-						BitmapFactory.decodeResource(context.getResources(),
-								R.drawable.friend_inv))
-				.setContentTitle("NotifyMe App")
-				.setContentText("Click To View More");
-	
-		
-		NotificationManagerCompat notificationManager =
-		        NotificationManagerCompat.from(context);
 
-		notificationManager.notify(get.getId(), mBuilder.build());
-		Toast.makeText(context, "EMPIKA OMWS", Toast.LENGTH_SHORT).show();
+		// diavazw to bitmap KAI SET STO LARGE ICON
+		// https://developer.android.com/training/wearables/notifications/creating.html
+
+		// Intent clickToViewMore = new Intent(context,
+		// PublicEventActivity.class);
+		//
+
+		//
+		// clickToViewMore.putExtra(PublicEventActivity.PUBLIC_EVENT, get);
+		// clickToViewMore.putExtra(PublicEventActivity.TO_SHOW, false);
+		//
+		// PendingIntent mapPendingIntent = PendingIntent.getBroadcast(
+		// context, 1, clickToViewMore,
+		// PendingIntent.FLAG_UPDATE_CURRENT);
+		//
+		// Bitmap b = loadBitmap(context, get.getId() + ".PNG");
+		//
+		// NotificationCompat.Action actionNotify = new
+		// NotificationCompat.Action.Builder(
+		// R.drawable.ic_action_important, "Click for more details",
+		// mapPendingIntent).build();
+		//
+		// NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(
+		// context)
+		// .setSmallIcon(resID)
+		// .setLargeIcon(b)
+		// .setContentTitle(get.getLocationDescription())
+		// .setContentText("Swipe To View More");
+		//
+		//
+		// NotificationCompat.WearableExtender extender = new
+		// NotificationCompat.WearableExtender();
+		// extender.addAction(actionNotify);
+		// mBuilder.extend(extender);
+		//
+		// NotificationManager mNotificationManager = (NotificationManager)
+		// context.getSystemService(
+		// Context.NOTIFICATION_SERVICE);
+		//
+		// // show notification
+		// mNotificationManager.notify(m, mBuilder.build());
+		Random random = new Random();
+		int m = random.nextInt(9999 - 1000) + 1000;
+
+		int notificationId = 001;
+		// Build intent for notification content
+		Intent viewIntent = new Intent(context, PublicEventActivity.class);
+		
+		viewIntent.putExtra(PublicEventActivity.PUBLIC_EVENT,
+				publicEvent);
+		viewIntent.putExtra(PublicEventActivity.TO_SHOW, false);
+		
+		PendingIntent viewPendingIntent = PendingIntent.getActivity(context, 0,
+				viewIntent, 0);
+		Bitmap b = loadBitmap(context, publicEvent.getId() + ".PNG");
+		NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(
+				context).setSmallIcon(resID).setLargeIcon(b)
+				.setContentTitle("SKATA").setContentText("NA FAS")
+				.setContentIntent(viewPendingIntent);
+
+		// Get an instance of the NotificationManager service
+		NotificationManagerCompat notificationManager = NotificationManagerCompat
+				.from(context);
+
+		// Build the notification and issues it with notification manager.
+		notificationManager.notify(m, notificationBuilder.build());
+		Toast.makeText(context, "EMPIKA OMWS " + m, Toast.LENGTH_SHORT).show();
 	}
 
 	private void readSavedEvents(Context context) {
@@ -115,6 +171,22 @@ public class ShowNotification extends BroadcastReceiver {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+
+	public static Bitmap loadBitmap(Context context, String picName) {
+		Bitmap b = null;
+		FileInputStream fis;
+		try {
+			fis = context.openFileInput(picName);
+			b = BitmapFactory.decodeStream(fis);
+			fis.close();
+
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return b;
 	}
 
 }

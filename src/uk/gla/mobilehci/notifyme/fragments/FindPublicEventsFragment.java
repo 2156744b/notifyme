@@ -1,6 +1,10 @@
 package uk.gla.mobilehci.notifyme.fragments;
 
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.ArrayList;
@@ -307,6 +311,7 @@ public class FindPublicEventsFragment extends Fragment implements
 								URL url = new URL(publicEvent.getPosterUrl());
 								Bitmap image = BitmapFactory.decodeStream(url
 										.openConnection().getInputStream());
+								saveFile(image, publicEvent.getId()+".PNG");
 								images.put(publicEvent.getPosterUrl(), image);
 							}
 						}
@@ -323,6 +328,21 @@ public class FindPublicEventsFragment extends Fragment implements
 				}
 			}
 			return dataToSend;
+		}
+
+		public void saveFile(Bitmap b, String picName) {
+			FileOutputStream fos;
+			try {
+				fos = getActivity().openFileOutput(picName,
+						Context.MODE_PRIVATE);
+				b.compress(Bitmap.CompressFormat.PNG, 100, fos);
+				fos.close();
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+
 		}
 
 		@Override

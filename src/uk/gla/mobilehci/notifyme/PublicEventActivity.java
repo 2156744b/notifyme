@@ -17,6 +17,7 @@ import uk.gla.mobilehci.notifyme.helpers.ISO8601;
 import uk.gla.mobilehci.notifyme.helpers.ShowNotification;
 import android.app.Activity;
 import android.app.AlarmManager;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
@@ -43,6 +44,13 @@ public class PublicEventActivity extends Activity {
 		Intent intent = getIntent();
 		publicEvent = (PublicEvent) intent.getParcelableExtra(PUBLIC_EVENT);
 		toShowSave = intent.getBooleanExtra(TO_SHOW, true);
+		int toRemove = intent.getIntExtra("toCancel", -1);
+
+		if (toRemove != -1) {
+			NotificationManager manager = (NotificationManager) this
+					.getSystemService(Context.NOTIFICATION_SERVICE);
+			manager.cancel(toRemove);
+		}
 
 		TextView dateTime = (TextView) findViewById(R.id.txtDateTime);
 		ImageView eventPoster = (ImageView) findViewById(R.id.imagePublicEvent);
@@ -95,9 +103,9 @@ public class PublicEventActivity extends Activity {
 					if (proceed) {
 						Bitmap image = FindPublicEventsFragment.images
 								.get(publicEvent.getPosterUrl());
-						
+
 						// na graftei se arxeio.
-						
+
 						Intent myIntent = new Intent(PublicEventActivity.this,
 								ShowNotification.class);
 						myIntent.putExtra("publicEvent", publicEvent);

@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 
 import com.google.android.gms.maps.CameraUpdate;
@@ -41,8 +42,8 @@ public class FriendEvents extends Fragment implements LocationListener {
 
 		pref = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
-		rootView = inflater.inflate(R.layout.friends_event_fragment,
-				container, false);
+		rootView = inflater.inflate(R.layout.friends_event_fragment, container,
+				false);
 
 		mapView = (MapView) rootView.findViewById(R.id.map);
 		mapView.onCreate(savedInstanceState);
@@ -75,11 +76,24 @@ public class FriendEvents extends Fragment implements LocationListener {
 						.flat(true)
 						.icon(BitmapDescriptorFactory
 								.fromResource(R.drawable.friend)));
-				
-				rootView.findViewById(R.id.create_friendEv_menu).setVisibility(View.VISIBLE);
+
+				rootView.findViewById(R.id.create_friendEv_menu).setVisibility(
+						View.VISIBLE);
 
 			}
 		});
+
+		rootView.findViewById(R.id.cancel).setOnClickListener(
+				new OnClickListener() {
+
+					@Override
+					public void onClick(View arg0) {
+						rootView.findViewById(R.id.create_friendEv_menu)
+								.setVisibility(View.GONE);
+						personalMarker.remove();
+
+					}
+				});
 
 		return rootView;
 	}

@@ -13,7 +13,6 @@ import java.util.Date;
 
 import uk.gla.mobilehci.notifyme.datamodels.PublicEvent;
 import uk.gla.mobilehci.notifyme.fragments.FindPublicEventsFragment;
-import uk.gla.mobilehci.notifyme.helpers.ISO8601;
 import uk.gla.mobilehci.notifyme.helpers.ShowNotification;
 import android.app.Activity;
 import android.app.AlarmManager;
@@ -41,9 +40,15 @@ public class PublicEventActivity extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.public_event_layout);
+	}
+
+	@Override
+	public void onResume() {
+		super.onResume();
 		Intent intent = getIntent();
 		publicEvent = (PublicEvent) intent.getParcelableExtra(PUBLIC_EVENT);
 		toShowSave = intent.getBooleanExtra(TO_SHOW, true);
+
 		int toRemove = intent.getIntExtra("toCancel", -1);
 
 		if (toRemove != -1) {
@@ -104,14 +109,15 @@ public class PublicEventActivity extends Activity {
 						Bitmap image = FindPublicEventsFragment.images
 								.get(publicEvent.getPosterUrl());
 
-						// na graftei se arxeio.
-
-						Intent myIntent = new Intent(PublicEventActivity.this,
+						Intent myIntent = new Intent(getApplicationContext(),
 								ShowNotification.class);
 						myIntent.putExtra("publicEvent", publicEvent);
+						System.out.println("Get"
+								+ publicEvent.getLocationDescription());
 						PendingIntent pendingIntent = PendingIntent
-								.getBroadcast(PublicEventActivity.this, 0,
-										myIntent, 0);
+								.getBroadcast(getApplicationContext(), 0,
+										myIntent,
+										PendingIntent.FLAG_UPDATE_CURRENT);
 						long milis = -1;
 						try {
 							Date date = new SimpleDateFormat("yyyy-MM-dd HH:mm")
@@ -123,7 +129,7 @@ public class PublicEventActivity extends Activity {
 							e.printStackTrace();
 						}
 
-						AlarmManager alarmManager = (AlarmManager) PublicEventActivity.this
+						AlarmManager alarmManager = (AlarmManager) getApplicationContext()
 								.getSystemService(Context.ALARM_SERVICE);
 						alarmManager
 								.set(AlarmManager.RTC, milis, pendingIntent);
@@ -144,22 +150,22 @@ public class PublicEventActivity extends Activity {
 			reader = new BufferedReader(new FileReader(file));
 			String line;
 			String[] split;
-			PublicEvent publicEvent;
+			PublicEvent readpublicEvent;
 			while ((line = reader.readLine()) != null) {
 				split = line.split(";");
-				publicEvent = new PublicEvent();
-				publicEvent.setId(Integer.parseInt(split[0]));
-				publicEvent.setLon(Double.parseDouble(split[1]));
-				publicEvent.setLat(Double.parseDouble(split[2]));
-				publicEvent.setPhone(split[3]);
-				publicEvent.setLocationDescription(split[4]);
-				publicEvent.setDescription(split[5]);
-				publicEvent.setPosterUrl(split[6]);
-				publicEvent.setDate(split[7]);
-				publicEvent.setType(Integer.parseInt(split[8]));
-				publicEvent.setUrl(split[8]);
-				publicEvent.setCreator(split[9]);
-				data.add(publicEvent);
+				readpublicEvent = new PublicEvent();
+				readpublicEvent.setId(Integer.parseInt(split[0]));
+				readpublicEvent.setLon(Double.parseDouble(split[1]));
+				readpublicEvent.setLat(Double.parseDouble(split[2]));
+				readpublicEvent.setPhone(split[3]);
+				readpublicEvent.setLocationDescription(split[4]);
+				readpublicEvent.setDescription(split[5]);
+				readpublicEvent.setPosterUrl(split[6]);
+				readpublicEvent.setDate(split[7]);
+				readpublicEvent.setType(Integer.parseInt(split[8]));
+				readpublicEvent.setUrl(split[8]);
+				readpublicEvent.setCreator(split[9]);
+				data.add(readpublicEvent);
 			}
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block

@@ -7,7 +7,6 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-
 import uk.gla.mobilehci.notifyme.PublicEventActivity;
 import uk.gla.mobilehci.notifyme.R;
 import uk.gla.mobilehci.notifyme.datamodels.PublicEvent;

@@ -14,7 +14,6 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
@@ -61,15 +60,17 @@
             android:label="@string/public_event_activity"
             android:parentActivityName="uk.gla.mobilehci.notifyme.MainActivity" >
         </activity>
-        
-        <meta-data
-            android:name="com.google.android.maps.v2.API_KEY"
-            android:value="AIzaSyC6H1UGVld57gBzKQAjwVKfONINk2At9sg" />
+
         <!--
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
+            android:value="AIzaSyC6H1UGVld57gBzKQAjwVKfONINk2At9sg" />
+        -->
+
+        <meta-data
+            android:name="com.google.android.maps.v2.API_KEY"
             android:value="AIzaSyAL9Ci3Isk-XsnaBvW1Dt3FPQqPdxyOrp4" />
-	-->
+
         <!-- GCM receiver -->
         <receiver
             android:name="uk.gla.mobilehci.notifyme.gcmservice.GcmBroadcastReceiver"
@@ -90,9 +91,7 @@
                 <action android:name="uk.gla.mobilehci.notifyme.SimpleNotification.ACTION_DEMAND" />
             </intent-filter>
         </receiver>
-        
-         <receiver android:name="uk.gla.mobilehci.notifyme.helpers.ShowNotification"/>
-        
+        <receiver android:name="uk.gla.mobilehci.notifyme.helpers.ShowNotification" />
     </application>
 
 </manifest>

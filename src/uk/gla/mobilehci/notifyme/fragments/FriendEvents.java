@@ -319,6 +319,8 @@ public class FriendEvents extends Fragment implements LocationListener,
 					R.layout.friend_event_info_layout, null);
 
 			TextView date = (TextView) v.findViewById(R.id.txtDate);
+			TextView author = (TextView) v.findViewById(R.id.txtAuthor);
+			author.setText("Friend: " + toShow.creator);
 			date.setText(toShow.timestamp);
 			TextView locdes = (TextView) v
 					.findViewById(R.id.txtLocationDescription);

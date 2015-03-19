@@ -85,8 +85,8 @@ public class SavedEvents extends Fragment {
 				publicEvent.setPosterUrl(split[6]);
 				publicEvent.setDate(split[7]);
 				publicEvent.setType(Integer.parseInt(split[8]));
-				publicEvent.setUrl(split[8]);
-				publicEvent.setCreator(split[9]);
+				publicEvent.setUrl(split[9]);
+				publicEvent.setCreator(split[10]);
 				data.add(publicEvent);
 			}
 		} catch (FileNotFoundException e) {

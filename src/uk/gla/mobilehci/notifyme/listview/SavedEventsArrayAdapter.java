@@ -9,11 +9,13 @@ import uk.gla.mobilehci.notifyme.PublicEventActivity;
 import uk.gla.mobilehci.notifyme.R;
 import uk.gla.mobilehci.notifyme.datamodels.PublicEvent;
 import uk.gla.mobilehci.notifyme.fragments.SavedEvents;
+import uk.gla.mobilehci.notifyme.helpers.ShowNotification;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,6 +40,7 @@ public class SavedEventsArrayAdapter extends ArrayAdapter<PublicEvent> {
 		ImageView imageListSaved;
 		TextView txtListSavedDescription;
 		TextView txtListSavedDate;
+		TextView txtListSavedLocation;
 	}
 
 	/**
@@ -75,6 +78,8 @@ public class SavedEventsArrayAdapter extends ArrayAdapter<PublicEvent> {
 					.findViewById(R.id.txtListSavedDescription);
 			holder.txtListSavedDate = (TextView) row
 					.findViewById(R.id.txtListSavedDate);
+			holder.txtListSavedLocation = (TextView) row
+					.findViewById(R.id.txtListSavedLocation);
 			row.setTag(holder);
 		} else {
 
@@ -83,6 +88,7 @@ public class SavedEventsArrayAdapter extends ArrayAdapter<PublicEvent> {
 
 		holder.txtListSavedDescription.setText(obj.getDescription());
 		holder.txtListSavedDate.setText(obj.getDate());
+		holder.txtListSavedLocation.setText(obj.getLocationDescription());
 
 		switch (obj.getType()) {
 		case 1:
@@ -103,6 +109,11 @@ public class SavedEventsArrayAdapter extends ArrayAdapter<PublicEvent> {
 		default:
 			break;
 		}
+
+		// Bitmap imagePoster = ShowNotification.loadBitmap(context, obj.getId()
+		// + ".PNG");
+		//
+		// holder.imageListSaved.setImageBitmap(imagePoster);
 
 		row.setOnClickListener(new View.OnClickListener() {
 

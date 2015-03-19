@@ -117,8 +117,8 @@ public class ShowNotification extends BroadcastReceiver {
 				readpublicEvent.setPosterUrl(split[6]);
 				readpublicEvent.setDate(split[7]);
 				readpublicEvent.setType(Integer.parseInt(split[8]));
-				readpublicEvent.setUrl(split[8]);
-				readpublicEvent.setCreator(split[9]);
+				readpublicEvent.setUrl(split[9]);
+				readpublicEvent.setCreator(split[10]);
 				data.add(readpublicEvent);
 			}
 		} catch (FileNotFoundException e) {

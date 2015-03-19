@@ -47,6 +47,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
+import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
@@ -237,6 +238,8 @@ public class FriendEvents extends Fragment implements LocationListener,
 	public void onResume() {
 		super.onResume();
 		mapView.onResume();
+		map.setInfoWindowAdapter(this);
+
 		getActivity().getActionBar().setTitle(MainActivity.mTitle);
 
 		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,
@@ -307,14 +310,33 @@ public class FriendEvents extends Fragment implements LocationListener,
 	}
 
 	@Override
-	public View getInfoContents(Marker arg0) {
-		System.out.println("infowindow");
+	public View getInfoContents(Marker mark) {
+		if (markerData.containsKey(mark)) {
+
+			FriendEvent toShow = markerData.get(mark);
+
+			View v = getActivity().getLayoutInflater().inflate(
+					R.layout.friend_event_info_layout, null);
+
+			TextView date = (TextView) v.findViewById(R.id.txtDate);
+			date.setText(toShow.timestamp);
+			TextView locdes = (TextView) v
+					.findViewById(R.id.txtLocationDescription);
+
+			locdes.setText(toShow.locdescription);
+			TextView des = (TextView) v
+					.findViewById(R.id.txtListEventDescription);
+			des.setText(toShow.description);
+
+			return v;
+		}
 		return null;
+
 	}
 
 	@Override
-	public View getInfoWindow(Marker arg0) {
-		System.out.println("infowindow");
+	public View getInfoWindow(Marker mark) {
+
 		return null;
 	}
 

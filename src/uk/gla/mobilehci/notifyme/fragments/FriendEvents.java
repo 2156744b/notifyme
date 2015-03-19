@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -15,12 +16,12 @@ import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONObject;
 
 import uk.gla.mobilehci.notifyme.MainActivity;
 import uk.gla.mobilehci.notifyme.R;
 import uk.gla.mobilehci.notifyme.datamodels.FriendModel;
 import uk.gla.mobilehci.notifyme.helpers.ApplicationSettings;
-import uk.gla.mobilehci.notifyme.helpers.ISO8601;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Fragment;
@@ -44,6 +45,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -182,9 +184,7 @@ public class FriendEvents extends Fragment implements LocationListener {
 										cal.set(Calendar.MINUTE,
 												timePicker.getCurrentMinute());
 
-										String timestamp = ISO8601
-												.timestampToString(cal
-														.getTimeInMillis());
+										long timestamp = cal.getTimeInMillis();
 
 										String evdesc = ((EditText) create
 												.findViewById(R.id.txtEventDescription))
@@ -212,9 +212,9 @@ public class FriendEvents extends Fragment implements LocationListener {
 														.getPosition().latitude),
 												String.valueOf(personalMarker
 														.getPosition().longitude),
-												pref.getString("email", ""),
-												timestamp, locdesc, evdesc,
-												friends);
+												pref.getString("userEmail", ""),
+												String.valueOf(timestamp),
+												locdesc, evdesc, friends);
 
 									}
 								});
@@ -319,9 +319,50 @@ public class FriendEvents extends Fragment implements LocationListener {
 			AsyncTask<String, Void, HttpResponse> {
 
 		@Override
-		protected void onPostExecute(HttpResponse result) {
-			System.out.println(result.getEntity().toString());
-			super.onPostExecute(result);
+		protected void onPostExecute(HttpResponse response) {
+			super.onPostExecute(response);
+
+			if (response == null) {
+
+				Toast.makeText(getActivity(), "Error creating event",
+						Toast.LENGTH_LONG).show();
+				personalMarker.remove();
+
+			} else {
+				try {
+
+					BufferedReader reader = new BufferedReader(
+							new InputStreamReader(response.getEntity()
+									.getContent(), "UTF-8"));
+					String data = reader.readLine();
+
+					JSONObject obj = new JSONObject(data);
+					int status = obj.getInt("rstatus");
+
+					if (status == -1) {
+
+						Toast.makeText(getActivity(), "Error creating event",
+								Toast.LENGTH_LONG).show();
+						personalMarker.remove();
+
+					}
+
+					else {
+						Toast.makeText(getActivity(),
+								"Successfully created event", Toast.LENGTH_LONG)
+								.show();
+					}
+				} catch (Exception e) {
+					Log.e(this.getClass().getName(), e.toString());
+					Toast.makeText(getActivity(), "Error creating event",
+							Toast.LENGTH_LONG).show();
+					personalMarker.remove();
+				}
+
+			}
+
+			rootView.findViewById(R.id.create_friendEv_menu).setVisibility(
+					View.GONE);
 		}
 
 		@Override

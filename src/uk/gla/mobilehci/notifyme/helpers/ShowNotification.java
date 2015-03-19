@@ -14,14 +14,17 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
 
 public class ShowNotification extends BroadcastReceiver {
 
 	private ArrayList<PublicEvent> data;
+	private SharedPreferences pref;
 
 	@Override
 	public void onReceive(Context context, Intent intent) {
@@ -29,6 +32,10 @@ public class ShowNotification extends BroadcastReceiver {
 		// TODO Auto-generated method stub
 		PublicEvent publicEvent = intent.getParcelableExtra("publicEvent");
 		System.out.println("Receiver" + publicEvent.getLocationDescription());
+		pref = PreferenceManager.getDefaultSharedPreferences(context);
+
+		boolean toNotify = pref.getBoolean("sendNotifications", true);
+
 		// if (publicEvent != null
 		// && ISO8601.returnTime(publicEvent.getDate()) < System
 		// .currentTimeMillis() + 2000) {
@@ -42,50 +49,50 @@ public class ShowNotification extends BroadcastReceiver {
 		// // / code here!!!
 		// }
 		// }
-		int resID = 0;
 
-		switch (publicEvent.getType()) {
-		case 1:
-			resID = R.drawable.club;
-			break;
-		case 2:
-			resID = R.drawable.theatre;
-			break;
-		case 3:
-			resID = R.drawable.music;
-			break;
-		case 4:
-			resID = R.drawable.restaurant;
-			break;
-		case 5:
-			resID = R.drawable.art;
-			break;
-		default:
-			break;
+		if (toNotify) {
+
+			int resID = 0;
+
+			switch (publicEvent.getType()) {
+			case 1:
+				resID = R.drawable.club;
+				break;
+			case 2:
+				resID = R.drawable.theatre;
+				break;
+			case 3:
+				resID = R.drawable.music;
+				break;
+			case 4:
+				resID = R.drawable.restaurant;
+				break;
+			case 5:
+				resID = R.drawable.art;
+				break;
+			default:
+				break;
+			}
+			Intent viewIntent = new Intent(context, PublicEventActivity.class);
+			viewIntent.putExtra(PublicEventActivity.PUBLIC_EVENT, publicEvent);
+			viewIntent.putExtra(PublicEventActivity.TO_SHOW, false);
+			viewIntent.putExtra("toCancel", publicEvent.getId());
+
+			PendingIntent viewPendingIntent = PendingIntent.getActivity(
+					context, 0, viewIntent, PendingIntent.FLAG_CANCEL_CURRENT);
+			Bitmap b = loadBitmap(context, publicEvent.getId() + ".PNG");
+			NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(
+					context).setSmallIcon(resID).setLargeIcon(b)
+					.setContentTitle(publicEvent.getLocationDescription())
+					.setContentText(publicEvent.getDate())
+					.setContentIntent(viewPendingIntent);
+			// Get an instance of the NotificationManager service
+			NotificationManagerCompat notificationManager = NotificationManagerCompat
+					.from(context);
+			// Build the notification and issues it with notification manager.
+			notificationManager.notify(publicEvent.getId(),
+					notificationBuilder.build());
 		}
-
-		// Build intent for notification content
-		Intent viewIntent = new Intent(context, PublicEventActivity.class);
-
-		viewIntent.putExtra(PublicEventActivity.PUBLIC_EVENT, publicEvent);
-		viewIntent.putExtra(PublicEventActivity.TO_SHOW, false);
-
-		PendingIntent viewPendingIntent = PendingIntent.getActivity(context, 0,
-				viewIntent, PendingIntent.FLAG_CANCEL_CURRENT);
-		Bitmap b = loadBitmap(context, publicEvent.getId() + ".PNG");
-		NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(
-				context).setSmallIcon(resID).setLargeIcon(b)
-				.setContentTitle(publicEvent.getLocationDescription())
-				.setContentText(publicEvent.getDate())
-				.setContentIntent(viewPendingIntent);
-
-		// Get an instance of the NotificationManager service
-		NotificationManagerCompat notificationManager = NotificationManagerCompat
-				.from(context);
-
-		// Build the notification and issues it with notification manager.
-		notificationManager.notify(publicEvent.getId(),
-				notificationBuilder.build());
 
 	}
 

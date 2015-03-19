@@ -12,7 +12,6 @@
         <item>Friends\' Events</item>
         <item>Friend List</item>
         <item>Settings</item>
-        <item>Wearable</item>
     </string-array>
 
     <string name="title_activity_events_for_all">EventsForAll</string>

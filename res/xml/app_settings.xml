@@ -5,8 +5,8 @@
         <CheckBoxPreference
             android:defaultValue="true"
             android:key="sendNotifications"
-            android:summary="Send live push notification to the connected watch"
-            android:title="Watch Notifications" />
+            android:summary="Present Notifications for saved events"
+            android:title="Notifications" />
     </PreferenceCategory>
     <PreferenceCategory android:title="Event Settings" >
         <ListPreference

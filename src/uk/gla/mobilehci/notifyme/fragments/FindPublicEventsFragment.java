@@ -24,6 +24,7 @@ import uk.gla.mobilehci.notifyme.PublicEventActivity;
 import uk.gla.mobilehci.notifyme.R;
 import uk.gla.mobilehci.notifyme.datamodels.PublicEvent;
 import uk.gla.mobilehci.notifyme.helpers.ApplicationSettings;
+import uk.gla.mobilehci.notifyme.helpers.ShowNotification;
 import android.annotation.SuppressLint;
 import android.app.Fragment;
 import android.content.Context;
@@ -66,7 +67,6 @@ public class FindPublicEventsFragment extends Fragment implements
 	private LocationManager locationManager;
 	private HashMap<Marker, PublicEvent> markerData = new HashMap<Marker, PublicEvent>();
 	private SharedPreferences pref;
-	public static HashMap<String, Bitmap> images = new HashMap<String, Bitmap>();
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -103,7 +103,8 @@ public class FindPublicEventsFragment extends Fragment implements
 
 				Intent i = new Intent(getActivity().getApplicationContext(),
 						PublicEventActivity.class);
-				System.out.println("Put"+markerData.get(mark).getLocationDescription());
+				System.out.println("Put"
+						+ markerData.get(mark).getLocationDescription());
 				i.putExtra(PublicEventActivity.PUBLIC_EVENT,
 						markerData.get(mark));
 				i.putExtra(PublicEventActivity.TO_SHOW, true);
@@ -196,11 +197,12 @@ public class FindPublicEventsFragment extends Fragment implements
 			ImageView image = (ImageView) v.findViewById(R.id.imageToShow);
 			TextView description = (TextView) v
 					.findViewById(R.id.txtDescription);
-
-			Bitmap imageToSet = images.get(toShow.getPosterUrl());
 			date.setText(toShow.getDate());
-			image.setImageBitmap(imageToSet);
 			description.setText(toShow.getDescription());
+
+			Bitmap imagePoster = ShowNotification.loadBitmap(getActivity()
+					.getApplicationContext(), toShow.getId() + ".PNG");
+			image.setImageBitmap(imagePoster);
 
 			return v;
 		}
@@ -305,14 +307,10 @@ public class FindPublicEventsFragment extends Fragment implements
 									.getString("url"));
 							publicEvent.setCreator(arrayToProcess
 									.getJSONObject(i).getString("creator"));
-
-							if (!images.containsKey(publicEvent.getUrl())) {
-								URL url = new URL(publicEvent.getPosterUrl());
-								Bitmap image = BitmapFactory.decodeStream(url
-										.openConnection().getInputStream());
-								saveFile(image, publicEvent.getId() + ".PNG");
-								images.put(publicEvent.getPosterUrl(), image);
-							}
+							URL url = new URL(publicEvent.getPosterUrl());
+							Bitmap image = BitmapFactory.decodeStream(url
+									.openConnection().getInputStream());
+							saveFile(image, publicEvent.getId() + ".PNG");
 						}
 					} else {
 						new Exception();
@@ -382,7 +380,7 @@ public class FindPublicEventsFragment extends Fragment implements
 						break;
 					}
 					markerData.put(map.addMarker(m1), publicEvent);
-	
+
 				}
 			}
 		}

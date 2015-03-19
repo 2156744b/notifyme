@@ -93,8 +93,10 @@ public class PublicEventActivity extends Activity {
 		default:
 			break;
 		}
-		eventPoster.setImageBitmap(FindPublicEventsFragment.images
-				.get(publicEvent.getPosterUrl()));
+
+		Bitmap imagePoster = ShowNotification.loadBitmap(
+				getApplicationContext(), publicEvent.getId() + ".PNG");
+		eventPoster.setImageBitmap(imagePoster);
 
 		if (toShowSave) {
 
@@ -106,8 +108,6 @@ public class PublicEventActivity extends Activity {
 					boolean proceed = writeSavedEvents();
 
 					if (proceed) {
-						Bitmap image = FindPublicEventsFragment.images
-								.get(publicEvent.getPosterUrl());
 
 						Intent myIntent = new Intent(getApplicationContext(),
 								ShowNotification.class);

@@ -8,9 +8,19 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
+
 import uk.gla.mobilehci.notifyme.MainActivity;
 import uk.gla.mobilehci.notifyme.R;
 import uk.gla.mobilehci.notifyme.datamodels.FriendModel;
+import uk.gla.mobilehci.notifyme.helpers.ApplicationSettings;
+import uk.gla.mobilehci.notifyme.helpers.ISO8601;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Fragment;
@@ -20,8 +30,10 @@ import android.content.SharedPreferences;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -170,7 +182,9 @@ public class FriendEvents extends Fragment implements LocationListener {
 										cal.set(Calendar.MINUTE,
 												timePicker.getCurrentMinute());
 
-										long timestamp = cal.getTimeInMillis();
+										String timestamp = ISO8601
+												.timestampToString(cal
+														.getTimeInMillis());
 
 										String evdesc = ((EditText) create
 												.findViewById(R.id.txtEventDescription))
@@ -186,13 +200,21 @@ public class FriendEvents extends Fragment implements LocationListener {
 											CheckBox c = (CheckBox) checkboxWrapper
 													.getChildAt(i);
 											if (c.isChecked())
-												friends += c.getText() + ";";
+												friends += data.get(i)
+														.getEmail() + ";";
 
 										}
+										friends = friends.substring(0,
+												friends.length() - 1);
 
-										System.out.println(timestamp + ";"
-												+ evdesc + ";" + locdesc + ";"
-												+ friends);
+										new CreateFriendsEvent().execute(
+												String.valueOf(personalMarker
+														.getPosition().latitude),
+												String.valueOf(personalMarker
+														.getPosition().longitude),
+												pref.getString("email", ""),
+												timestamp, locdesc, evdesc,
+												friends);
 
 									}
 								});
@@ -290,6 +312,47 @@ public class FriendEvents extends Fragment implements LocationListener {
 	@Override
 	public void onStatusChanged(String arg0, int arg1, Bundle arg2) {
 		// TODO Auto-generated method stub
+
+	}
+
+	private class CreateFriendsEvent extends
+			AsyncTask<String, Void, HttpResponse> {
+
+		@Override
+		protected void onPostExecute(HttpResponse result) {
+			System.out.println(result.getEntity().toString());
+			super.onPostExecute(result);
+		}
+
+		@Override
+		protected HttpResponse doInBackground(String... params) {
+
+			try {
+				// df.get("lat"), df.get("lon"), df.get("radius"));
+				HttpClient client = new DefaultHttpClient();
+				HttpPost post = new HttpPost(ApplicationSettings.serverUrl
+						+ "createFriendEvent");
+
+				ArrayList<NameValuePair> data = new ArrayList<NameValuePair>();
+				data.add(new BasicNameValuePair("lat", params[0]));
+				data.add(new BasicNameValuePair("lon", params[1]));
+				data.add(new BasicNameValuePair("creator", params[2]));
+				data.add(new BasicNameValuePair("timestamp", params[3]));
+				data.add(new BasicNameValuePair("locdescription", params[4]));
+				data.add(new BasicNameValuePair("description", params[5]));
+				data.add(new BasicNameValuePair("friends", params[6]));
+
+				post.setEntity(new UrlEncodedFormEntity(data));
+
+				HttpResponse response = client.execute(post);
+
+				return response;
+
+			} catch (Exception e) {
+				Log.e(this.getClass().getName(), e.toString());
+				return null;
+			}
+		}
 
 	}
 

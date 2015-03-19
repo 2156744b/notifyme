@@ -546,13 +546,12 @@ public class FriendEvents extends Fragment implements LocationListener,
 					m1.position(new LatLng(event.lat, event.lon));
 					m1.icon(BitmapDescriptorFactory
 							.fromResource(R.drawable.friend_inv));
-					System.out.println("Adding marker");
 
 					markerData.put(map.addMarker(m1), event);
 
 				}
 			}
-			System.out.println("markerdate " + markerData.size());
+
 		}
 	}
 

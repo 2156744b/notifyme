@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -16,10 +17,12 @@ import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import uk.gla.mobilehci.notifyme.MainActivity;
 import uk.gla.mobilehci.notifyme.R;
+import uk.gla.mobilehci.notifyme.datamodels.FriendEvent;
 import uk.gla.mobilehci.notifyme.datamodels.FriendModel;
 import uk.gla.mobilehci.notifyme.helpers.ApplicationSettings;
 import android.annotation.SuppressLint;
@@ -50,6 +53,7 @@ import android.widget.Toast;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.GoogleMap.InfoWindowAdapter;
 import com.google.android.gms.maps.GoogleMap.OnMapClickListener;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
@@ -59,7 +63,8 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 @SuppressLint("InflateParams")
-public class FriendEvents extends Fragment implements LocationListener {
+public class FriendEvents extends Fragment implements LocationListener,
+		InfoWindowAdapter {
 
 	private MapView mapView;
 	private GoogleMap map;
@@ -68,6 +73,7 @@ public class FriendEvents extends Fragment implements LocationListener {
 	private Marker personalMarker;
 	private View rootView;
 	private ArrayList<FriendModel> data;
+	private HashMap<Marker, FriendEvent> markerData = new HashMap<Marker, FriendEvent>();
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -273,6 +279,9 @@ public class FriendEvents extends Fragment implements LocationListener {
 	@Override
 	public void onLocationChanged(Location arg0) {
 
+		new GetFriendEvents().execute(arg0.getLatitude() + "",
+				arg0.getLongitude() + "");
+
 	}
 
 	private void readFriendList() {
@@ -295,6 +304,18 @@ public class FriendEvents extends Fragment implements LocationListener {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+
+	@Override
+	public View getInfoContents(Marker arg0) {
+		System.out.println("infowindow");
+		return null;
+	}
+
+	@Override
+	public View getInfoWindow(Marker arg0) {
+		System.out.println("infowindow");
+		return null;
 	}
 
 	@Override
@@ -395,6 +416,122 @@ public class FriendEvents extends Fragment implements LocationListener {
 			}
 		}
 
+	}
+
+	private class GetFriendEvents extends
+			AsyncTask<String, Void, ArrayList<FriendEvent>> {
+
+		@Override
+		protected ArrayList<FriendEvent> doInBackground(String... params) {
+
+			try {
+				// df.get("lat"), df.get("lon"), df.get("radius"));
+				HttpClient client = new DefaultHttpClient();
+				HttpPost post = new HttpPost(ApplicationSettings.serverUrl
+						+ "getFriendEvents");
+
+				ArrayList<NameValuePair> data = new ArrayList<NameValuePair>();
+				data.add(new BasicNameValuePair("lat", params[0]));
+				data.add(new BasicNameValuePair("lon", params[1]));
+
+				post.setEntity(new UrlEncodedFormEntity(data));
+
+				HttpResponse response = client.execute(post);
+				System.out.println(response);
+				return processJSONArray(response);
+
+			} catch (Exception e) {
+				Log.e(this.getClass().getName(), e.toString());
+				return null;
+			}
+		}
+
+		public ArrayList<FriendEvent> processJSONArray(HttpResponse response) {
+			ArrayList<FriendEvent> dataToSend = null;
+			if (response == null) {
+
+				Toast.makeText(
+						(FriendEvents.this).getActivity()
+								.getApplicationContext(), "Server error",
+						Toast.LENGTH_LONG).show();
+
+			} else {
+				try {
+					BufferedReader reader = new BufferedReader(
+							new InputStreamReader(response.getEntity()
+									.getContent(), "UTF-8"));
+					String data = reader.readLine();
+
+					JSONObject obj = new JSONObject(data);
+					int status = obj.getInt("rstatus");
+
+					if (status == -1) {
+
+						Toast.makeText(
+								(FriendEvents.this).getActivity()
+										.getApplicationContext(),
+								"Error retrieving events", Toast.LENGTH_LONG)
+								.show();
+
+					} else if (status == 200) {
+
+						dataToSend = new ArrayList<FriendEvent>();
+						JSONArray arrayToProcess = obj.getJSONArray("event");
+						for (int i = 0; i < arrayToProcess.length(); i++) {
+							FriendEvent friendEvent = new FriendEvent(
+									arrayToProcess.getJSONObject(i)
+											.getInt("id"),
+									arrayToProcess.getJSONObject(i).getString(
+											"creator"),
+									arrayToProcess.getJSONObject(i).getString(
+											"description"),
+									arrayToProcess.getJSONObject(i).getString(
+											"timestamp"),
+									Double.parseDouble(arrayToProcess
+											.getJSONObject(i).getString("lat")),
+									Double.parseDouble(arrayToProcess
+											.getJSONObject(i).getString("lon")),
+									arrayToProcess.getJSONObject(i).getString(
+											"locdescription"));
+							dataToSend.add(friendEvent);
+
+						}
+					} else {
+						new Exception();
+					}
+				} catch (Exception e) {
+					Log.e(this.getClass().getName(), e.toString());
+					Toast.makeText(
+							(FriendEvents.this).getActivity()
+									.getApplicationContext(),
+							"Error retrieving events", Toast.LENGTH_LONG)
+							.show();
+				}
+			}
+			return dataToSend;
+		}
+
+		@Override
+		protected void onPostExecute(ArrayList<FriendEvent> result) {
+			if (result != null) {
+				if (!markerData.isEmpty()) {
+					map.clear();
+					markerData.clear();
+				}
+				MarkerOptions m1;
+				for (FriendEvent event : result) {
+					m1 = new MarkerOptions();
+					m1.position(new LatLng(event.lat, event.lon));
+					m1.icon(BitmapDescriptorFactory
+							.fromResource(R.drawable.friend_inv));
+					System.out.println("Adding marker");
+
+					markerData.put(map.addMarker(m1), event);
+
+				}
+			}
+			System.out.println("markerdate " + markerData.size());
+		}
 	}
 
 }

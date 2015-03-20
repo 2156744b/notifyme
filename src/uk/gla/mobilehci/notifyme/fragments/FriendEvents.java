@@ -320,7 +320,7 @@ public class FriendEvents extends Fragment implements LocationListener,
 
 			TextView date = (TextView) v.findViewById(R.id.txtDate);
 			TextView author = (TextView) v.findViewById(R.id.txtAuthor);
-			author.setText("Friend: " + toShow.creator);
+			author.setText(toShow.creator);
 			date.setText(toShow.timestamp);
 			TextView locdes = (TextView) v
 					.findViewById(R.id.txtLocationDescription);

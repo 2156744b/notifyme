@@ -43,8 +43,7 @@ public class GcmIntentService extends IntentService {
 				NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(
 						this)
 						.setAutoCancel(true)
-						.setContentTitle(
-								String.valueOf(extras.getLong("timestamp")))
+						.setContentTitle(extras.getString("timestamp"))
 						.setContentText(
 								extras.getString("description") + " "
 										+ extras.getString("locDescription"))
